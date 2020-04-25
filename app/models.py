@@ -16,7 +16,8 @@ class T_students(db.Model):
 
 class T_classes(db.Model):
     __tablename__ = 't_classes'
-    name = db.Column(db.String(100),primary_key=True,unique=True)  # 班级
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(100),unique=True)  # 班级
     num = db.Column(db.Integer)  # 学生人数
 
     def __repr__(self):
@@ -25,7 +26,8 @@ class T_classes(db.Model):
 
 class T_cmodules(db.Model):
     __tablename__ = 't_cmodules'
-    name = db.Column(db.String(100), primary_key=True)  # 模块名称
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))  # 模块名称
     cno = db.Column(db.String(100))  # 课程代码
     cname = db.Column(db.String(100))  # 课程名称
 
@@ -51,9 +53,9 @@ class T_courses(db.Model):
     __tablename__ = 't_courses'
     cno = db.Column(db.String(100), primary_key=True)  # 课程代码
     cname = db.Column(db.String(100),unique = True)  # 课程名
-    credit = db.Column(db.Integer)  # 总学分
-    theory_credit = db.Column(db.Integer)  # 理论学分
-    practice_credit = db.Column(db.Integer)  # 实践学分
+    credit = db.Column(db.Decimal)  # 总学分
+    theory_hour = db.Column(db.Integer)  # 理论学时
+    practice_hour = db.Column(db.Integer)  # 实践学时
     hour = db.Column(db.Integer)  # 学时
     year = db.Column(db.String(2))  # 学年
     term = db.Column(db.String(2))  # 学期
@@ -65,4 +67,4 @@ class T_courses(db.Model):
 
 
 # if __name__ == "__main__":
-#     db.create_all()
+#      db.create_all()
