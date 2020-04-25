@@ -53,13 +53,13 @@ class T_courses(db.Model):
     __tablename__ = 't_courses'
     cno = db.Column(db.String(100), primary_key=True)  # 课程代码
     cname = db.Column(db.String(100),unique = True)  # 课程名
-    credit = db.Column(db.Decimal)  # 总学分
+    credit = db.Column(db.Float)  # 总学分
     theory_hour = db.Column(db.Integer)  # 理论学时
     practice_hour = db.Column(db.Integer)  # 实践学时
     hour = db.Column(db.Integer)  # 学时
     year = db.Column(db.String(2))  # 学年
     term = db.Column(db.String(2))  # 学期
-    methods = db.Column(db.String(10))  # 学期
+    methods = db.Column(db.String(10))  # 考核方式
 
 
     def __repr__(self):

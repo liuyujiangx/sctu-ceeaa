@@ -1,3 +1,4 @@
+from app.models import T_classes, T_courses, T_students, T_cshedules
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -50,22 +51,28 @@ def pwd():
     return render_template("admin/pwd.html")
 
 
-# 添加标签
+# 添加班级
 @admin.route("/tag/add/", methods=["GET", "POST"])
 def tag_add():
     return render_template("admin/tag_add.html")
 
 
-# 编辑标签
+# 编辑班级
 @admin.route("/tag/edit/<int:id>/", methods=["GET", "POST"])
 def tag_edit(id):
     return render_template("admin/tag_edit.html")
 
 
-# 标签列表
-@admin.route("/tag/list/<int:page>", methods=["GET"])
-def tag_list(page=None):
-    return render_template("admin/tag_list.html")
+# 班级列表
+@admin.route("/class/list/<int:page>", methods=["GET"])
+def classes_list(page=None):
+
+    if page is None:
+        page = 1
+    page_data = T_classes.query.order_by(
+        T_classes.id.asc()
+    )
+    return render_template("admin/classes_list.html",page_data = page_data)
 
 
 # 标签删除
@@ -74,13 +81,13 @@ def tag_del(id=None):
     return redirect(url_for('admin.tag_list'))
 
 
-# 添加电影
+# 添加课程
 @admin.route("/movie/add/", methods=["GET", "POST"])
 def movie_add():
     return render_template("admin/movie_add.html")
 
 
-# 电影删除
+# 课程删除
 @admin.route("/movie/del/<int:id>", methods=["GET"])
 def movie_del(id=None):
     return redirect(url_for('admin.movie_list'))
@@ -92,28 +99,38 @@ def preview_edit(id=None):
     return render_template("admin/preview_edit.html")
 
 
-# 电影修改
+# 课程修改
 @admin.route("/movie/edit/<int:id>/", methods=["GET", "POST"])
 def movie_edit(id=None):
     return render_template("admin/movie_edit.html")
 
 
-# 电影列表
-@admin.route("/movie/list/<int:page>/", methods=["GET"])
-def movie_list(page=None):
-    return render_template("admin/movie_list.html")
+# 课程列表
+@admin.route("/course/list/<int:page>/", methods=["GET"])
+def courses_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_courses.query.order_by(
+        T_courses.cno.asc()
+    )
+    return render_template("admin/courses_list.html",page_data = page_data)
 
 
-# 添加预告
-@admin.route("/preview/add/", methods=["GET", "POST"])
-def preview_add():
-    return render_template("admin/preview_add.html")
+# 添加课程安排
+@admin.route("/cshedules/add/", methods=["GET", "POST"])
+def cshedules_add():
+    return render_template("admin/cshedules_add.html")
 
 
-# 预告列表
-@admin.route("/preview/list/<int:page>/")
-def preview_list(page=None):
-    return render_template("admin/preview_list.html")
+# 课程安排列表
+@admin.route("/cshedules/list/<int:page>/")
+def cshedules_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_cshedules.query.order_by(
+        T_cshedules.id.asc()
+    )
+    return render_template("admin/cshedules_list.html",page_data = page_data)
 
 
 # 预告删除
@@ -128,10 +145,15 @@ def user_view(id=None):
     return render_template("admin/user_view.html")
 
 
-# 会员列表
-@admin.route("/user/list/<int:page>/")
-def user_list(page=None):
-    return render_template("admin/user_list.html",)
+# 学生列表
+@admin.route("/students/list/<int:page>/")
+def students_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_students.query.order_by(
+        T_students.sclass.asc()
+    )
+    return render_template("admin/students_list.html",page_data = page_data)
 
 
 @admin.route("/comment/list/")

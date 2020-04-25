@@ -4,8 +4,8 @@
 <section class="content-header">
     <h1>智慧旅游工程人才培养平台</h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 电影管理</a></li>
-        <li class="active">电影列表</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> 课程管理</a></li>
+        <li class="active">课程列表</li>
     </ol>
 </section>
 <section class="content" id="showcontent">
@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header">
-                    <h3 class="box-title">电影列表</h3>
+                    <h3 class="box-title">课程列表</h3>
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <input type="text" name="table_search" class="form-control pull-right"
@@ -30,47 +30,39 @@
                             <table class="table table-hover">
                                 <tbody>
                                 <tr>
-                                    <th>编号</th>
-                                    <th>片名</th>
-                                    <th>片长</th>
-                                    <th>标签</th>
-                                    <th>地区</th>
-                                    <th>星级</th>
-                                    <th>播放数量</th>
-                                    <th>评论数量</th>
-                                    <th>上映时间</th>
+                                    <th>课程代码</th>
+                                    <th>课程名</th>
+                                    <th>总学分</th>
+                                    <th>学时</th>
+                                    <th>理论学时</th>
+                                    <th>实践学时</th>
+                                    <th>学年</th>
+                                    <th>学期</th>
+                                    <th>考核方式</th>
                                     <th>操作事项</th>
                                 </tr>
+                                {% for v in page_data %}
                                 <tr>
-                                    <td>1</td>
-                                    <td>环太平洋</td>
-                                    <td>5分钟</td>
-                                    <td>科幻</td>
-                                    <td>美国</td>
-                                    <td>5</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>2017-01-01</td>
+                                    <td>{{v.cno}}</td>
+                                    <td>{{v.cname}}</td>
+                                    <td>{{v.credit}}</td>
+                                    <td>{{v.hour}}</td>
+                                    <td>{{v.theory_hour}}</td>
+                                    <td>{{v.practice_hour}}</td>
+                                    <td>{{v.year}}</td>
+                                    <td>{{v.term}}</td>
+                                    <td>{{v.methods}}</td>
                                     <td>
                                         <a class="label label-success">编辑</a>
                                         &nbsp;
                                         <a class="label label-danger">删除</a>
                                     </td>
                                 </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                        <div class="box-footer clearfix">
-                            <ul class="pagination pagination-sm no-margin pull-right">
-                                <li><a href="#">首页</a></li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li><a href="#">尾页</a></li>
-                            </ul>
-                        </div>
+
             </div>
         </div>
     </div>
