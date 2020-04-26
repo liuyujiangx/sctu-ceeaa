@@ -41,7 +41,7 @@
                                     <th>考核方式</th>
                                     <th>操作事项</th>
                                 </tr>
-                                {% for v in page_data %}
+                                {% for v in page_data.items %}
                                 <tr>
                                     <td>{{v.cno}}</td>
                                     <td>{{v.cname}}</td>
@@ -62,6 +62,9 @@
                                 </tbody>
                             </table>
                         </div>
+                <div class="box-footer clearfix">
+                    {{ pg.page(page_data,'admin.courses_list') }}
+                </div>
 
             </div>
         </div>

@@ -71,7 +71,7 @@ def classes_list(page=None):
         page = 1
     page_data = T_classes.query.order_by(
         T_classes.id.asc()
-    )
+    ).paginate(page=page, per_page=10)
     return render_template("admin/classes_list.html",page_data = page_data)
 
 
@@ -112,7 +112,7 @@ def courses_list(page=None):
         page = 1
     page_data = T_courses.query.order_by(
         T_courses.cno.asc()
-    )
+    ).paginate(page=page, per_page=10)
     return render_template("admin/courses_list.html",page_data = page_data)
 
 
@@ -129,7 +129,7 @@ def cshedules_list(page=None):
         page = 1
     page_data = T_cshedules.query.order_by(
         T_cshedules.id.asc()
-    )
+    ).paginate(page=page, per_page=10)
     return render_template("admin/cshedules_list.html",page_data = page_data)
 
 
@@ -152,7 +152,7 @@ def students_list(page=None):
         page = 1
     page_data = T_students.query.order_by(
         T_students.sclass.asc()
-    )
+    ).paginate(page=page, per_page=10)
     return render_template("admin/students_list.html",page_data = page_data)
 
 

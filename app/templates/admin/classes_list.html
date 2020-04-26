@@ -35,7 +35,7 @@
                                     <th>班级人数</th>
                                     <th>操作事项</th>
                                 </tr>
-                                {% for i in page_data %}
+                                {% for i in page_data.items %}
                                 <tr>
                                     <td>{{i.id}}</td>
                                     <td>{{i.name}}</td>
@@ -50,6 +50,9 @@
                                 </tbody>
                             </table>
                         </div>
+                <div class="box-footer clearfix">
+                    {{ pg.page(page_data,'admin.classes_list') }}
+                </div>
 
             </div>
         </div>

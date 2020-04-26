@@ -1,5 +1,5 @@
 {% extends "admin/admin.html" %}
-
+{% import "ul/admin_page.html" as pg %}
 {% block content %}
 <section class="content-header">
     <h1>智慧旅游工程人才培养平台</h1>
@@ -39,7 +39,7 @@
                                     <th>上课班级</th>
                                     <th>操作事项</th>
                                 </tr>
-                                {% for v in page_data %}
+                                {% for v in page_data.items %}
                                 <tr>
                                     <td>{{v.id}}</td>
                                     <td>{{v.no}}</td>
@@ -58,6 +58,9 @@
                                 </tbody>
                             </table>
                         </div>
+                <div class="box-footer clearfix">
+                    {{ pg.page(page_data,'admin.cshedules_list') }}
+                </div>
 
             </div>
         </div>
