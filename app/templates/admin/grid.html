@@ -1,209 +1,225 @@
 <ul class="sidebar-menu">
     <li class="header">管理菜单</li>
-    <li class="treeview"  id="g-1">
-        <a href="#">
+    <li class="treeview" id="g-1">
+        <a href="{{url_for('admin.index')}}">
             <i class="fa fa-home" aria-hidden="true"></i>
-            <span>首页</span>
+            <span>概况</span>
             <span class="label label-primary pull-right">1</span>
         </a>
-        <ul class="treeview-menu">
-            <li id="g-1-1">
-                <a href="{{url_for('admin.index')}}" >
-                    <i class="fa fa-circle-o"></i> 概况
-                </a>
-            </li>
-        </ul>
+
     </li>
     <li class="treeview" id="g-2">
         <a href="#">
-            <i class="fa fa-tags" aria-hidden="true"></i>
-            <span>班级管理</span>
+            <i class="fa fa-comments" aria-hidden="true"></i>
+            <span>学生</span>
             <span class="label label-primary pull-right">2</span>
         </a>
         <ul class="treeview-menu">
-            <li id="g-2-1">
-                <a href="{{url_for('admin.tag_add')}}">
-                    <i class="fa fa-circle-o"></i> 添加班级
+            <li class="treeview" id="g-2-1">
+                <a href="#">
+                    <i class="fa fa-file-text" aria-hidden="true"></i>
+                    <span>学生成果管理</span>
+                    <span class="label label-primary pull-right">6</span>
                 </a>
+                <ul class="treeview-menu">
+                    <li id="g-2-1-1">
+                        <a href="{{url_for('admin.oplog_list')}}">
+                            <i class="fa fa-circle-o"></i> 大学生创新创业项目
+                        </a>
+                    </li>
+                    <li id="g-2-1-2">
+                        <a href="{{url_for('admin.adminloginlog_list')}}">
+                            <i class="fa fa-circle-o"></i> 大学生科研项目
+                        </a>
+                    </li>
+                    <li id="g-2-1-3">
+                        <a href="{{url_for('admin.userloginlog_list')}}">
+                            <i class="fa fa-circle-o"></i> 竞赛获奖
+                        </a>
+                    </li>
+                    <li id="g-2-1-4">
+                        <a href="{{url_for('admin.userloginlog_list')}}">
+                            <i class="fa fa-circle-o"></i> 学术论文
+                        </a>
+                    </li>
+                    <li id="g-2-1-5">
+                        <a href="{{url_for('admin.userloginlog_list')}}">
+                            <i class="fa fa-circle-o"></i> 专利
+                        </a>
+                    </li>
+                    <li id="g-2-1-6">
+                        <a href="{{url_for('admin.userloginlog_list')}}">
+                            <i class="fa fa-circle-o"></i> 职业证书
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li id="g-2-2">
-                <a href="{{url_for('admin.classes_list',page=1)}}">
-                    <i class="fa fa-circle-o"></i> 班级列表
+                <a href="{{url_for('admin.students_list',page=1)}}">
+                    <i class="fa fa-circle-o"></i> 学生信息管理
                 </a>
             </li>
         </ul>
     </li>
     <li class="treeview" id="g-3">
         <a href="#">
-            <i class="fa fa-file-video-o" aria-hidden="true"></i>
-            <span>课程管理</span>
+            <i class="fa fa-heart" aria-hidden="true"></i>
+            <span>培养目标</span>
             <span class="label label-primary pull-right">2</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-3-1">
-                <a href="{{url_for('admin.movie_add')}}">
-                    <i class="fa fa-circle-o"></i> 添加课程
+                <a href="{{url_for('admin.moviecol_list')}}">
+                    <i class="fa fa-circle-o"></i> 内容
                 </a>
             </li>
             <li id="g-3-2">
-                <a href="{{url_for('admin.courses_list',page=1 )}}">
-                    <i class="fa fa-circle-o"></i> 课程列表
+                <a href="{{url_for('admin.moviecol_list')}}">
+                    <i class="fa fa-circle-o"></i> 培养目标达成度分析
                 </a>
             </li>
         </ul>
     </li>
     <li class="treeview" id="g-4">
         <a href="#">
-            <i class="fa fa-film" aria-hidden="true"></i>
-            <span>课程安排管理</span>
+            <i class="fa fa-lock" aria-hidden="true"></i>
+            <span>持续改进</span>
             <span class="label label-primary pull-right">2</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-4-1">
-                <a href="{{url_for('admin.cshedules_add')}}">
-                    <i class="fa fa-circle-o"></i> 添加课程安排
+                <a href="{{url_for('admin.auth_add')}}">
+                    <i class="fa fa-circle-o"></i> 质量监控
                 </a>
             </li>
             <li id="g-4-2">
-                <a href="{{url_for('admin.cshedules_list',page=1)}}">
-                    <i class="fa fa-circle-o"></i> 课程安排列表
+                <a href="{{url_for('admin.auth_list')}}">
+                    <i class="fa fa-circle-o"></i> 质量保障
                 </a>
             </li>
         </ul>
     </li>
     <li class="treeview" id="g-5">
         <a href="#">
-            <i class="fa fa-users" aria-hidden="true"></i>
-            <span>学生信息管理</span>
-            <span class="label label-primary pull-right">1</span>
+            <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <span>课程体系</span>
+            <span class="label label-primary pull-right">2</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-5-1">
-                <a href="{{url_for('admin.students_list',page=1)}}">
-                    <i class="fa fa-circle-o"></i> 学生列表
+                <a href="{{url_for('admin.cshedules_list',page=1)}}">
+                    <i class="fa fa-circle-o"></i> 课程管理
+                </a>
+            </li>
+            <li id="g-5-2">
+                <a href="{{url_for('admin.role_list')}}">
+                    <i class="fa fa-circle-o"></i> 课程达成度分析
                 </a>
             </li>
         </ul>
     </li>
-<!--    <li class="treeview" id="g-6">-->
-<!--        <a href="#">-->
-<!--            <i class="fa fa-comments" aria-hidden="true"></i>-->
-<!--            <span>评论管理</span>-->
-<!--            <span class="label label-primary pull-right">1</span>-->
-<!--        </a>-->
-<!--        <ul class="treeview-menu">-->
-<!--            <li id="g-6-1">-->
-<!--                <a href="{{url_for('admin.comment_list')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 评论列表-->
-<!--                </a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </li>-->
-<!--    <li class="treeview" id="g-7">-->
-<!--        <a href="#">-->
-<!--            <i class="fa fa-heart" aria-hidden="true"></i>-->
-<!--            <span>收藏管理</span>-->
-<!--            <span class="label label-primary pull-right">1</span>-->
-<!--        </a>-->
-<!--        <ul class="treeview-menu">-->
-<!--            <li id="g-7-1">-->
-<!--                <a href="{{url_for('admin.moviecol_list')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 收藏列表-->
-<!--                </a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </li>-->
+    <li class="treeview" id="g-6">
+        <a href="#">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <span>师资队伍</span>
+            <span class="label label-primary pull-right">3</span>
+        </a>
+        <ul class="treeview-menu">
+            <li id="g-6-1">
+                <a href="{{url_for('admin.admin_add')}}">
+                    <i class="fa fa-circle-o"></i> 教师信息管理
+                </a>
+            </li>
+            <li id="g-6-2">
+                <a href="{{url_for('admin.admin_list')}}">
+                    <i class="fa fa-circle-o"></i> 科研成果
+                </a>
+            </li>
+            <li id="g-6-3">
+                <a href="{{url_for('admin.admin_list')}}">
+                    <i class="fa fa-circle-o"></i> 教研成果
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview" id="g-7">
+        <a href="#">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <span>支持条件</span>
+            <span class="label label-primary pull-right">3</span>
+        </a>
+        <ul class="treeview-menu">
+            <li id="g-7-1">
+                <a href="{{url_for('admin.admin_add')}}">
+                    <i class="fa fa-circle-o"></i> 实验室管理
+                </a>
+            </li>
+            <li id="g-7-2">
+                <a href="{{url_for('admin.admin_list')}}">
+                    <i class="fa fa-circle-o"></i> 图书管理
+                </a>
+            </li>
+            <li id="g-7-3">
+                <a href="{{url_for('admin.admin_list')}}">
+                    <i class="fa fa-circle-o"></i> 文献管理
+                </a>
+            </li>
+        </ul>
+    </li>
     <li class="treeview" id="g-8">
         <a href="#">
             <i class="fa fa-file-text" aria-hidden="true"></i>
-            <span>学生成果管理</span>
-            <span class="label label-primary pull-right">6</span>
+            <span>毕业要求</span>
+            <span class="label label-primary pull-right">2</span>
         </a>
         <ul class="treeview-menu">
             <li id="g-8-1">
                 <a href="{{url_for('admin.oplog_list')}}">
-                    <i class="fa fa-circle-o"></i> 大学生创新创业项目
+                    <i class="fa fa-circle-o"></i> 内容
                 </a>
             </li>
             <li id="g-8-2">
                 <a href="{{url_for('admin.adminloginlog_list')}}">
-                    <i class="fa fa-circle-o"></i> 大学生科研项目
-                </a>
-            </li>
-            <li id="g-8-3">
-                <a href="{{url_for('admin.userloginlog_list')}}">
-                    <i class="fa fa-circle-o"></i> 竞赛获奖
-                </a>
-            </li><li id="g-8-4">
-                <a href="{{url_for('admin.userloginlog_list')}}">
-                    <i class="fa fa-circle-o"></i> 学术论文
-                </a>
-            </li></li><li id="g-8-5">
-                <a href="{{url_for('admin.userloginlog_list')}}">
-                    <i class="fa fa-circle-o"></i> 专利
-                </a>
-            </li></li></li><li id="g-8-6">
-                <a href="{{url_for('admin.userloginlog_list')}}">
-                    <i class="fa fa-circle-o"></i> 职业证书
+                    <i class="fa fa-circle-o"></i> 毕业要求达成度分析
                 </a>
             </li>
         </ul>
     </li>
-<!--    <li class="treeview" id="g-9">-->
-<!--        <a href="#">-->
-<!--            <i class="fa fa-lock" aria-hidden="true"></i>-->
-<!--            <span>权限管理</span>-->
-<!--            <span class="label label-primary pull-right">2</span>-->
-<!--        </a>-->
-<!--        <ul class="treeview-menu">-->
-<!--            <li id="g-9-1">-->
-<!--                <a href="{{url_for('admin.auth_add')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 添加权限-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li id="g-9-2">-->
-<!--                <a href="{{url_for('admin.auth_list')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 权限列表-->
-<!--                </a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </li>-->
-<!--    <li class="treeview" id="g-10">-->
-<!--        <a href="#">-->
-<!--            <i class="fa fa-user-secret" aria-hidden="true"></i>-->
-<!--            <span>角色管理</span>-->
-<!--            <span class="label label-primary pull-right">2</span>-->
-<!--        </a>-->
-<!--        <ul class="treeview-menu">-->
-<!--            <li id="g-10-1">-->
-<!--                <a href="{{url_for('admin.role_add')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 添加角色-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li id="g-10-2">-->
-<!--                <a href="{{url_for('admin.role_list')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 角色列表-->
-<!--                </a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </li>-->
-<!--    <li class="treeview" id="g-11">-->
-<!--        <a href="#">-->
-<!--            <i class="fa fa-user-circle" aria-hidden="true"></i>-->
-<!--            <span>管理员管理</span>-->
-<!--            <span class="label label-primary pull-right">2</span>-->
-<!--        </a>-->
-<!--        <ul class="treeview-menu">-->
-<!--            <li id="g-11-1">-->
-<!--                <a href="{{url_for('admin.admin_add')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 添加管理员-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li id="g-11-2">-->
-<!--                <a href="{{url_for('admin.admin_list')}}">-->
-<!--                    <i class="fa fa-circle-o"></i> 管理员列表-->
-<!--                </a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </li>-->
+
+    <li class="treeview" id="g-9">
+        <a href="#">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <span>基础数据管理</span>
+            <span class="label label-primary pull-right">5</span>
+        </a>
+        <ul class="treeview-menu">
+            <li id="g-9-1">
+                <a href="{{url_for('admin.classes_list',page=1)}}">
+                    <i class="fa fa-circle-o"></i> 班级管理
+                </a>
+            </li>
+            <li id="g-9-2">
+                <a href="{{url_for('admin.students_list',page=1)}}">
+                    <i class="fa fa-circle-o"></i> 教室管理
+                </a>
+            </li>
+            <li id="g-9-3">
+                <a href="{{url_for('admin.courses_list',page=1 )}}">
+                    <i class="fa fa-circle-o"></i> 课程类型
+                </a>
+            </li>
+            <li id="g-9-4">
+                <a href="{{url_for('admin.students_list',page=1)}}">
+                    <i class="fa fa-circle-o"></i> 课程模块
+                </a>
+            </li>
+            <li id="g-9-5">
+                <a href="{{url_for('admin.students_list',page=1)}}">
+                    <i class="fa fa-circle-o"></i> 比赛管理
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
 </ul>
