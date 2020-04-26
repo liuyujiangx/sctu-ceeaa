@@ -66,13 +66,12 @@ def tag_edit(id):
 # 班级列表
 @admin.route("/class/list/<int:page>", methods=["GET"])
 def classes_list(page=None):
-
     if page is None:
         page = 1
     page_data = T_classes.query.order_by(
         T_classes.id.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/classes_list.html",page_data = page_data)
+    return render_template("admin/classes_list.html", page_data=page_data)
 
 
 # 标签删除
@@ -113,7 +112,7 @@ def courses_list(page=None):
     page_data = T_courses.query.order_by(
         T_courses.cno.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/courses_list.html",page_data = page_data)
+    return render_template("admin/courses_list.html", page_data=page_data)
 
 
 # 添加课程安排
@@ -130,7 +129,7 @@ def cshedules_list(page=None):
     page_data = T_cshedules.query.order_by(
         T_cshedules.id.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/cshedules_list.html",page_data = page_data)
+    return render_template("admin/cshedules_list.html", page_data=page_data)
 
 
 # 预告删除
@@ -153,7 +152,7 @@ def students_list(page=None):
     page_data = T_students.query.order_by(
         T_students.sclass.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/students_list.html",page_data = page_data)
+    return render_template("admin/students_list.html", page_data=page_data)
 
 
 @admin.route("/comment/list/")
