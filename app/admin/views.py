@@ -1,3 +1,5 @@
+import time
+
 from app.admin.forms import ClassesForm
 from app.models import T_classes, T_courses, T_students, T_cshedules
 from . import admin
@@ -30,7 +32,8 @@ def change_filename(filename):
 
 @admin.route("/")
 def index():
-    return render_template("admin/index.html")
+    time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    return render_template("admin/index.html",time_now = time_now)
 
 
 # 登录

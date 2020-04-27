@@ -46,7 +46,63 @@
         <nav class="navbar navbar-static-top">
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">下拉菜单</span>
+
             </a>
+            <div style="display: inline-block;padding-top:15px;padding-left:450px;color:white;" id="Date"></div>
+            <script type="text/javascript">
+			(function() {
+				function TodayInfo(start) {
+					var WEEKLEN = 7, // 一周7天为常量
+						WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"],
+						weekInfo = {
+							"week": null,
+							"day": null
+						}, // 初始化返回信息，默认第null周，星期null
+						oneDay = 24 * 60 * 60 * 1000, // 一天的毫秒时长
+						weekLeave, // 开学当天所在周剩余天数
+						weekStart, // 开学当天start是星期几
+						today, // 今天
+						dateDiff, // 今天与开学当天日期差
+						sDate; //开学之日，日期对象
+					var rDateStr = /\d{4}[\/-]\d{1,2}[\/-]\d{1,2}/g; // 简单的日期格式校验：2013/12/19
+					if(!rDateStr.test(start)) {
+						alert("请使用合法的开学日期！！！");
+						return weekInfo;
+					}
+					sDate = new Date(start.replace("-", "/"));
+					weekStart = sDate.getDay();
+					weekStart = weekStart === 0 ? 7 : weekStart; // JS中周日的索引为0，这里转换为7，方便计算
+
+					weekLeave = WEEKLEN - weekStart;
+					today = new Date();
+					weekInfo.day = WEEKDAYS[today.getDay()];
+					today = new Date(today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate());
+					dateDiff = today - sDate;
+					if(dateDiff < 0) {
+						alert("别开玩笑了，你还没开学呢！！！");
+						return weekInfo;
+					}
+					dateDiff = parseInt(dateDiff / oneDay);
+					weekInfo.week = Math.ceil((dateDiff - weekLeave) / WEEKLEN) + 1;
+					return weekInfo;
+				}
+
+				function Time() {
+					var date = new Date();
+					var year = date.getFullYear(); //获取当前年份
+					var mon = date.getMonth() + 1; //获取当前月份
+					var da = date.getDate(); //获取当前日
+					var day = date.getDay(); //获取当前星期几
+					var h = date.getHours(); //获取小时
+					var m = date.getMinutes(); //获取分钟
+					var d = document.getElementById('Date');
+					td = TodayInfo("2020/02/24");
+					d.innerHTML = year + '年' + mon + '月' + da + '日' + ' ' + '星期' + td.day + " " + "第" + td.week + "周";
+				}
+				Time()
+
+			})();
+		</script>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
