@@ -1,79 +1,37 @@
-{% extends "admin/admin.html" %}
-{% import "ul/admin_page.html" as pg %}
-{% block content %}
-<section class="content-header">
-    <h1>智慧旅游工程人才培养平台</h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 学生</a></li>
-        <li class="active">学生信息管理</li>
-    </ol>
-</section>
-<section class="content" id="showcontent">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header">
-                    <h3 class="box-title">学生信息管理</h3>
-                    <div class="box-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control pull-right"
-                                   placeholder="请输入关键字...">
+{% extends "admin/students.html" %}
 
-                            <div class="input-group-btn">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+{%block list%}
+<div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>班级</th>
+                            <th>学院</th>
+                            <th>专业</th>
+                            <th>操作事项</th>
+                        </tr>
+                        {% for v in page_data.items %}
+                        <tr>
+                            <td>{{v.sno}}</td>
+                            <td>{{v.sname}}</td>
+                            <td>{{v.ssex}}</td>
+                            <td>{{v.sclass}}</td>
+                            <td>{{v.scollege}}</td>
+                            <td>{{v.smajor}}</td>
+                            <td>
+                                <a class="label label-success" href="user_view.html">查看</a>
+                                <a class="label label-danger">删除</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover">
-                                <tbody>
-                                <tr>
-                                    <th>学号</th>
-                                    <th>姓名</th>
-                                    <th>性别</th>
-                                    <th>班级</th>
-                                    <th>学院</th>
-                                    <th>专业</th>
-                                    <th>操作事项</th>
-                                </tr>
-                                {% for v in page_data.items %}
-                                <tr>
-                                    <td>{{v.sno}}</td>
-                                    <td>{{v.sname}}</td>
-                                    <td>{{v.ssex}}</td>
-                                    <td>{{v.sclass}}</td>
-                                    <td>{{v.scollege}}</td>
-                                    <td>{{v.smajor}}</td>
-                                    <td>
-                                        <a class="label label-success" href="user_view.html">查看</a>
-                                        <a class="label label-danger">删除</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
                 <div class="box-footer clearfix">
                     {{ pg.page(page_data,'admin.students_list') }}
                 </div>
 
-            </div>
-        </div>
-    </div>
-</section>
-{% endblock %}
-
-{% block js %}
-
-<script>
-    $(document).ready(function(){
-    $("#g-5").addClass("active");
-    $("#g-5-1").addClass("active");
-    })
-
-
-
-</script>
 {% endblock %}

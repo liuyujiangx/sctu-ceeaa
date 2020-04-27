@@ -21,7 +21,7 @@ class T_classes(db.Model):
     num = db.Column(db.Integer)  # 学生人数
 
     def __repr__(self):
-        return "<T_classes %r>" % self.cname
+        return "<T_classes %r>" % self.name
 
 
 class T_cmodules(db.Model):
@@ -46,7 +46,7 @@ class T_cshedules(db.Model):
     cclass = db.Column(db.String(100))  # 上课班级
 
     def __repr__(self):
-        return "<T_cshedules %r>" % self.cname
+        return "<T_cshedules %r>" % self.name
 
 
 class T_courses(db.Model):

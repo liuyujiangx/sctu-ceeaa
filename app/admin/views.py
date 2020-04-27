@@ -1,3 +1,4 @@
+from app.admin.forms import ClassesForm
 from app.models import T_classes, T_courses, T_students, T_cshedules
 from . import admin
 
@@ -52,19 +53,19 @@ def pwd():
 
 
 # 添加班级
-@admin.route("/tag/add/", methods=["GET", "POST"])
-def tag_add():
-    return render_template("admin/tag_add.html")
+@admin.route("/class/add/", methods=["GET", "POST"])
+def classes_add():
+    return render_template("admin/classes_add.html")
 
 
 # 编辑班级
-@admin.route("/tag/edit/<int:id>/", methods=["GET", "POST"])
-def tag_edit(id):
-    return render_template("admin/tag_edit.html")
+@admin.route("/class/edit/<int:id>/", methods=["GET", "POST"])
+def classes_edit(id):
+    return render_template("admin/classes_edit.html")
 
 
 # 班级列表
-@admin.route("/class/list/<int:page>", methods=["GET"])
+@admin.route("/class/list/<int:page>", methods=["GET", "POST"])
 def classes_list(page=None):
     if page is None:
         page = 1
@@ -74,22 +75,22 @@ def classes_list(page=None):
     return render_template("admin/classes_list.html", page_data=page_data)
 
 
-# 标签删除
-@admin.route("/tag/del/<int:id>", methods=["GET"])
-def tag_del(id=None):
-    return redirect(url_for('admin.tag_list'))
+# 班级删除
+@admin.route("/class/del/<int:id>", methods=["GET"])
+def classes_del(id=None):
+    return redirect(url_for('admin.classes_list'))
 
 
 # 添加课程
-@admin.route("/movie/add/", methods=["GET", "POST"])
-def movie_add():
-    return render_template("admin/movie_add.html")
+@admin.route("/course/add/", methods=["GET", "POST"])
+def courses_add():
+    return render_template("admin/courses_add.html")
 
 
 # 课程删除
-@admin.route("/movie/del/<int:id>", methods=["GET"])
-def movie_del(id=None):
-    return redirect(url_for('admin.movie_list'))
+@admin.route("/course/del/<int:id>", methods=["GET"])
+def courses_del(id=None):
+    return redirect(url_for('admin.courses_list'))
 
 
 # 预告修改
@@ -99,9 +100,9 @@ def preview_edit(id=None):
 
 
 # 课程修改
-@admin.route("/movie/edit/<int:id>/", methods=["GET", "POST"])
-def movie_edit(id=None):
-    return render_template("admin/movie_edit.html")
+@admin.route("/course/edit/<int:id>/", methods=["GET", "POST"])
+def courses_edit(id=None):
+    return render_template("admin/courses_edit.html")
 
 
 # 课程列表
@@ -144,50 +145,104 @@ def user_view(id=None):
     return render_template("admin/user_view.html")
 
 
+# 学生管理 开始
 # 学生列表
-@admin.route("/students/list/<int:page>/")
+@admin.route("/students/list/<int:page>/", methods=["GET", "POST"])
 def students_list(page=None):
+    form = ClassesForm()
     if page is None:
         page = 1
     page_data = T_students.query.order_by(
         T_students.sclass.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/students_list.html", page_data=page_data)
+    return render_template("admin/students_list.html", page_data=page_data, form=form)
 
 
-@admin.route("/comment/list/")
-def comment_list():
-    return render_template("admin/comment_list.html")
+# #  学生分班列表
+# @admin.route("/students/search/<int:page>", methods=["GET", "POST"])
+# def students_search(page=None):
+#     form = ClassesForm()
+#     if page is None:
+#         page = 1
+#     if request.method == "POST":
+#         data = form.data
+#         classes = T_classes.query.filter_by(id=data['classes']).first()
+#         page_data = T_students.query.filter_by(sclass=classes.name).order_by(T_students.sno.asc()).paginate(
+#             page=page, per_page=10)
+#         session['classes'] = classes.name
+#         return render_template("admin/student_search.html", page_data=page_data, form=form)
+#     else:
+#         page_data = T_students.query.filter_by(sclass=session['classes']).order_by(T_students.sno.asc()).paginate(
+#             page=page, per_page=10)
+#         return render_template("admin/student_search.html", page_data=page_data, form=form)
+#  学生搜索列表
+@admin.route("/students/search/<int:page>", methods=["GET", "POST"])
+def students_search(page=None):
+    form = ClassesForm()
+    if page is None:
+        page = 1
+    if request.method == "POST":
+        data = form.data
+        if data['classes'] is not None:
+            classes = T_classes.query.filter_by(id=data['classes']).first()
+            session['classes'] = classes.name
+        else:
+            data = request.form.get('table_search')
+            session['classes'] = data
+    t_classes = T_classes.query.all()
+    ls = [i.name for i in t_classes]
+    if session['classes'] in ls:
+        page_data = T_students.query.filter(
+                    T_students.sclass.like("%" + session['classes'] + "%") if session['classes'] is not None else "",
+                ).order_by(T_students.sno.asc()).paginate(
+            page=page, per_page=10)
+    else:
+        page_data = T_students.query.filter(
+                T_students.sname.like("%" + session['classes'] + "%") if session['classes'] is not None else "",
+            ).order_by(T_students.sno.asc()).paginate(
+        page=page, per_page=10)
+    return render_template("admin/student_search.html", page_data=page_data, form=form)
+
+# 大学生创新创业项目
+@admin.route("/innovation/list/")
+def innovation_list():
+    return render_template("admin/innovation_list.html")
 
 
-@admin.route("/moviecol/list/")
-def moviecol_list():
-    return render_template("admin/moviecol_list.html")
+# 大学生科研项目
+@admin.route("/research/list/")
+def research_list():
+    return render_template("admin/research_list.html")
 
 
-@admin.route("/oplog/list/")
-def oplog_list():
-    return render_template("admin/oplog_list.html")
+# 竞赛获奖
+@admin.route("/prize/list/")
+def prize_list():
+    return render_template("admin/prize_list.html")
 
 
-@admin.route("/adminloginlog/list/")
-def adminloginlog_list():
-    return render_template("admin/adminloginlog_list.html")
+# 学术论文
+@admin.route("/thesis/list/")
+def thesis_list():
+    return render_template("admin/thesis_list.html")
 
 
-@admin.route("/userloginlog/list/")
-def userloginlog_list():
-    return render_template("admin/userloginlog_list.html")
+# 专利
+@admin.route("/patent/list/")
+def patent_list():
+    return render_template("admin/patent_list.html")
 
 
+# 职业证书
+@admin.route("/certificate/list/")
+def certificate_list():
+    return render_template("admin/certificate_list.html")
+
+
+# 学生管理 结束
 @admin.route("/auth/add/")
 def auth_add():
     return render_template("admin/auth_add.html")
-
-
-@admin.route("/auth/list/")
-def auth_list():
-    return render_template("admin/auth_list.html")
 
 
 @admin.route("/role/add/")
