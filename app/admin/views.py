@@ -1,7 +1,7 @@
 import time
 
-from app.admin.forms import ClassesForm
-from app.models import T_classes, T_courses, T_students, T_cshedules
+from app.admin.forms import ClassesForm, CmodulesForm
+from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -252,11 +252,30 @@ def auth_add():
 def role_add():
     return render_template("admin/role_add.html")
 
+#  课程模块
+@admin.route("/cmodules/list/<int:page>", methods=["GET", "POST"])
+def cmodules_list(page=None):
+    form = CmodulesForm()
+    page_data = T_cmodules.query.order_by(
+        T_cmodules.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/cmodules_list.html",page_data=page_data,form = form)
 
-@admin.route("/role/list/")
-def role_list():
-    return render_template("admin/role_list.html")
 
+#  课程模块搜索
+@admin.route("/cmodules/search/<int:page>", methods=["GET", "POST"])
+def cmodules_search(page=None):
+    form = CmodulesForm()
+    if page is None:
+        page = 1
+    if request.method == "POST":
+        data = form.data
+        cmodule_name = T_cmodules.query.filter_by(id=data['cmodules']).first()
+        session['cmodule'] = cmodule_name.name
+    page_data = T_cmodules.query.filter_by(name=session['cmodule']).order_by(
+        T_cmodules.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/cmodules_search.html", page_data=page_data, form=form)
 
 @admin.route("/admin/add/")
 def admin_add():
