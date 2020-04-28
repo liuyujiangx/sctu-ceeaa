@@ -66,5 +66,17 @@ class T_courses(db.Model):
         return "<T_courses %r>" % self.cname
 
 
+
+class T_competition(db.Model):
+    __tablename__ = 't_competition'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))  # 竞赛全称
+    af_name = db.Column(db.String(100))  # 简称
+    organizer = db.Column(db.String(100), index=True)  # 主办单位
+    undertaker = db.Column(db.String(100))  # 承办单位
+    co_organizer = db.Column(db.String(100))  # 协办单位
+
+    def __repr__(self):
+        return "<T_competition %r>" % self.name
 # if __name__ == "__main__":
 #      db.create_all()
