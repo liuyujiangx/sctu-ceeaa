@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app import db
 
 
@@ -78,5 +80,24 @@ class T_competition(db.Model):
 
     def __repr__(self):
         return "<T_competition %r>" % self.name
+
+
+# 管理员
+class Admin(db.Model):
+    __tablename__ = "admin"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    name = db.Column(db.String(100), unique=True)  # 管理员账号
+    pwd = db.Column(db.String(100))  # 管理员密码
+    is_super = db.Column(db.SmallInteger)  # 是否是超级管理员 0为超级管理员
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
+
+    def __repr__(self):
+        return "<Admin %r>" % self.name
+
+    def check_pwd(self, pwd):
+        from werkzeug.security import check_password_hash
+        return check_password_hash(self.pwd, pwd)
+
+
 # if __name__ == "__main__":
 #      db.create_all()
