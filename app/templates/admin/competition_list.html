@@ -38,6 +38,7 @@
                             <th>主办单位</th>
                             <th>承办单位</th>
                             <th>协办单位</th>
+                            <th>链接</th>
                             <th>操作事项</th>
                         </tr>
                         {% for i in page_data.items %}
@@ -47,7 +48,8 @@
                             <td>{{i.organizer}}</td>
                             <td>{{i.undertaker}}</td>
                             <td>{{i.co_organizer}}</td>
-                            <td>
+                            <td><a href="{{i.url}}">链接</a></td>
+                            <td style="width:12%" >
                                 <a href="{{url_for('admin.competition_edit',id = i.id)}}"
                                    class="label label-success">编辑</a>
                                 &nbsp;

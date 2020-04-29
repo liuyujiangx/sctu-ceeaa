@@ -388,7 +388,8 @@ def competition_add():
             af_name=data['af_name'],
             organizer=data['organizer'],
             undertaker=data['undertaker'],
-            co_organizer=data['co_organizer']
+            co_organizer=data['co_organizer'],
+            url=data['url']
         )
         db.session.add(t_competition)
         db.session.commit()
@@ -420,6 +421,7 @@ def competition_edit(id=None):
         t_competition.organizer = data['organizer']
         t_competition.undertaker = data['undertaker']
         t_competition.co_organizer = data['co_organizer']
+        t_competition.url = data['url']
 
         db.session.add(t_competition)
         db.session.commit()

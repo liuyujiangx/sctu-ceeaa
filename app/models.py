@@ -77,6 +77,7 @@ class T_competition(db.Model):
     organizer = db.Column(db.String(100), index=True)  # 主办单位
     undertaker = db.Column(db.String(100))  # 承办单位
     co_organizer = db.Column(db.String(100))  # 协办单位
+    url = db.Column(db.String(100))  # 主页链接
 
     def __repr__(self):
         return "<T_competition %r>" % self.name
