@@ -34,7 +34,7 @@ def change_filename(filename):
 @admin.route("/")
 def index():
     time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    return render_template("admin/index.html",time_now = time_now)
+    return render_template("admin/index.html", time_now=time_now)
 
 
 # 登录
@@ -197,15 +197,16 @@ def students_search(page=None):
     ls = [i.name for i in t_classes]
     if session['classes'] in ls:
         page_data = T_students.query.filter(
-                    T_students.sclass.like("%" + session['classes'] + "%") if session['classes'] is not None else "",
-                ).order_by(T_students.sno.asc()).paginate(
+            T_students.sclass.like("%" + session['classes'] + "%") if session['classes'] is not None else "",
+        ).order_by(T_students.sno.asc()).paginate(
             page=page, per_page=10)
     else:
         page_data = T_students.query.filter(
-                T_students.sname.like("%" + session['classes'] + "%") if session['classes'] is not None else "",
-            ).order_by(T_students.sno.asc()).paginate(
-        page=page, per_page=10)
+            T_students.sname.like("%" + session['classes'] + "%") if session['classes'] is not None else "",
+        ).order_by(T_students.sno.asc()).paginate(
+            page=page, per_page=10)
     return render_template("admin/student_search.html", page_data=page_data, form=form)
+
 
 # 大学生创新创业项目
 @admin.route("/innovation/list/")
@@ -253,6 +254,7 @@ def auth_add():
 def role_add():
     return render_template("admin/role_add.html")
 
+
 #  课程模块
 @admin.route("/cmodules/list/<int:page>", methods=["GET", "POST"])
 def cmodules_list(page=None):
@@ -260,7 +262,7 @@ def cmodules_list(page=None):
     page_data = T_cmodules.query.order_by(
         T_cmodules.id.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/cmodules_list.html",page_data=page_data,form = form)
+    return render_template("admin/cmodules_list.html", page_data=page_data, form=form)
 
 
 #  课程模块搜索
@@ -278,6 +280,7 @@ def cmodules_search(page=None):
     ).paginate(page=page, per_page=10)
     return render_template("admin/cmodules_search.html", page_data=page_data, form=form)
 
+
 @admin.route("/admin/add/")
 def admin_add():
     return render_template("admin/admin_add.html")
@@ -288,58 +291,64 @@ def admin_list():
     return render_template("admin/admin_list.html")
 
 
-
 #  竞赛管理
 @admin.route("/competition/list/<int:page>", methods=["GET", "POST"])
-def competition_list(page = None):
+def competition_list(page=None):
     if page is None:
         page = 1
     page_data = T_competition.query.order_by(
         T_competition.id.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/competition_list.html",page_data = page_data)
+    return render_template("admin/competition_list.html", page_data=page_data)
+
+
 #  增加竞赛
-@admin.route("/competition/add/", methods=["POST"])
+@admin.route("/competition/add/", methods=["POST","GET"])
 def competition_add():
-    data = request.form
-    t_competition = T_competition(
-        name = data['name'],
-        af_name = data['af_name'],
-        organizer = data['organizer'],
-        undertaker = data['undertaker'],
-        co_organizer = data['co_organizer']
-    )
-    db.session.add(t_competition)
-    db.session.commit()
-    flash("添加成功", "ok")
-    return redirect(url_for('admin.competition_list',page=1))
+    if request.method == "GET":
+        return render_template("admin/competition_add.html")
+    else:
+        data = request.form
+        t_competition = T_competition(
+            name=data['name'],
+            af_name=data['af_name'],
+            organizer=data['organizer'],
+            undertaker=data['undertaker'],
+            co_organizer=data['co_organizer']
+        )
+        db.session.add(t_competition)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.competition_list', page=1))
 
 
 
 #  删除竞赛
-@admin.route("/competition/del/<int:id>",methods=["GET"])
-def competition_del(id = None):
-    t_competition = T_competition.query.filter_by(id = id).first()
+@admin.route("/competition/del/<int:id>", methods=["GET"])
+def competition_del(id=None):
+    t_competition = T_competition.query.filter_by(id=id).first()
     db.session.delete(t_competition)
     db.session.commit()
     flash("删除成功", "ok")
     return redirect(url_for('admin.competition_list', page=1))
 
+
 #  修改竞赛
-@admin.route("/competition/edit/<int:id>",methods=["GET","POST"])
-def competition_edit(id = None):
+@admin.route("/competition/edit/<int:id>", methods=["GET", "POST"])
+def competition_edit(id=None):
     if request.method == "POST":
         data = request.form
-        t_competition = T_competition.query.filter_by(id = id).first()
-        t_competition.name=data['name']
-        t_competition.af_name=data['af_name']
-        t_competition.organizer=data['organizer']
-        t_competition.undertaker=data['undertaker']
-        t_competition.co_organizer=data['co_organizer']
+        t_competition = T_competition.query.filter_by(id=id).first()
+        t_competition.name = data['name']
+        t_competition.af_name = data['af_name']
+        t_competition.organizer = data['organizer']
+        t_competition.undertaker = data['undertaker']
+        t_competition.co_organizer = data['co_organizer']
 
         db.session.add(t_competition)
         db.session.commit()
+        flash("修改成功", "ok")
         return redirect(url_for('admin.competition_list', page=1))
     else:
         t_competition = T_competition.query.filter_by(id=id).first()
-        return render_template("admin/competition_edit.html",data = t_competition)
+        return render_template("admin/competition_edit.html", data=t_competition)
