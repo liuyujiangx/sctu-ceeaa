@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 
 from app.admin.forms import ClassesForm, CmodulesForm
 from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules, T_competition, Admin, \
-    T_teachers
+    T_teachers, T_scientific
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -468,7 +468,7 @@ def teachers_add():
 
 
 
-#  删除竞赛
+#  删除教师
 @admin.route("/teachers/del/<int:id>", methods=["GET"])
 @admin_login_req
 def teachers_del(id=None):
@@ -479,7 +479,7 @@ def teachers_del(id=None):
     return redirect(url_for('admin.teachers_list', page=1))
 
 
-#  修改竞赛
+#  修改教师
 @admin.route("/teachers/edit/<int:id>", methods=["GET", "POST"])
 @admin_login_req
 def teachers_edit(id=None):
@@ -500,3 +500,77 @@ def teachers_edit(id=None):
     else:
         t_teachers = T_teachers.query.filter_by(id=id).first()
         return render_template("admin/teachers_edit.html", data=t_teachers)
+
+
+
+
+
+#  科研成果
+@admin.route("/scientific/list/<int:page>", methods=["GET", "POST"])
+@admin_login_req
+def scientific_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_scientific.query.order_by(
+        T_scientific.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/scientific_list.html", page_data=page_data)
+
+
+#  增加科研
+@admin.route("/scientific/add/", methods=["POST","GET"])
+@admin_login_req
+def scientific_add():
+    if request.method == "GET":
+        return render_template("admin/scientific_add.html")
+    else:
+        data = request.form
+        t_scientific = T_scientific(
+            name=data['name'],
+            t_name=data['t_name'],
+            number=data['number'],
+            nature=data['nature'],
+            category=data['category'],
+            sort=data['sort'],
+            funds=data['funds']
+        )
+        db.session.add(t_scientific)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.scientific_list', page=1))
+
+
+
+#  删除科研
+@admin.route("/scientific/del/<int:id>", methods=["GET"])
+@admin_login_req
+def scientific_del(id=None):
+    t_scientific = T_scientific.query.filter_by(id=id).first()
+    db.session.delete(t_scientific)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for('admin.scientific_list', page=1))
+
+
+#  修改科研
+@admin.route("/scientific/edit/<int:id>", methods=["GET", "POST"])
+@admin_login_req
+def scientific_edit(id=None):
+    if request.method == "POST":
+        data = request.form
+        t_scientific = T_scientific.query.filter_by(id=id).first()
+        t_scientific.name = data['name']
+        t_scientific.t_name = data['t_name']
+        t_scientific.nature = data['nature']
+        t_scientific.category = data['category']
+        t_scientific.sort = data['sort']
+        t_scientific.funds = data['funds']
+        t_scientific.number = data['number']
+
+        db.session.add(t_scientific)
+        db.session.commit()
+        flash("修改成功", "ok")
+        return redirect(url_for('admin.scientific_list', page=1))
+    else:
+        t_scientific = T_scientific.query.filter_by(id=id).first()
+        return render_template("admin/scientific_edit.html", data=t_scientific)

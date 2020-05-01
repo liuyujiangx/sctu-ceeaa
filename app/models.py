@@ -86,11 +86,27 @@ class T_teachers(db.Model):
     __tablename__ = 't_teachers'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))  # 教师名字
-    age = db.Column(db.String(100))  # 年龄
-    title = db.Column(db.String(100), index=True)  # 专业技术职称
+    age = db.Column(db.Integer)  # 年龄
+    title = db.Column(db.String(100))  # 专业技术职称
     education = db.Column(db.String(100))  # 学历
     degree = db.Column(db.String(100))  # 最高学位
     year = db.Column(db.String(100))  # 从事专业教学时间
+
+    def __repr__(self):
+        return "<T_teachers %r>" % self.name
+
+
+
+class T_scientific(db.Model):
+    __tablename__ = 't_scientific'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))  # 项目名称
+    t_name = db.Column(db.String(100))  # 主持人姓名
+    nature = db.Column(db.String(100))  # 项目性质
+    category = db.Column(db.String(100))  # 纵向项目类别
+    sort = db.Column(db.String(100))  # 立项单位排序
+    funds = db.Column(db.Integer)  # 项目经费（万元）
+    number = db.Column(db.String(100))  # 立项编号
 
     def __repr__(self):
         return "<T_teachers %r>" % self.name
