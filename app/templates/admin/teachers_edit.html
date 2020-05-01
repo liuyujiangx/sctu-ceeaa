@@ -1,0 +1,63 @@
+{% extends "admin/admin.html" %}
+
+{% block content %}
+<section class="content-header">
+    <h1>智慧旅游工程人才培养平台</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url_for('admin.teachers_list',page=1)}}"><i class="fa fa-dashboard"></i> 教师信息管理</a></li>
+        <li class="active">修改教师</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">修改教师</h3>
+                </div>
+                <form role="form" method="post" enctype="multipart/form-data" action="{{url_for('admin.teachers_edit',id = data.id)}}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" name="name" class="form-control" id="name" value="{{data.name}}" >
+                        </div>
+                        <div class="form-group">
+                            <label for="age">年龄</label>
+                            <input type="text" name="age" class="form-control" id="age" value="{{data.age}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">专业技术职称</label>
+                            <input type="text" name="title" class="form-control" id="title" value="{{data.title}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="education">学历</label>
+                            <input type="text" name="education" class="form-control" id="education" value="{{data.education}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="degree">最高学位</label>
+                            <input type="text" name="degree" class="form-control" id="degree" value="{{data.degree}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="year">从事专业教学时间</label>
+                            <input type="text" name="year" class="form-control" id="year" value="{{data.year}}">
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+    $("#g-6").addClass("active");
+    $("#g-6-1").addClass("active");
+    })
+</script>
+{% endblock %}

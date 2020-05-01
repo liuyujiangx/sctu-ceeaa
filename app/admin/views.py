@@ -4,7 +4,8 @@ import time
 from werkzeug.security import check_password_hash
 
 from app.admin.forms import ClassesForm, CmodulesForm
-from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules, T_competition, Admin
+from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules, T_competition, Admin, \
+    T_teachers
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -430,3 +431,72 @@ def competition_edit(id=None):
     else:
         t_competition = T_competition.query.filter_by(id=id).first()
         return render_template("admin/competition_edit.html", data=t_competition)
+
+
+#  教师信息管理
+@admin.route("/teachers/list/<int:page>", methods=["GET", "POST"])
+@admin_login_req
+def teachers_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_teachers.query.order_by(
+        T_teachers.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/teachers_list.html", page_data=page_data)
+
+
+#  增加教师
+@admin.route("/teachers/add/", methods=["POST","GET"])
+@admin_login_req
+def teachers_add():
+    if request.method == "GET":
+        return render_template("admin/teachers_add.html")
+    else:
+        data = request.form
+        t_teachers = T_teachers(
+            name=data['name'],
+            age=data['age'],
+            title=data['title'],
+            education=data['education'],
+            degree=data['degree'],
+            year=data['year']
+        )
+        db.session.add(t_teachers)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.teachers_list', page=1))
+
+
+
+#  删除竞赛
+@admin.route("/teachers/del/<int:id>", methods=["GET"])
+@admin_login_req
+def teachers_del(id=None):
+    t_teachers = T_teachers.query.filter_by(id=id).first()
+    db.session.delete(t_teachers)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for('admin.teachers_list', page=1))
+
+
+#  修改竞赛
+@admin.route("/teachers/edit/<int:id>", methods=["GET", "POST"])
+@admin_login_req
+def teachers_edit(id=None):
+    if request.method == "POST":
+        data = request.form
+        t_teachers = T_teachers.query.filter_by(id=id).first()
+        t_teachers.name = data['name']
+        t_teachers.age = data['age']
+        t_teachers.title = data['title']
+        t_teachers.education = data['education']
+        t_teachers.degree = data['degree']
+        t_teachers.year = data['year']
+
+        db.session.add(t_teachers)
+        db.session.commit()
+        flash("修改成功", "ok")
+        return redirect(url_for('admin.teachers_list', page=1))
+    else:
+        t_teachers = T_teachers.query.filter_by(id=id).first()
+        return render_template("admin/teachers_edit.html", data=t_teachers)

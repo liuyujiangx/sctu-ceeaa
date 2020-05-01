@@ -82,6 +82,19 @@ class T_competition(db.Model):
     def __repr__(self):
         return "<T_competition %r>" % self.name
 
+class T_teachers(db.Model):
+    __tablename__ = 't_teachers'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))  # 教师名字
+    age = db.Column(db.String(100))  # 年龄
+    title = db.Column(db.String(100), index=True)  # 专业技术职称
+    education = db.Column(db.String(100))  # 学历
+    degree = db.Column(db.String(100))  # 最高学位
+    year = db.Column(db.String(100))  # 从事专业教学时间
+
+    def __repr__(self):
+        return "<T_teachers %r>" % self.name
+
 
 # 管理员
 class Admin(db.Model):
