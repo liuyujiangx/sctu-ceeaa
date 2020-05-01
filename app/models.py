@@ -105,12 +105,27 @@ class T_scientific(db.Model):
     nature = db.Column(db.String(100))  # 项目性质
     category = db.Column(db.String(100))  # 纵向项目类别
     sort = db.Column(db.String(100))  # 立项单位排序
-    funds = db.Column(db.Integer)  # 项目经费（万元）
+    funds = db.Column(db.Float)  # 项目经费（万元）
     number = db.Column(db.String(100))  # 立项编号
 
     def __repr__(self):
         return "<T_teachers %r>" % self.name
 
+
+
+
+class T_teachingr(db.Model):
+    __tablename__ = 't_teachingr'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))  # 项目名称
+    t_name = db.Column(db.String(100))  # 主持人姓名
+    level = db.Column(db.String(100))  # 级别
+    t_num = db.Column(db.Integer)  # 参与教师数
+    funds = db.Column(db.Float)  # 项目经费（万元）
+    number = db.Column(db.String(100))  # 立项编号
+
+    def __repr__(self):
+        return "<T_teachers %r>" % self.name
 
 # 管理员
 class Admin(db.Model):

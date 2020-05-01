@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 
 from app.admin.forms import ClassesForm, CmodulesForm
 from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules, T_competition, Admin, \
-    T_teachers, T_scientific
+    T_teachers, T_scientific, T_teachingr
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -574,3 +574,72 @@ def scientific_edit(id=None):
     else:
         t_scientific = T_scientific.query.filter_by(id=id).first()
         return render_template("admin/scientific_edit.html", data=t_scientific)
+
+
+#  教研成果
+@admin.route("/teachingr/list/<int:page>", methods=["GET", "POST"])
+@admin_login_req
+def teachingr_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_teachingr.query.order_by(
+        T_teachingr.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/teachingr_list.html", page_data=page_data)
+
+
+#  增加教研
+@admin.route("/teachingr/add/", methods=["POST","GET"])
+@admin_login_req
+def teachingr_add():
+    if request.method == "GET":
+        return render_template("admin/teachingr_add.html")
+    else:
+        data = request.form
+        t_teachingr = T_teachingr(
+            name=data['name'],
+            t_name=data['t_name'],
+            level=data['level'],
+            t_num=data['t_num'],
+            funds=data['funds'],
+            number=data['number']
+        )
+        db.session.add(t_teachingr)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.teachingr_list', page=1))
+
+
+
+#  删除教研
+@admin.route("/teachingr/del/<int:id>", methods=["GET"])
+@admin_login_req
+def teachingr_del(id=None):
+    t_teachingr = T_teachingr.query.filter_by(id=id).first()
+    db.session.delete(t_teachingr)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for('admin.teachingr_list', page=1))
+
+
+#  修改教研
+@admin.route("/teachingr/edit/<int:id>", methods=["GET", "POST"])
+@admin_login_req
+def teachingr_edit(id=None):
+    if request.method == "POST":
+        data = request.form
+        t_teachingr = T_teachingr.query.filter_by(id=id).first()
+        t_teachingr.name = data['name']
+        t_teachingr.t_name = data['t_name']
+        t_teachingr.level = data['level']
+        t_teachingr.t_num = data['t_num']
+        t_teachingr.funds = data['funds']
+        t_teachingr.number = data['number']
+
+        db.session.add(t_teachingr)
+        db.session.commit()
+        flash("修改成功", "ok")
+        return redirect(url_for('admin.teachingr_list', page=1))
+    else:
+        t_teachingr = T_teachingr.query.filter_by(id=id).first()
+        return render_template("admin/teachingr_edit.html", data=t_teachingr)
