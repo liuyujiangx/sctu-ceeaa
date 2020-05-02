@@ -144,5 +144,11 @@ class Admin(db.Model):
         return check_password_hash(self.pwd, pwd)
 
 
+
+#  课程类型
+class T_coursetype(db.Model):
+    __tablename__ = 't_coursetype'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))  # 课程类型
 # if __name__ == "__main__":
 #      db.create_all()

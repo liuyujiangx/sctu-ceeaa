@@ -1,0 +1,48 @@
+{% extends "admin/admin.html" %}
+
+{% block content %}
+<section class="content-header">
+    <h1>智慧旅游工程人才培养平台</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url_for('admin.coursetype_list',page=1)}}"><i class="fa fa-dashboard"></i> 课程类型</a></li>
+        <li class="active">添加课程类型</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">添加课程类型</h3>
+                </div>
+                <form role="form" method="post" enctype="multipart/form-data" action="{{url_for('admin.coursetype_add')}}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name">课程类型</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="课程类型！">
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+
+
+
+<script>
+    $(document).ready(function(){
+    $("#g-9").addClass("active");
+    $("#g-9-3").addClass("active");
+    })
+
+
+
+</script>
+{% endblock %}

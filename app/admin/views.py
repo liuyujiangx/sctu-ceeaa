@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 
 from app.admin.forms import ClassesForm, CmodulesForm
 from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules, T_competition, Admin, \
-    T_teachers, T_scientific, T_teachingr
+    T_teachers, T_scientific, T_teachingr, T_coursetype
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -141,16 +141,64 @@ def courses_edit(id=None):
     return render_template("admin/courses_edit.html")
 
 
-# 课程列表
-@admin.route("/course/list/<int:page>/", methods=["GET"])
+# 课程类型列表
+@admin.route("/coursetype/list/<int:page>/", methods=["GET", "POST"])
 @admin_login_req
-def courses_list(page=None):
+def coursetype_list(page=None):
     if page is None:
         page = 1
-    page_data = T_courses.query.order_by(
-        T_courses.cno.asc()
+    page_data = T_coursetype.query.order_by(
+        T_coursetype.id.asc()
     ).paginate(page=page, per_page=10)
-    return render_template("admin/courses_list.html", page_data=page_data)
+    return render_template("admin/coursetype_list.html", page_data=page_data)
+
+
+#  增加课程类型
+@admin.route("/coursetype/add/", methods=["POST","GET"])
+@admin_login_req
+def coursetype_add():
+    if request.method == "GET":
+        return render_template("admin/coursetype_add.html")
+    else:
+        data = request.form
+        t_coursetype = T_coursetype(
+            name=data['name'],
+        )
+        db.session.add(t_coursetype)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.coursetype_list', page=1))
+
+
+
+#  删除课程类型
+@admin.route("/coursetype/del/<int:id>", methods=["GET"])
+@admin_login_req
+def coursetype_del(id=None):
+    t_coursetype = T_coursetype.query.filter_by(id=id).first()
+    db.session.delete(t_coursetype)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for('admin.coursetype_list', page=1))
+
+
+#  修改课程类型
+@admin.route("/coursetype/edit/<int:id>", methods=["GET", "POST"])
+@admin_login_req
+def coursetype_edit(id=None):
+    if request.method == "POST":
+        data = request.form
+        t_coursetype = T_coursetype.query.filter_by(id=id).first()
+        t_coursetype.name = data['name']
+
+        db.session.add(t_coursetype)
+        db.session.commit()
+        flash("修改成功", "ok")
+        return redirect(url_for('admin.coursetype_list', page=1))
+    else:
+        t_coursetype = T_coursetype.query.filter_by(id=id).first()
+        return render_template("admin/coursetype_edit.html", data=t_coursetype)
+
 
 
 # 添加课程安排
