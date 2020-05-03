@@ -123,17 +123,17 @@
 			// 指定图表的配置项和数据
 			option = {
 				title: {
-					text: '信管专业高级职称占比45%',
+					text: '信管专业高级职称占比31%',
 					x: 'center'
 				},
 				tooltip: {
 					trigger: 'item',
 					formatter: "{a} <br/>{b} : {c} ({d}%)"
 				},
-				color: ['rgb(237,125,49)', 'rgb(165,165,165)', 'rgb(91,155,213)'],
+				color: ['rgb(237,125,49)', 'rgb(165,165,165)', 'rgb(91,155,213)','rgb(91,155,150)','rgb(91,213,213)','rgb(150,155,213)'],
 				stillShowZeroSum: false,
 				series: [{
-					name: '信管专业高级职称占比45%',
+					name: '信管专业高级职称占比31%',
 					type: 'pie',
 					radius: '80%',
 					center: ['50%', '50%'],
@@ -148,7 +148,19 @@
 
 						{
 							value: 1,
-							name: '教授1人'
+							name: '其他初级1人'
+						},
+						{
+							value: 2,
+							name: '其他中级1人'
+						},
+						{
+							value: 2,
+							name: '助教2人'
+						},
+						{
+							value: 1,
+							name: '其他正高级1人'
 						},
 
 					],
@@ -171,17 +183,17 @@
 			// 指定图表的配置项和数据
 			option = {
 				title: {
-					text: '信管专业博士学位教师比例为35%',
+					text: '信管专业博士学位教师比例为26%',
 					x: 'center'
 				},
 				tooltip: {
 					trigger: 'item',
 					formatter: "{a} <br/>{b} : {c} ({d}%)"
 				},
-				color: ['rgb(237,125,49)', 'rgb(165,165,165)'],
+				color: ['rgb(237,125,49)', 'rgb(165,165,165)', 'rgb(200,165,165)'],
 				stillShowZeroSum: false,
 				series: [{
-					name: '信管专业博士学位教师比例为35%',
+					name: '信管专业博士学位教师比例为26%',
 					type: 'pie',
 					radius: '80%',
 					center: ['50%', '50%'],
@@ -192,6 +204,10 @@
 						{
 							value: 5,
 							name: '博士学位5人'
+						},
+						{
+							value: 5,
+							name: '本科学位5人'
 						},
 
 
