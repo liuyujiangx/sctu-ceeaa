@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 
 from app.admin.forms import ClassesForm, CmodulesForm
 from app.models import T_classes, T_courses, T_students, T_cshedules, T_cmodules, T_competition, Admin, \
-    T_teachers, T_scientific, T_teachingr, T_coursetype
+    T_teachers, T_scientific, T_teachingr, T_coursetype, T_innovation, T_prize
 from . import admin
 
 from flask import render_template, redirect, url_for, flash, session, request
@@ -295,26 +295,155 @@ def students_search(page=None):
     return render_template("admin/student_search.html", page_data=page_data, form=form)
 
 
-# 大学生创新创业项目
-@admin.route("/innovation/list/")
-@admin_login_req
-def innovation_list():
-    return render_template("admin/innovation_list.html")
+
 
 
 # 大学生科研项目
-@admin.route("/research/list/")
+@admin.route("/research/list/<int:page>", methods=["GET", "POST"])
 @admin_login_req
-def research_list():
-    return render_template("admin/research_list.html")
+def research_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_scientific.query.order_by(
+        T_scientific.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/research_list.html",page_data=page_data)
 
+# 大学生创新创业项目
+@admin.route("/innovation/list/<int:page>", methods=["GET", "POST"])
+@admin_login_req
+def innovation_list(page=None):
+    if page is None:
+        page = 1
+    page_data = T_innovation.query.order_by(
+        T_innovation.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/innovation_list.html",page_data=page_data)
+
+
+#  增加大学生创新创业
+@admin.route("/innovation/add/", methods=["POST","GET"])
+@admin_login_req
+def innovation_add():
+    if request.method == "GET":
+        return render_template("admin/innovation_add.html")
+    else:
+        data = request.form
+        t_innovation = T_innovation(
+            name=data['name'],
+            sname=data['sname'],
+            level=data['level'],
+            grade=data['grade'],
+            category=data['category'],
+            sno=data['sno']
+        )
+        db.session.add(t_innovation)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.innovation_list', page=1))
+
+
+
+#  删除大学生创新创业
+@admin.route("/innovation/del/<int:id>", methods=["GET"])
+@admin_login_req
+def innovation_del(id=None):
+    t_innovation = T_innovation.query.filter_by(id=id).first()
+    db.session.delete(t_innovation)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for('admin.innovation_list', page=1))
+
+
+#  修改大学生创新创业
+@admin.route("/innovation/edit/<int:id>", methods=["GET", "POST"])
+@admin_login_req
+def innovation_edit(id=None):
+    if request.method == "POST":
+        data = request.form
+        t_innovation = T_innovation.query.filter_by(id=id).first()
+        t_innovation.sno = data['sno']
+        t_innovation.sname = data['sname']
+        t_innovation.name = data['name']
+        t_innovation.level = data['level']
+        t_innovation.grade = data['grade']
+        t_innovation.category = data['category']
+        db.session.add(t_innovation)
+        db.session.commit()
+        flash("修改成功", "ok")
+        return redirect(url_for('admin.innovation_list', page=1))
+    else:
+        t_innovation = T_innovation.query.filter_by(id=id).first()
+        return render_template("admin/innovation_edit.html", data=t_innovation)
 
 # 竞赛获奖
-@admin.route("/prize/list/")
+@admin.route("/prize/list/<int:page>", methods=["GET", "POST"])
 @admin_login_req
-def prize_list():
-    return render_template("admin/prize_list.html")
+def prize_list(page = None):
+    if page is None:
+        page = 1
+    page_data = T_prize.query.order_by(
+        T_prize.id.asc()
+    ).paginate(page=page, per_page=10)
+    return render_template("admin/prize_list.html",page_data=page_data)
 
+
+#  增加获奖
+@admin.route("/prize/add/", methods=["POST","GET"])
+@admin_login_req
+def prize_add():
+    if request.method == "GET":
+        return render_template("admin/prize_add.html")
+    else:
+        data = request.form
+        t_prize = T_prize(
+            name=data['name'],
+            sname=data['sname'],
+            level=data['level'],
+            grade=data['grade'],
+            award=data['award'],
+            sno=data['sno'],
+            p_time=data['p_time']
+        )
+        db.session.add(t_prize)
+        db.session.commit()
+        flash("添加成功", "ok")
+        return redirect(url_for('admin.prize_list', page=1))
+
+
+
+#  删除获奖
+@admin.route("/竞赛获奖/del/<int:id>", methods=["GET"])
+@admin_login_req
+def prize_del(id=None):
+    t_prize = T_prize.query.filter_by(id=id).first()
+    db.session.delete(t_prize)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for('admin.prize_list', page=1))
+
+
+#  修改获奖
+@admin.route("/prize/edit/<int:id>", methods=["GET", "POST"])
+@admin_login_req
+def prize_edit(id=None):
+    if request.method == "POST":
+        data = request.form
+        t_prize = T_prize.query.filter_by(id=id).first()
+        t_prize.sno = data['sno']
+        t_prize.sname = data['sname']
+        t_prize.name = data['name']
+        t_prize.level = data['level']
+        t_prize.grade = data['grade']
+        t_prize.p_time = data['p_time']
+        t_prize.award = data['award']
+        db.session.add(t_prize)
+        db.session.commit()
+        flash("修改成功", "ok")
+        return redirect(url_for('admin.prize_list', page=1))
+    else:
+        t_prize = T_prize.query.filter_by(id=id).first()
+        return render_template("admin/prize_edit.html", data=t_prize)
 
 # 学术论文
 @admin.route("/thesis/list/")

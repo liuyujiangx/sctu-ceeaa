@@ -150,5 +150,33 @@ class T_coursetype(db.Model):
     __tablename__ = 't_coursetype'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))  # 课程类型
+
+
+class T_innovation(db.Model):
+    __tablename__ = 't_innovation'
+    id = db.Column(db.Integer, primary_key=True)
+    sno = db.Column(db.String(100))  # 学号
+    sname = db.Column(db.String(100))  # 学生姓名
+    grade = db.Column(db.String(100))  # 年级
+    name = db.Column(db.String(100))  # 项目名称
+    level = db.Column(db.String(100))  # 项目级别
+    category = db.Column(db.String(100))  # 项目类别
+
+    def __repr__(self):
+        return "<T_teachers %r>" % self.name
+
+class T_prize(db.Model):
+    __tablename__ = 't_prize'
+    id = db.Column(db.Integer, primary_key=True)
+    sno = db.Column(db.String(100))  # 学号
+    sname = db.Column(db.String(100))  # 学生姓名
+    grade = db.Column(db.String(100))  # 年级
+    name = db.Column(db.String(100))  # 竞赛名称
+    level = db.Column(db.String(100))  # 获奖级别
+    award = db.Column(db.String(100))  # 获奖等级
+    p_time = db.Column(db.String(100))  # 获奖时间
+
+    def __repr__(self):
+        return "<T_teachers %r>" % self.name
 # if __name__ == "__main__":
 #      db.create_all()

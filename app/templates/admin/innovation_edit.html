@@ -1,0 +1,65 @@
+{% extends "admin/admin.html" %}
+
+{% block content %}
+<section class="content-header">
+    <h1>智慧旅游工程人才培养平台</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{url_for('admin.innovation_list',page=1)}}"><i class="fa fa-dashboard"></i> 大学生创新创业</a></li>
+        <li class="active">修改</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">修改</h3>
+                </div>
+                <form role="form" method="post" enctype="multipart/form-data" action="{{url_for('admin.innovation_edit',id = data.id)}}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="sno">学号</label>
+                            <input type="text" name="sno" class="form-control" id="sno" value="{{data.sno}}" >
+                        </div>
+                        <div class="form-group">
+                            <label for="sname">学生姓名</label>
+                            <input type="text" name="sname" class="form-control" id="sname" value="{{data.sname}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="grade">年级</label>
+                            <input type="text" name="grade" class="form-control" id="grade" value="{{data.grade}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">项目名称</label>
+                            <input type="text" name="name" class="form-control" id="name" value="{{data.name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="level">项目级别</label>
+                            <input type="text" name="level" class="form-control" id="level" value="{{data.level}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">项目类别</label>
+                            <input type="text" name="category" class="form-control" id="category" value="{{data.category}}">
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+    $("#g-2").addClass("active");
+    $("#g-2-1").addClass("active");
+    $("#g-2-1-1").addClass("active");
+    })
+
+</script>
+{% endblock %}
