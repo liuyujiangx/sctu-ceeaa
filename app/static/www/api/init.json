@@ -28,7 +28,7 @@
 				}, {
 					"title": "学生",
 					"href": "",
-					"icon": "fa fa-file-text",
+					"icon": "fa fa-child",
 					"target": "_self",
 					"child": [
 						{
@@ -40,7 +40,7 @@
 								{
 									"title": "大学生创新创业项目",
 									"href": "page/innovation.html",
-									"icon": "fa fa-list-alt",
+									"icon": "fa fa-navicon",
 									"target": "_self"
 								}, {
 									"title": "大学生科研项目",
@@ -133,23 +133,23 @@
 				}, {
 					"title": "师资队伍",
 					"href": "",
-					"icon": "fa fa-snowflake-o",
+					"icon": "fa fa-mortar-board",
 					"target": "_self",
 					"child": [
 						{
 							"title": "教师信息管理",
 							"href": "page/teachers.html",
-							"icon": "fa fa-snowflake-o",
+							"icon": "fa fa-user",
 							"target": "_self"
 						}, {
 							"title": "科研成果",
 							"href": "page/scientific.html",
-							"icon": "fa fa-shield",
+							"icon": "fa fa-table",
 							"target": "_self"
 						}, {
 							"title": "教研成果",
 							"href": "page/teachingr.html",
-							"icon": "fa fa-shield",
+							"icon": "fa fa-server",
 							"target": "_self"
 						}
 					]
@@ -178,34 +178,34 @@
 					]
 				}, {
 					"title": "基础数据管理",
-					"icon": "fa fa-slideshare",
+					"icon": "fa fa-bar-chart",
 					"href": "",
 					"target": "_self",
 					"child": [
 						{
 							"title": "班级管理",
 							"href": "page/class.html",
-							"icon": "fa fa-meetup",
+							"icon": "fa fa-group",
 							"target": ""
 						}, {
 							"title": "教室管理",
 							"href": "page/classroom.html",
-							"icon": "fa fa-superpowers",
+							"icon": "fa fa-bank",
 							"target": "_self"
 						}, {
 							"title": "课程类型",
 							"href": "page/coursetype.html",
-							"icon": "fa fa-superpowers",
+							"icon": "fa fa-book",
 							"target": "_self"
 						}, {
 							"title": "课程模块",
 							"href": "page/cmodules.html",
-							"icon": "fa fa-superpowers",
+							"icon": "fa fa-folder",
 							"target": "_self"
 						}, {
 							"title": "竞赛管理",
 							"href": "page/competition.html",
-							"icon": "fa fa-superpowers",
+							"icon": "fa fa-flag",
 							"target": "_self"
 						}
 					]

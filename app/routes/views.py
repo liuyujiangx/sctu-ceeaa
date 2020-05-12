@@ -4,7 +4,7 @@ from flask import request, jsonify
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
-    T_cmodules, T_competition
+    T_cmodules, T_competition, T_prize
 from . import home
 
 
@@ -425,3 +425,50 @@ def competition_del():
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
 
+# 大学生获奖
+@home.route('/prize/')
+def prize():
+    prize_count = T_prize.query.count()
+    data = request.args.to_dict()
+    prize_list = T_prize.query.order_by(
+        T_prize.id.asc()
+    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+    return jsonify(
+        {"code": 0,
+         "msg": '',
+         "count": prize_count,
+         "data": [
+             {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "level": user.level,
+              "p_time": user.p_time,"award": user.award}
+             for user in prize_list.items]
+         }
+    )
+
+#  增加获奖
+@home.route("/prize/add/", methods=["POST"])
+def prize_add():
+    data = request.get_data()
+    data = json.loads(data)
+    t_prize = T_prize(
+        sno=data['sno'],
+        sname=data['sname'],
+        grade=data['grade'],
+        name=data['name'],
+        p_time=data['p_time'],
+        level=data['level'],
+        award=data['award'],
+    )
+    db.session.add(t_prize)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "添加成功"})
+
+
+@home.route("/prize/del/", methods=["POST"])
+def prize_del():
+    data = request.get_data()
+    data = json.loads(data)
+    for i in data:
+        t_prize = T_prize.query.filter_by(sno=i['sno']).first()
+        db.session.delete(t_prize)
+        db.session.commit()
+    return jsonify({"code": 0, "info": "删除成功"})

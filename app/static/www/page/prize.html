@@ -46,7 +46,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://api.yujl.top/innovation/',
+            url: 'http://api.yujl.top/prize/',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -56,11 +56,12 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'sno', width: 140, title: '学号', sort: true},
-                {field: 'sname', width: 80, title: '姓名'},
+                {field: 'sname', width: 80, title: '学生姓名'},
                 {field: 'grade', width: 80, title: '年级'},
-                {field: 'name', width: 500, title: '项目名称'},
-                {field: 'level', width: 100, title: '项目级别'},
-                {field: 'category', width: 100, title: '项目类别'},
+                {field: 'name', width: 500, title: '竞赛名称'},
+                {field: 'p_time', width: 100, title: '获奖时间'},
+                {field: 'level', width: 100, title: '获奖级别'},
+                {field: 'award', width: 100, title: '获奖等级'},
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
@@ -93,7 +94,7 @@
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {   // 监听添加操作
-                var content = miniPage.getHrefContent('page/innovation/add.html');
+                var content = miniPage.getHrefContent('page/prize/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -113,10 +114,10 @@
                 var checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;
                 //layer.alert(JSON.stringify(data));
-                $.post("http://api.yujl.top/innovation/del/",JSON.stringify(data),function(res){
+                $.post("http://api.yujl.top/prize/del/",JSON.stringify(data),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://api.yujl.top/innovation/del/"; //
+				var url = "http://api.yujl.top/prize/del/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});
@@ -145,7 +146,7 @@
             var data = obj.data;
             if (obj.event === 'edit') {
 
-                var content = miniPage.getHrefContent('page/innovation/add.html');
+                var content = miniPage.getHrefContent('page/prize/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
