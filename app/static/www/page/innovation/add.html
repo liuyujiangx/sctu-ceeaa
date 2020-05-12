@@ -31,7 +31,7 @@
             elem: '#demo',
             checkedKey: 'sno',
             table: {
-                url: 'http://127.0.0.1:5000/student/',
+                url: 'http://api.yujl.top/student/',
                 cols: [[
                     { type: 'radio' },
 	                {field: 'sno', width: 150, title: '学号', sort: true},
@@ -99,10 +99,10 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	$.post("http://127.0.0.1:5000/innovation/add/",JSON.stringify(data.field),function(res){
+        	$.post("http://api.yujl.top/innovation/add/",JSON.stringify(data.field),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://127.0.0.1:5000/innovation/add/"; //
+				var url = "http://api.yujl.top/innovation/add/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});

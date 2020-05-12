@@ -63,10 +63,10 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	$.post("http://127.0.0.1:5000/teachingr/add/",JSON.stringify(data.field),function(res){
+        	$.post("http://api.yujl.top/teachingr/add/",JSON.stringify(data.field),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://127.0.0.1:5000/teachingr/add/"; //
+				var url = "http://api.yujl.top/teachingr/add/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});
