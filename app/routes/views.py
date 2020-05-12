@@ -73,6 +73,7 @@ def classes():
 @home.route("/classes/add/", methods=["POST"])
 def classes_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_classes = T_classes(
         name=data['name'],
@@ -86,6 +87,7 @@ def classes_add():
 @home.route("/classes/del/", methods=["POST"])
 def classes_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_classes = T_classes.query.filter_by(id=i['id']).first()
@@ -97,6 +99,7 @@ def classes_del():
 @home.route("/student/add/", methods=["POST"])
 def student_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_students = T_students(
         sno=data['sno'],
@@ -114,6 +117,7 @@ def student_add():
 @home.route("/student/del/", methods=["POST"])
 def student_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_students = T_students.query.filter_by(sno=i['sno']).first()
@@ -126,6 +130,7 @@ def student_del():
 @home.route("/innovation/add/", methods=["POST"])
 def innovation_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_innovation = T_innovation(
         sno=data['sno'],
@@ -143,6 +148,7 @@ def innovation_add():
 @home.route("/innovation/del/", methods=["POST"])
 def innovation_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_innovation = T_innovation.query.filter_by(sno=i['sno']).first()
@@ -175,6 +181,7 @@ def teachers_list():
 @home.route("/teachers/add/", methods=["POST"])
 def teachers_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_teachers = T_teachers(
         name=data['name'],
@@ -192,6 +199,7 @@ def teachers_add():
 @home.route("/teachers/del/", methods=["POST"])
 def teachers_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_teachers = T_teachers.query.filter_by(name=i['name']).first()
@@ -224,6 +232,7 @@ def scientific():
 @home.route("/scientific/add/", methods=["POST"])
 def scientific_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_scientific = T_scientific(
         name=data['name'],
@@ -242,6 +251,7 @@ def scientific_add():
 @home.route("/scientific/del/", methods=["POST"])
 def scientific_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_scientific = T_scientific.query.filter_by(id=i['id']).first()
@@ -274,6 +284,7 @@ def teachingr():
 @home.route("/teachingr/add/", methods=["POST"])
 def teachingr_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_teachingr = T_teachingr(
         name=data['name'],
@@ -291,6 +302,7 @@ def teachingr_add():
 @home.route("/teachingr/del/", methods=["POST"])
 def teachingr_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_teachingr = T_teachingr.query.filter_by(id=i['id']).first()
@@ -319,6 +331,7 @@ def coursetype():
 @home.route("/coursetype/add/", methods=["POST"])
 def coursetype_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_coursetype = T_coursetype(
         name=data['name'],
@@ -331,6 +344,7 @@ def coursetype_add():
 @home.route("/coursetype/del/", methods=["POST"])
 def coursetype_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_coursetype = T_coursetype.query.filter_by(id=i['id']).first()
@@ -359,6 +373,7 @@ def cmodules():
 @home.route("/cmodules/add/", methods=["POST"])
 def cmodules_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_cmodules = T_cmodules(
         name=data['name'],
@@ -373,6 +388,7 @@ def cmodules_add():
 @home.route("/cmodules/del/", methods=["POST"])
 def cmodules_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_cmodules = T_cmodules.query.filter_by(id=i['id']).first()
@@ -401,6 +417,7 @@ def competition():
 @home.route("/competition/add/", methods=["POST"])
 def competition_add():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_competition = T_competition(
         name=data['name'],
@@ -418,6 +435,7 @@ def competition_add():
 @home.route("/competition/del/", methods=["POST"])
 def competition_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_competition = T_competition.query.filter_by(id=i['id']).first()
@@ -467,6 +485,7 @@ def prize_add():
 @home.route("/prize/del/", methods=["POST"])
 def prize_del():
     data = request.get_data()
+    data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
         t_prize = T_prize.query.filter_by(sno=i['sno']).first()
