@@ -184,27 +184,27 @@
 					"child": [
 						{
 							"title": "班级管理",
-							"href": "page/error.html",
+							"href": "page/class.html",
 							"icon": "fa fa-meetup",
 							"target": ""
 						}, {
 							"title": "教室管理",
-							"href": "page/error.html",
+							"href": "page/classroom.html",
 							"icon": "fa fa-superpowers",
 							"target": "_self"
 						}, {
 							"title": "课程类型",
-							"href": "page/error.html",
+							"href": "page/coursetype.html",
 							"icon": "fa fa-superpowers",
 							"target": "_self"
 						}, {
 							"title": "课程模块",
-							"href": "page/error.html",
+							"href": "page/cmodules.html",
 							"icon": "fa fa-superpowers",
 							"target": "_self"
 						}, {
 							"title": "竞赛管理",
-							"href": "page/error.html",
+							"href": "page/competition.html",
 							"icon": "fa fa-superpowers",
 							"target": "_self"
 						}

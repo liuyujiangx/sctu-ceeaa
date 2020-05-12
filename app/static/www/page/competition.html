@@ -7,7 +7,7 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">姓名</label>
+                            <label class="layui-form-label">学生姓名</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="username" autocomplete="off" class="layui-input">
                             </div>
@@ -46,7 +46,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://api.yujl.top/teachers/',
+            url: 'http://api.yujl.top/competition/',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -55,18 +55,24 @@
             }],
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'name', width: 80, title: '姓名'},
-                {field: 'age', width: 80, title: '年龄'},
-                {field: 'title', width: 150, title: '专业技术职称'},
-                {field: 'education', width: 100, title: '学历'},
-                {field: 'degree', width: 100, title: '最高学位'},
-                {field: 'year', width: 200, title: '从事专业教学时间'},
+                {field: 'id', width: 80, title: '编号', sort: true},
+                {field: 'name', width: 200, title: '竞赛全称'},
+                {field: 'af_name', width: 200, title: '竞赛简称'},
+                {field: 'organizer', width: 200, title: '主办单位'},
+                {field: 'undertaker', width: 200, title: '承办单位'},
+                {field: 'co_organizer', width: 200, title: '协办单位'},
+                {field: 'url', width: 80, title: '链接',templet: proofurl},
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
             page: true,
             skin: 'line'
         });
+        function proofurl(d){
+        	var proofurl = d.url;
+        	console.log(proofurl)
+        	return "<a target='_Blank' class='layui-blue' href='"+proofurl+"'>链接</a>"
+        }
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
@@ -93,7 +99,7 @@
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {   // 监听添加操作
-                var content = miniPage.getHrefContent('page/teacher/add.html');
+                var content = miniPage.getHrefContent('page/competition/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -113,10 +119,10 @@
                 var checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;
                 //layer.alert(JSON.stringify(data));
-                $.post("http://api.yujl.top/teachers/del/",JSON.stringify(data),function(res){
+                $.post("http://api.yujl.top/competition/del/",JSON.stringify(data),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://api.yujl.top/teachers/del/"; //
+				var url = "http://api.yujl.top/competition/del/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});
@@ -145,7 +151,7 @@
             var data = obj.data;
             if (obj.event === 'edit') {
 
-                var content = miniPage.getHrefContent('page/teacher/add.html');
+                var content = miniPage.getHrefContent('page/competition/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
