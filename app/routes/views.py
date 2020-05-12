@@ -448,6 +448,7 @@ def prize():
 @home.route("/prize/add/", methods=["POST"])
 def prize_add():
     data = request.get_data()
+    data = str(data,'utf-8')
     data = json.loads(data)
     t_prize = T_prize(
         sno=data['sno'],
