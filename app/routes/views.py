@@ -539,7 +539,7 @@ def thesis_del():
     data = str(data, 'utf-8')
     data = json.loads(data)
     for i in data:
-        t_thesis = T_thesis.query.filter_by(sno=i['sno']).first()
+        t_thesis = T_thesis.query.filter_by(id=i['id']).first()
         db.session.delete(t_thesis)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
