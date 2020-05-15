@@ -4,7 +4,7 @@ from flask import request, jsonify
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
-    T_cmodules, T_competition, T_prize
+    T_cmodules, T_competition, T_prize, T_thesis
 from . import home
 
 
@@ -490,5 +490,56 @@ def prize_del():
     for i in data:
         t_prize = T_prize.query.filter_by(sno=i['sno']).first()
         db.session.delete(t_prize)
+        db.session.commit()
+    return jsonify({"code": 0, "info": "删除成功"})
+
+
+# 大学生发表论文情况
+@home.route('/thesis/')
+def thesis():
+    thesis_count = T_thesis.query.count()
+    data = request.args.to_dict()
+    thesis_list = T_thesis.query.order_by(
+        T_thesis.id.asc()
+    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+    return jsonify(
+        {"code": 0,
+         "msg": '',
+         "count": thesis_count,
+         "data": [
+             {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "periodical": user.periodical,
+              "time": user.time,"inclusion": user.inclusion}
+             for user in thesis_list.items]
+         }
+    )
+
+#  增加论文
+@home.route("/thesis/add/", methods=["POST"])
+def thesis_add():
+    data = request.get_data()
+    data = str(data,'utf-8')
+    data = json.loads(data)
+    t_thesis = T_thesis(
+        sno=data['sno'],
+        sname=data['sname'],
+        grade=data['grade'],
+        name=data['name'],
+        p_time=data['p_time'],
+        level=data['level'],
+        award=data['award'],
+    )
+    db.session.add(t_thesis)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "添加成功"})
+
+
+@home.route("/thesis/del/", methods=["POST"])
+def thesis_del():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    for i in data:
+        t_thesis = T_thesis.query.filter_by(sno=i['sno']).first()
+        db.session.delete(t_thesis)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})

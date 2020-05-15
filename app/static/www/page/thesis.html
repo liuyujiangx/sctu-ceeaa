@@ -46,7 +46,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://api.yujl.top/innovation/',
+            url: 'http://api.yujl.top/thesis/',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -59,8 +59,9 @@
                 {field: 'sname', width: 80, title: '姓名'},
                 {field: 'grade', width: 80, title: '年级'},
                 {field: 'name', width: 500, title: '项目名称'},
-                {field: 'level', width: 100, title: '项目级别'},
-                {field: 'category', width: 100, title: '项目类别'},
+                {field: 'periodical', width: 100, title: '发表期刊'},
+                {field: 'time', width: 100, title: '发表时间'},
+                {field: 'inclusion', width: 100, title: '收录情况'},
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
@@ -93,7 +94,7 @@
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {   // 监听添加操作
-                var content = miniPage.getHrefContent('page/innovation/add.html');
+                var content = miniPage.getHrefContent('page/thesis/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -113,10 +114,10 @@
                 var checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;
                 //layer.alert(JSON.stringify(data));
-                $.post("http://api.yujl.top/innovation/del/",JSON.stringify(data),function(res){
+                $.post("http://api.yujl.top/thesis/del/",JSON.stringify(data),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://api.yujl.top/innovation/del/"; //
+				var url = "http://api.yujl.top/thesis/del/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});
@@ -145,7 +146,7 @@
             var data = obj.data;
             if (obj.event === 'edit') {
 
-                var content = miniPage.getHrefContent('page/innovation/add.html');
+                var content = miniPage.getHrefContent('page/thesis/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({

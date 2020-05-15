@@ -163,7 +163,7 @@ class T_innovation(db.Model):
     category = db.Column(db.String(100))  # 项目类别
 
     def __repr__(self):
-        return "<T_teachers %r>" % self.name
+        return "<T_innovation %r>" % self.name
 
 class T_prize(db.Model):
     __tablename__ = 't_prize'
@@ -177,6 +177,22 @@ class T_prize(db.Model):
     p_time = db.Column(db.String(100))  # 获奖时间
 
     def __repr__(self):
-        return "<T_teachers %r>" % self.name
+        return "<T_prize %r>" % self.name
+
+
+
+class T_thesis(db.Model):
+    __tablename__ = 't_thesis'
+    id = db.Column(db.Integer, primary_key=True)
+    sno = db.Column(db.String(100))  # 学号
+    sname = db.Column(db.String(100))  # 学生姓名
+    grade = db.Column(db.String(100))  # 年级
+    name = db.Column(db.String(100))  # 竞赛名称
+    periodical = db.Column(db.String(100))  # 发表期刊
+    time = db.Column(db.String(100))  # 发表时间
+    inclusion = db.Column(db.String(100))  # 收录情况
+
+    def __repr__(self):
+        return "<T_thesis %r>" % self.name
 # if __name__ == "__main__":
 #      db.create_all()
