@@ -4,7 +4,7 @@ from flask import request, jsonify
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
-    T_cmodules, T_competition, T_prize, T_thesis, T_patent
+    T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research
 from . import home
 
 
@@ -33,7 +33,7 @@ def student():
     )
 
 
-# 大学生科研项目
+# 大学生创新创业
 @home.route('/innovation/')
 def innovation():
     innovation_count = T_innovation.query.count()
@@ -593,5 +593,55 @@ def patent_del():
     for i in data:
         t_patent = T_patent.query.filter_by(id=i['id']).first()
         db.session.delete(t_patent)
+        db.session.commit()
+    return jsonify({"code": 0, "info": "删除成功"})
+
+
+
+# 大学生科研项目
+@home.route('/research/')
+def research():
+    research_count = T_research.query.count()
+    data = request.args.to_dict()
+    research_list = T_research.query.order_by(
+        T_research.id.asc()
+    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+    return jsonify(
+        {"code": 0,
+         "msg": '',
+         "count": research_count,
+         "data": [
+             {"id": user.id,"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "head": user.head,
+              "company": user.company}
+             for user in research_list.items]
+         }
+    )
+#  增加大学生创新创业
+@home.route("/research/add/", methods=["POST"])
+def research_add():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    t_research = T_research(
+        sno=data['sno'],
+        sname=data['sname'],
+        grade=data['grade'],
+        name=data['name'],
+        head=data['head'],
+        company=data['company']
+    )
+    db.session.add(t_research)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "添加成功"})
+
+
+@home.route("/research/del/", methods=["POST"])
+def research_del():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    for i in data:
+        t_research = T_research.query.filter_by(id=i['id']).first()
+        db.session.delete(t_research)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})

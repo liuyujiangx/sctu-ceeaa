@@ -210,5 +210,19 @@ class T_patent(db.Model):
 
     def __repr__(self):
         return "<T_patent %r>" % self.name
+
+
+class T_research(db.Model):
+    __tablename__ = 't_innovation'
+    id = db.Column(db.Integer, primary_key=True)
+    sno = db.Column(db.String(100))  # 学号
+    sname = db.Column(db.String(100))  # 学生姓名
+    grade = db.Column(db.String(100))  # 年级
+    name = db.Column(db.String(100))  # 项目名称
+    head = db.Column(db.String(100))  # 项目负责人
+    company = db.Column(db.String(100))  # 项目负责人单位
+
+    def __repr__(self):
+        return "<T_research %r>" % self.name
 # if __name__ == "__main__":
 #      db.create_all()
