@@ -507,7 +507,7 @@ def thesis():
          "msg": '',
          "count": thesis_count,
          "data": [
-             {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "periodical": user.periodical,
+             {"id": user.id, "sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "periodical": user.periodical,
               "time": user.time,"inclusion": user.inclusion}
              for user in thesis_list.items]
          }
