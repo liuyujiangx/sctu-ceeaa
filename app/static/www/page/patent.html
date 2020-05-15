@@ -46,7 +46,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'http://api.yujl.top/innovation/',
+            url: 'http://api.yujl.top/patent/',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -96,7 +96,7 @@
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {   // 监听添加操作
-                var content = miniPage.getHrefContent('page/innovation/add.html');
+                var content = miniPage.getHrefContent('page/patent/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -116,10 +116,10 @@
                 var checkStatus = table.checkStatus('currentTableId')
                     , data = checkStatus.data;
                 //layer.alert(JSON.stringify(data));
-                $.post("http://api.yujl.top/innovation/del/",JSON.stringify(data),function(res){
+                $.post("http://api.yujl.top/patent/del/",JSON.stringify(data),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://api.yujl.top/innovation/del/"; //
+				var url = "http://api.yujl.top/patent/del/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});
@@ -148,7 +148,7 @@
             var data = obj.data;
             if (obj.event === 'edit') {
 
-                var content = miniPage.getHrefContent('page/innovation/add.html');
+                var content = miniPage.getHrefContent('page/patent/add.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
