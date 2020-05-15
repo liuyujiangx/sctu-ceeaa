@@ -213,7 +213,7 @@ class T_patent(db.Model):
 
 
 class T_research(db.Model):
-    __tablename__ = 't_innovation'
+    __tablename__ = 't_research'
     id = db.Column(db.Integer, primary_key=True)
     sno = db.Column(db.String(100))  # 学号
     sname = db.Column(db.String(100))  # 学生姓名
