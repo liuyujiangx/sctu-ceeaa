@@ -4,7 +4,7 @@ from flask import request, jsonify
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
-    T_cmodules, T_competition, T_prize, T_thesis
+    T_cmodules, T_competition, T_prize, T_thesis, T_patent
 from . import home
 
 
@@ -541,5 +541,57 @@ def thesis_del():
     for i in data:
         t_thesis = T_thesis.query.filter_by(id=i['id']).first()
         db.session.delete(t_thesis)
+        db.session.commit()
+    return jsonify({"code": 0, "info": "删除成功"})
+
+
+# 大学生专利情况
+@home.route('/patent/')
+def patent():
+    patent_count = T_patent.query.count()
+    data = request.args.to_dict()
+    patent_list = T_patent.query.order_by(
+        T_patent.id.asc()
+    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+    return jsonify(
+        {"code": 0,
+         "msg": '',
+         "count": patent_count,
+         "data": [
+             {"id": user.id, "sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name,
+              "category": user.category,"time": user.time,"f_inventor": user.f_inventor,"num": user.num}
+             for user in patent_list.items]
+         }
+    )
+
+#  增加论文
+@home.route("/patent/add/", methods=["POST"])
+def patent_add():
+    data = request.get_data()
+    data = str(data,'utf-8')
+    data = json.loads(data)
+    t_patent = T_patent(
+        sno=data['sno'],
+        sname=data['sname'],
+        grade=data['grade'],
+        name=data['name'],
+        time=data['time'],
+        f_inventor=data['f_inventor'],
+        num=data['num'],
+        category=data['category'],
+    )
+    db.session.add(t_patent)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "添加成功"})
+
+
+@home.route("/patent/del/", methods=["POST"])
+def patent_del():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    for i in data:
+        t_patent = T_patent.query.filter_by(id=i['id']).first()
+        db.session.delete(t_patent)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})

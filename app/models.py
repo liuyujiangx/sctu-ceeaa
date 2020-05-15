@@ -194,5 +194,21 @@ class T_thesis(db.Model):
 
     def __repr__(self):
         return "<T_thesis %r>" % self.name
+
+
+class T_patent(db.Model):
+    __tablename__ = 't_patent'
+    id = db.Column(db.Integer, primary_key=True)
+    sno = db.Column(db.String(100))  # 学号
+    sname = db.Column(db.String(100))  # 学生姓名
+    grade = db.Column(db.String(100))  # 年级
+    name = db.Column(db.String(100))  # 竞赛名称
+    category = db.Column(db.String(100))  # 类别
+    num = db.Column(db.String(100))  # 授权号
+    time = db.Column(db.String(100))  # 发表时间
+    f_inventor = db.Column(db.String(100))  # 是否第一发明人
+
+    def __repr__(self):
+        return "<T_patent %r>" % self.name
 # if __name__ == "__main__":
 #      db.create_all()
