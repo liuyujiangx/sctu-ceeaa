@@ -524,9 +524,9 @@ def thesis_add():
         sname=data['sname'],
         grade=data['grade'],
         name=data['name'],
-        p_time=data['p_time'],
-        level=data['level'],
-        award=data['award'],
+        time=data['time'],
+        periodical=data['periodical'],
+        inclusion=data['inclusion'],
     )
     db.session.add(t_thesis)
     db.session.commit()
