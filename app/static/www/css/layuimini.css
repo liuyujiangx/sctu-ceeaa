@@ -713,7 +713,7 @@
     }
 
     .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting) {
-        width: 40px !important;
+        width: 40px ;
     }
 
     .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting) a {
