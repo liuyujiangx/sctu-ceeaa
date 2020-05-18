@@ -4,7 +4,7 @@ from flask import request, jsonify
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
-    T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research
+    T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses
 from . import home
 
 
@@ -645,3 +645,56 @@ def research_del():
         db.session.delete(t_research)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
+
+# 课程
+@home.route('/courses/')
+def courses():
+    courses_count = T_courses.query.count()
+    data = request.args.to_dict()
+    courses_list = T_courses.query.order_by(
+        T_courses.cno.asc()
+    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+    return jsonify(
+        {"code": 0,
+         "msg": '',
+         "count": courses_count,
+         "data": [
+             {"cno": user.cno,"cname": user.cname, "credit": user.credit, "theory_hour": user.theory_hour,
+              "practice_hour": user.practice_hour, "hour": user.hour, "term": user.term, "methods": user.methods,
+              "year": user.year}
+             for user in courses_list.items]
+         }
+    )
+#  增加课程
+@home.route("/courses/add/", methods=["POST"])
+def courses_add():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    t_courses = T_courses(
+        cno=data['cno'],
+        cname=data['cname'],
+        credit=data['credit'],
+        theory_hour=data['theory_hour'],
+        practice_hour=data['practice_hour'],
+        hour=data['hour'],
+        term=data['term'],
+        methods=data['methods'],
+        year=data['year'],
+    )
+    db.session.add(t_courses)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "添加成功"})
+
+
+@home.route("/courses/del/", methods=["POST"])
+def courses_del():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    for i in data:
+        t_courses = T_courses.query.filter_by(cno=i['cno']).first()
+        db.session.delete(t_courses)
+        db.session.commit()
+    return jsonify({"code": 0, "info": "删除成功"})
+
