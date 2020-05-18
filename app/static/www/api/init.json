@@ -64,7 +64,7 @@
 									"target": "_self"
 								}, {
 									"title": "职业证书",
-									"href": "page/certificate.html",
+									"href": "page/kfing.html",
 									"icon": "fa fa-navicon",
 									"target": "_self"
 								}
@@ -84,12 +84,12 @@
 					"child": [
 						{
 							"title": "内容",
-							"href": "page/form.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-list-alt",
 							"target": "_self"
 						}, {
 							"title": "培养目标达成度分析",
-							"href": "page/form-step.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-navicon",
 							"target": "_self"
 						}
@@ -102,12 +102,12 @@
 					"child": [
 						{
 							"title": "内容",
-							"href": "page/login-1.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-stumbleupon-circle",
 							"target": "_blank"
 						}, {
 							"title": "毕业要求达成度分析",
-							"href": "page/login-2.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-viacoin",
 							"target": "_blank"
 						}
@@ -125,7 +125,7 @@
 							"target": "_self"
 						}, {
 							"title": "课程达成度分析",
-							"href": "page/courses.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-hourglass-end",
 							"target": "_self"
 						}
@@ -161,17 +161,17 @@
 					"child": [
 						{
 							"title": "实验室管理",
-							"href": "page/icon.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-dot-circle-o",
 							"target": "_self"
 						}, {
 							"title": "图书管理",
-							"href": "page/icon-picker.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-adn",
 							"target": "_self"
 						}, {
 							"title": "文献管理",
-							"href": "page/color-select.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-dashboard",
 							"target": "_self"
 						}
@@ -189,7 +189,7 @@
 							"target": ""
 						}, {
 							"title": "教室管理",
-							"href": "page/classroom.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-bank",
 							"target": "_self"
 						}, {
@@ -217,12 +217,12 @@
 					"child": [
 						{
 							"title": "添加管理员",
-							"href": "page/404.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-hourglass-end",
 							"target": "_self"
 						}, {
 							"title": "管理员列表",
-							"href": "page/404.html",
+							"href": "page/kfing.html",
 							"icon": "fa fa-hourglass-end",
 							"target": "_self"
 						}
