@@ -1,6 +1,7 @@
 import json
 
 from flask import request, jsonify
+from sqlalchemy import text
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
@@ -697,4 +698,32 @@ def courses_del():
         db.session.delete(t_courses)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
+
+@home.route('/data/')
+def data():
+    school_student_count = T_students.query.filter(text("SUBSTR(sno,1,2) != 14 and SUBSTR(sno,1,2) != 15")).count()
+    graduate_count = T_students.query.filter(text("SUBSTR(sno,1,2) = 14 or SUBSTR(sno,1,2) = 15")).count()
+    teaching_count = T_teachers.query.count()
+    teachingr_count = T_teachingr.query.count()
+    scientific_count = T_scientific.query.count()
+    courses_count = T_courses.query.count()
+    innovation_count = T_innovation.query.count()
+    research_count = T_research.query.count()
+    prize_count = T_prize.query.count()
+    thesis_count = T_thesis.query.count()
+    patent_count = T_patent.query.count()
+    Student_outcomes = innovation_count+research_count+prize_count+thesis_count+patent_count
+    return jsonify({"code":0,
+                    "data":[{
+                        "school_student_count":school_student_count,
+                        "graduate_count":graduate_count,
+                        "teaching_count":teaching_count,
+                        "teachingr_count":teachingr_count,
+                        "scientific_count":scientific_count,
+                        "courses_count":courses_count,
+                        "Student_outcomes":Student_outcomes
+
+                        }
+                    ]
+                    })
 
