@@ -120,12 +120,12 @@
 					"child": [
 						{
 							"title": "课程管理",
-							"href": "page/404.html",
+							"href": "page/courses.html",
 							"icon": "fa fa-hourglass-end",
 							"target": "_self"
 						}, {
 							"title": "课程达成度分析",
-							"href": "page/404.html",
+							"href": "page/courses.html",
 							"icon": "fa fa-hourglass-end",
 							"target": "_self"
 						}
