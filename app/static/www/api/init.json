@@ -104,12 +104,12 @@
 							"title": "内容",
 							"href": "page/kfing.html",
 							"icon": "fa fa-stumbleupon-circle",
-							"target": "_blank"
+							"target": "_self"
 						}, {
 							"title": "毕业要求达成度分析",
 							"href": "page/kfing.html",
 							"icon": "fa fa-viacoin",
-							"target": "_blank"
+							"target": "_self"
 						}
 					]
 				}, {
