@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pymysql
 from flask_cors import *
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True,resources=r'/*')
 import os
 
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:1914571065lyj@localhost:3306/sctu-ceeaa'
