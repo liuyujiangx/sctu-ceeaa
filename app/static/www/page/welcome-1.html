@@ -274,9 +274,7 @@
 								url: "http://api.yujl.top/data/",
 								async: true,
 								success: function(data) {
-									console.log(data.data[0])
 									data = data.data[0]
-									console.log(data.school_student_count)
 									$('#school_student_count').html(data.school_student_count)
 									$('#graduate_count').html(data.graduate_count)
 									$('#teaching_count').html(data.teaching_count)

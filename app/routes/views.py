@@ -1,21 +1,84 @@
 import json
+from functools import wraps
 
-from flask import request, jsonify
+from flask import request, jsonify, session, Response, make_response
 from sqlalchemy import text
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
-    T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses
+    T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses, Admin
 from . import home
 
 
-@home.route('/')
-def index():
-    return 'helloword'
+def admin_login_req(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "home" not in session:
+            return jsonify(
+                {"code": 44,
+                 "msg": '请登录'
+                 }
+
+            )
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+
+
+
+@home.route('/login/', methods=['POST'])
+def login():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    admin = Admin.query.filter_by(name=data['username']).first()
+    if not admin.check_pwd(data['password']):
+        content = "账号或密码错误"
+        return jsonify({
+            'code': -1,
+            'msg': content,
+        })
+    else:
+        print('成功')
+        session['home'] = data['username']
+        return jsonify({
+            'code': 0,
+            'msg': session['home'],
+        })
+
+@home.route('/check_login/', methods=['GET'])
+def check_login():
+    if session.get('home'):
+        return jsonify(
+            {"code": 0,
+             "msg": session.get('home')
+             }
+
+        )
+    else:
+        return jsonify(
+            {"code": -1,
+             "msg": '请登录'
+             }
+
+        )
+# @home.route('/')
+# def index():
+#     session['home'] = 'res'
+#     return session['home']
+#
+#
+# @home.route('/get/')
+# def get():
+#     return session['home']
 
 
 # 学生列表
+
 @home.route('/student/')
+@admin_login_req
 def student():
     student_count = T_students.query.count()
     data = request.args.to_dict()
@@ -70,6 +133,8 @@ def classes():
              for user in classes_list.items]
          }
     )
+
+
 #  增加班级
 @home.route("/classes/add/", methods=["POST"])
 def classes_add():
@@ -95,6 +160,7 @@ def classes_del():
         db.session.delete(t_classes)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
+
 
 #  增加学生
 @home.route("/student/add/", methods=["POST"])
@@ -311,6 +377,7 @@ def teachingr_del():
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
 
+
 # 课程类型
 @home.route('/coursetype/')
 def coursetype():
@@ -328,6 +395,8 @@ def coursetype():
              for user in coursetype_list.items]
          }
     )
+
+
 #  增加课程类型
 @home.route("/coursetype/add/", methods=["POST"])
 def coursetype_add():
@@ -353,6 +422,7 @@ def coursetype_del():
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
 
+
 # 课程模块
 @home.route('/cmodules/')
 def cmodules():
@@ -370,6 +440,8 @@ def cmodules():
              for user in cmodules_list.items]
          }
     )
+
+
 #  增加课程模块
 @home.route("/cmodules/add/", methods=["POST"])
 def cmodules_add():
@@ -396,6 +468,8 @@ def cmodules_del():
         db.session.delete(t_cmodules)
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
+
+
 # 竞赛管理
 @home.route('/competition/')
 def competition():
@@ -409,11 +483,14 @@ def competition():
          "msg": '',
          "count": competition_count,
          "data": [
-             {"id": user.id, "name": user.name, "af_name": user.af_name, "organizer": user.organizer, "undertaker": user.undertaker
+             {"id": user.id, "name": user.name, "af_name": user.af_name, "organizer": user.organizer,
+              "undertaker": user.undertaker
                  , "co_organizer": user.co_organizer, "url": user.url}
              for user in competition_list.items]
          }
     )
+
+
 #  增加竞赛
 @home.route("/competition/add/", methods=["POST"])
 def competition_add():
@@ -444,6 +521,7 @@ def competition_del():
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
 
+
 # 大学生获奖
 @home.route('/prize/')
 def prize():
@@ -458,16 +536,17 @@ def prize():
          "count": prize_count,
          "data": [
              {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "level": user.level,
-              "p_time": user.p_time,"award": user.award}
+              "p_time": user.p_time, "award": user.award}
              for user in prize_list.items]
          }
     )
+
 
 #  增加获奖
 @home.route("/prize/add/", methods=["POST"])
 def prize_add():
     data = request.get_data()
-    data = str(data,'utf-8')
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_prize = T_prize(
         sno=data['sno'],
@@ -508,17 +587,19 @@ def thesis():
          "msg": '',
          "count": thesis_count,
          "data": [
-             {"id": user.id, "sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "periodical": user.periodical,
-              "time": user.time,"inclusion": user.inclusion}
+             {"id": user.id, "sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name,
+              "periodical": user.periodical,
+              "time": user.time, "inclusion": user.inclusion}
              for user in thesis_list.items]
          }
     )
+
 
 #  增加论文
 @home.route("/thesis/add/", methods=["POST"])
 def thesis_add():
     data = request.get_data()
-    data = str(data,'utf-8')
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_thesis = T_thesis(
         sno=data['sno'],
@@ -560,16 +641,17 @@ def patent():
          "count": patent_count,
          "data": [
              {"id": user.id, "sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name,
-              "category": user.category,"time": user.time,"f_inventor": user.f_inventor,"num": user.num}
+              "category": user.category, "time": user.time, "f_inventor": user.f_inventor, "num": user.num}
              for user in patent_list.items]
          }
     )
+
 
 #  增加论文
 @home.route("/patent/add/", methods=["POST"])
 def patent_add():
     data = request.get_data()
-    data = str(data,'utf-8')
+    data = str(data, 'utf-8')
     data = json.loads(data)
     t_patent = T_patent(
         sno=data['sno'],
@@ -598,7 +680,6 @@ def patent_del():
     return jsonify({"code": 0, "info": "删除成功"})
 
 
-
 # 大学生科研项目
 @home.route('/research/')
 def research():
@@ -612,11 +693,14 @@ def research():
          "msg": '',
          "count": research_count,
          "data": [
-             {"id": user.id,"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "head": user.head,
+             {"id": user.id, "sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name,
+              "head": user.head,
               "company": user.company}
              for user in research_list.items]
          }
     )
+
+
 #  增加大学生创新创业
 @home.route("/research/add/", methods=["POST"])
 def research_add():
@@ -647,6 +731,7 @@ def research_del():
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
 
+
 # 课程
 @home.route('/courses/')
 def courses():
@@ -660,12 +745,14 @@ def courses():
          "msg": '',
          "count": courses_count,
          "data": [
-             {"cno": user.cno,"cname": user.cname, "credit": user.credit, "theory_hour": user.theory_hour,
+             {"cno": user.cno, "cname": user.cname, "credit": user.credit, "theory_hour": user.theory_hour,
               "practice_hour": user.practice_hour, "hour": user.hour, "term": user.term, "methods": user.methods,
               "year": user.year}
              for user in courses_list.items]
          }
     )
+
+
 #  增加课程
 @home.route("/courses/add/", methods=["POST"])
 def courses_add():
@@ -699,6 +786,7 @@ def courses_del():
         db.session.commit()
     return jsonify({"code": 0, "info": "删除成功"})
 
+
 @home.route('/data/')
 def data():
     school_student_count = T_students.query.filter(text("SUBSTR(sno,1,2) != 14 and SUBSTR(sno,1,2) != 15")).count()
@@ -712,18 +800,17 @@ def data():
     prize_count = T_prize.query.count()
     thesis_count = T_thesis.query.count()
     patent_count = T_patent.query.count()
-    Student_outcomes = innovation_count+research_count+prize_count+thesis_count+patent_count
-    return jsonify({"code":0,
-                    "data":[{
-                        "school_student_count":school_student_count,
-                        "graduate_count":graduate_count,
-                        "teaching_count":teaching_count,
-                        "teachingr_count":teachingr_count,
-                        "scientific_count":scientific_count,
-                        "courses_count":courses_count,
-                        "Student_outcomes":Student_outcomes
+    Student_outcomes = innovation_count + research_count + prize_count + thesis_count + patent_count
+    return jsonify({"code": 0,
+                    "data": [{
+                        "school_student_count": school_student_count,
+                        "graduate_count": graduate_count,
+                        "teaching_count": teaching_count,
+                        "teachingr_count": teachingr_count,
+                        "scientific_count": scientific_count,
+                        "courses_count": courses_count,
+                        "Student_outcomes": Student_outcomes
 
-                        }
+                    }
                     ]
                     })
-
