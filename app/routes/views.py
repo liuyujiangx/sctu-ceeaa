@@ -1,6 +1,8 @@
 import json
 from functools import wraps
-
+import time
+import base64
+import hmac
 from flask import request, jsonify, session, Response, make_response
 from sqlalchemy import text
 
@@ -24,6 +26,34 @@ def admin_login_req(f):
 
     return decorated_function
 
+#生成token 入参：用户id
+def generate_token(key, expire=3600):
+    ts_str = str(time.time() + expire)
+    ts_byte = ts_str.encode("utf-8")
+    sha1_tshexstr  = hmac.new(key.encode("utf-8"),ts_byte,'sha1').hexdigest()
+    token = ts_str+':'+sha1_tshexstr
+    b64_token = base64.urlsafe_b64encode(token.encode("utf-8"))
+    return b64_token.decode("utf-8")
+#验证token 入参：用户id 和 token
+def certify_token(key, token):
+    if key is None or token is None:
+        return False
+    token_str = base64.urlsafe_b64decode(token).decode('utf-8')
+    token_list = token_str.split(':')
+    if len(token_list) != 2:
+        return False
+    ts_str = token_list[0]
+    if float(ts_str) < time.time():
+        # token expired
+        return False
+    known_sha1_tsstr = token_list[1]
+    sha1 = hmac.new(key.encode("utf-8"),ts_str.encode('utf-8'),'sha1')
+    calc_sha1_tsstr = sha1.hexdigest()
+    if calc_sha1_tsstr != known_sha1_tsstr:
+        # token certification failed
+        return False
+    # token certification success
+    return True
 
 
 
@@ -34,6 +64,11 @@ def login():
     data = str(data, 'utf-8')
     data = json.loads(data)
     admin = Admin.query.filter_by(name=data['username']).first()
+    if not admin:
+        return jsonify({
+            'code':-1,
+            'msg':'账号或密码错误',
+        })
     if not admin.check_pwd(data['password']):
         content = "账号或密码错误"
         return jsonify({
@@ -41,19 +76,24 @@ def login():
             'msg': content,
         })
     else:
-        print('成功')
-        session['home'] = data['username']
+        token = generate_token(data['username'])
         return jsonify({
             'code': 0,
-            'msg': session['home'],
+            'token': token,
+            'user': data['username'],
+            'msg':'登录成功'
         })
 
-@home.route('/check_login/', methods=['GET'])
+@home.route('/check_login/', methods=['POST'])
 def check_login():
-    if session.get('home'):
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    print(data)
+    if certify_token(data['user'],data['token']):
         return jsonify(
             {"code": 0,
-             "msg": session.get('home')
+             "msg": '已登录'
              }
 
         )
@@ -64,37 +104,35 @@ def check_login():
              }
 
         )
-# @home.route('/')
-# def index():
-#     session['home'] = 'res'
-#     return session['home']
-#
-#
-# @home.route('/get/')
-# def get():
-#     return session['home']
+
 
 
 # 学生列表
-
 @home.route('/student/')
-@admin_login_req
 def student():
     student_count = T_students.query.count()
     data = request.args.to_dict()
-    student_list = T_students.query.order_by(
-        T_students.sno.asc()
-    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
-    return jsonify(
-        {"code": 0,
-         "msg": '',
-         "count": student_count,
-         "data": [
-             {"sno": user.sno, "sname": user.sname, "ssex": user.ssex, "sclass": user.sclass, "scollege": user.scollege,
-              "smajor": user.smajor}
-             for user in student_list.items]
-         }
-    )
+    if data is not None:
+        student_list = T_students.query.order_by(
+            T_students.sno.asc()
+        ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+        return jsonify(
+            {"code": 0,
+             "msg": '',
+             "count": student_count,
+             "data": [
+                 {"sno": user.sno, "sname": user.sname, "ssex": user.ssex, "sclass": user.sclass, "scollege": user.scollege,
+                  "smajor": user.smajor}
+                 for user in student_list.items]
+             }
+        )
+    else:
+        return jsonify(
+            {"code": -1,
+             "msg": '错误',
+             "data": []
+             }
+        )
 
 
 # 大学生创新创业

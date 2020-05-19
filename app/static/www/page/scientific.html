@@ -38,7 +38,17 @@
 </div>
 
 <script>
-    layui.use(['form', 'table','miniPage','element'], function () {
+	layui.use(['jquery', 'miniPage'], function() {
+				var $ = layui.jquery,
+					miniPage = layui.miniPage,
+					check_user = {
+						"user": localStorage.getItem("user"),
+						"token": localStorage.getItem("token")
+					};
+
+				$.post("http://api.yujl.top/check_login/", JSON.stringify(check_user), function(res) {
+					if(res.code == 0) {
+						layui.use(['form', 'table','miniPage','element'], function () {
         var $ = layui.jquery,
             form = layui.form,
             table = layui.table,
@@ -173,4 +183,29 @@
         });
 
     });
-</script>
+
+
+					} else {
+						console.log(res);
+						layer.confirm('是否登录？', {
+							btn: ['登录', '算了'] //按钮
+						}, function() {
+							layer.open({
+								type: 2,
+								title: '登录',
+								shadeClose: true,
+								shade: false,
+								maxmin: true, //开启最大化最小化按钮
+								area: ['893px', '600px'],
+								content: './page/login-1.html'
+							});
+
+						}, function() {
+							layer.msg('取消登录！')
+						});
+
+					};
+				}, 'json')
+			});
+
+    </script>
