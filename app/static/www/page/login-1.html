@@ -174,7 +174,7 @@
 				// 进行登录操作
 				form.on('submit(login)', function(data) {
 					data = data.field;
-					$.post("http://127.0.0.1:5000/login/", JSON.stringify(data), function(res) {
+					$.post("http://api.yujl.top/login/", JSON.stringify(data), function(res) {
 						if(res.code == 0) {
 							console.log(res)
 							window.location.href = "../index.html"
