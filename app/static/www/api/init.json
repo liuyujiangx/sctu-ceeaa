@@ -211,7 +211,7 @@
 					]
 				}, {
 					"title": "管理员管理",
-					"href": "page/kfing.html",
+					"href": "page/admin.html",
 					"icon": "fa fa-home",
 					"target": "_self"
 				}
