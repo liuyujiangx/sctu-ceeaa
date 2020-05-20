@@ -5,6 +5,7 @@ import base64
 import hmac
 from flask import request, jsonify, session, Response, make_response
 from sqlalchemy import text
+from werkzeug.security import generate_password_hash
 
 from app import db
 from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
@@ -852,3 +853,55 @@ def data():
                     }
                     ]
                     })
+
+
+# 管理员管理
+@home.route('/admin/')
+def admin():
+    admin_count = Admin.query.count()
+    data = request.args.to_dict()
+    admin_list = Admin.query.order_by(
+        Admin.id.asc()
+    ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
+    return jsonify(
+        {"code": 0,
+         "msg": '',
+         "count": admin_count,
+         "data": [
+             {"id": user.id, "name": user.name, "is_super": user.is_super, "add_time": user.addtime}
+             for user in admin_list.items]
+         }
+    )
+
+
+#  增加管理员
+@home.route("/admin/add/", methods=["POST"])
+def admin_add():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    check_admin = Admin.query.filter_by(name=data['name']).count()
+    if check_admin == 1:
+        return jsonify({"code": -1, "info": "已存在此管理员"})
+    pwd = generate_password_hash(data['pwd'])
+    admin = Admin(
+        name=data['name'],
+        pwd=pwd,
+        is_super=data['is_super'],
+
+    )
+    db.session.add(admin)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "添加成功"})
+
+
+@home.route("/admin/del/", methods=["POST"])
+def admin_del():
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    data = json.loads(data)
+    for i in data:
+        admin = Admin.query.filter_by(id=i['id']).first()
+        db.session.delete(admin)
+        db.session.commit()
+    return jsonify({"code": 0, "info": "删除成功"})

@@ -41,8 +41,11 @@
 	layui.use(['jquery', 'miniPage'], function() {
 		var $ = layui.jquery,
 			miniPage = layui.miniPage,
-			check_user = {"user": localStorage.getItem("user"), "token":localStorage.getItem("token")};
-		
+			check_user = {
+				"user": localStorage.getItem("user"),
+				"token": localStorage.getItem("token")
+			};
+
 		$.post("http://api.yujl.top/check_login/", JSON.stringify(check_user), function(res) {
 			if(res.code == 0) {
 				layui.use(['form', 'table', 'miniPage', 'element'], function() {
@@ -97,6 +100,12 @@
 									width: 200,
 									title: '专业'
 								},
+								{
+									title: '操作',
+									minWidth: 150,
+									toolbar: '#currentTableBar',
+									align: "center"
+								}
 							]
 						],
 						limits: [10, 15, 20, 25, 50, 100],
@@ -150,8 +159,8 @@
 							var checkStatus = table.checkStatus('currentTableId'),
 								data = checkStatus.data;
 							//layer.alert(JSON.stringify(data));
-							$.post("http://api.yujl.top/del/", JSON.stringify(data), function(res) {
-								if(res.status) {
+							$.post("http://api.yujl.top/student/del/", JSON.stringify(data), function(res) {
+								if(res.code == 1) {
 									layer.msg(res.info, {
 										time: 2000
 									});
@@ -186,7 +195,7 @@
 						var data = obj.data;
 						if(obj.event === 'edit') {
 
-							var content = miniPage.getHrefContent('page/student/add.html');
+							var content = miniPage.getHrefContent('page/student/edit.html');
 							var openWH = miniPage.getOpenWidthHeight();
 
 							var index = layer.open({
@@ -205,7 +214,29 @@
 							return false;
 						} else if(obj.event === 'delete') {
 							layer.confirm('真的删除行么', function(index) {
-								obj.del();
+								//								obj.del();
+								$.post("http://api.yujl.top/student/del/", JSON.stringify([obj.data]), function(res) {
+									if(res.code == 1) {
+										layer.msg(res.info, {
+											time: 2000
+										});
+										table.reload('currentTableId', {
+											page: {
+												curr: 1
+											},
+											where: {
+												key: {
+													page: 1,
+													limit: 10
+												}
+											}
+										}, 'data');
+									} else {
+										layer.msg(res.info, {
+											time: 2000
+										});
+									}
+								}, 'json');
 								layer.close(index);
 							});
 						}

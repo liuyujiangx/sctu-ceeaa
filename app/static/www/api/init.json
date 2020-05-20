@@ -211,22 +211,9 @@
 					]
 				}, {
 					"title": "管理员管理",
-					"href": "",
+					"href": "page/kfing.html",
 					"icon": "fa fa-home",
-					"target": "_self",
-					"child": [
-						{
-							"title": "添加管理员",
-							"href": "page/kfing.html",
-							"icon": "fa fa-hourglass-end",
-							"target": "_self"
-						}, {
-							"title": "管理员列表",
-							"href": "page/kfing.html",
-							"icon": "fa fa-hourglass-end",
-							"target": "_self"
-						}
-					]
+					"target": "_self"
 				}
 			]
 		}
