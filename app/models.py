@@ -175,6 +175,7 @@ class T_prize(db.Model):
     level = db.Column(db.String(100))  # 获奖级别
     award = db.Column(db.String(100))  # 获奖等级
     p_time = db.Column(db.String(100))  # 获奖时间
+    img = db.Column(db.String()) #获奖证书图片
 
     def __repr__(self):
         return "<T_prize %r>" % self.name

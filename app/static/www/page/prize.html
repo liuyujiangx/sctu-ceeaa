@@ -1,7 +1,7 @@
 <div class="layuimini-container layuimini-page-anim">
-	<div class="layuimini-main">
+    <div class="layuimini-main">
 
-		<!--<fieldset class="table-search-fieldset">
+        <!--<fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" action="">
@@ -20,21 +20,21 @@
             </div>
         </fieldset>-->
 
-		<script type="text/html" id="toolbarDemo">
-			<div class="layui-btn-container">
-				<button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-				<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
-			</div>
-		</script>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
+            </div>
+        </script>
 
-		<table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
-		<script type="text/html" id="currentTableBar">
-			<a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
-			<a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
-		</script>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
 
-	</div>
+    </div>
 </div>
 
 <script>
@@ -104,6 +104,7 @@
 									width: 100,
 									title: '获奖等级'
 								},
+								{field: 'img', width: 80, title: '链接',templet: proofurl},
 							]
 						],
 						limits: [10, 15, 20, 25, 50, 100],
@@ -111,6 +112,10 @@
 						page: true,
 						skin: 'line'
 					});
+					function proofurl(d){
+        				var proofurl = d.img;
+        				return "<a target='_Blank' class='layui-blue' href='"+proofurl+"'>链接</a>"
+        			}
 
 					// 监听搜索操作
 					form.on('submit(data-search-btn)', function(data) {
@@ -242,4 +247,6 @@
 			};
 		}, 'json')
 	});
+
+
 </script>

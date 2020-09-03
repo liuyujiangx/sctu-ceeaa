@@ -27,15 +27,18 @@ def admin_login_req(f):
 
     return decorated_function
 
-#生成token 入参：用户id
+
+# 生成token 入参：用户id
 def generate_token(key, expire=3600):
     ts_str = str(time.time() + expire)
     ts_byte = ts_str.encode("utf-8")
-    sha1_tshexstr  = hmac.new(key.encode("utf-8"),ts_byte,'sha1').hexdigest()
-    token = ts_str+':'+sha1_tshexstr
+    sha1_tshexstr = hmac.new(key.encode("utf-8"), ts_byte, 'sha1').hexdigest()
+    token = ts_str + ':' + sha1_tshexstr
     b64_token = base64.urlsafe_b64encode(token.encode("utf-8"))
     return b64_token.decode("utf-8")
-#验证token 入参：用户id 和 token
+
+
+# 验证token 入参：用户id 和 token
 def certify_token(key, token):
     if key is None or token is None:
         return False
@@ -48,15 +51,13 @@ def certify_token(key, token):
         # token expired
         return False
     known_sha1_tsstr = token_list[1]
-    sha1 = hmac.new(key.encode("utf-8"),ts_str.encode('utf-8'),'sha1')
+    sha1 = hmac.new(key.encode("utf-8"), ts_str.encode('utf-8'), 'sha1')
     calc_sha1_tsstr = sha1.hexdigest()
     if calc_sha1_tsstr != known_sha1_tsstr:
         # token certification failed
         return False
     # token certification success
     return True
-
-
 
 
 @home.route('/login/', methods=['POST'])
@@ -67,8 +68,8 @@ def login():
     admin = Admin.query.filter_by(name=data['username']).first()
     if not admin:
         return jsonify({
-            'code':-1,
-            'msg':'账号或密码错误',
+            'code': -1,
+            'msg': '账号或密码错误',
         })
     if not admin.check_pwd(data['password']):
         content = "账号或密码错误"
@@ -82,8 +83,9 @@ def login():
             'code': 0,
             'token': token,
             'user': data['username'],
-            'msg':'登录成功'
+            'msg': '登录成功'
         })
+
 
 @home.route('/check_login/', methods=['POST'])
 def check_login():
@@ -91,7 +93,7 @@ def check_login():
     data = str(data, 'utf-8')
     data = json.loads(data)
     print(data)
-    if certify_token(data['user'],data['token']):
+    if certify_token(data['user'], data['token']):
         return jsonify(
             {"code": 0,
              "msg": '已登录'
@@ -105,7 +107,6 @@ def check_login():
              }
 
         )
-
 
 
 # 学生列表
@@ -122,7 +123,8 @@ def student():
              "msg": '',
              "count": student_count,
              "data": [
-                 {"sno": user.sno, "sname": user.sname, "ssex": user.ssex, "sclass": user.sclass, "scollege": user.scollege,
+                 {"sno": user.sno, "sname": user.sname, "ssex": user.ssex, "sclass": user.sclass,
+                  "scollege": user.scollege,
                   "smajor": user.smajor}
                  for user in student_list.items]
              }
@@ -575,7 +577,7 @@ def prize():
          "count": prize_count,
          "data": [
              {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "level": user.level,
-              "p_time": user.p_time, "award": user.award}
+              "p_time": user.p_time, "award": user.award ,"img":user.img}
              for user in prize_list.items]
          }
     )
