@@ -176,43 +176,61 @@
 							"target": "_self"
 						}
 					]
+				}
+			]
+		}, {
+			"title": "基础数据管理",
+			"icon": "fa fa-address-book",
+			"href": "",
+			"target": "_self",
+			"child": [
+				{
+					"title": "班级管理",
+					"href": "page/class.html",
+					"icon": "fa fa-group",
+					"target": ""
 				}, {
-					"title": "基础数据管理",
-					"icon": "fa fa-bar-chart",
-					"href": "",
-					"target": "_self",
-					"child": [
-						{
-							"title": "班级管理",
-							"href": "page/class.html",
-							"icon": "fa fa-group",
-							"target": ""
-						}, {
-							"title": "教室管理",
-							"href": "page/kfing.html",
-							"icon": "fa fa-bank",
-							"target": "_self"
-						}, {
-							"title": "课程类型",
-							"href": "page/coursetype.html",
-							"icon": "fa fa-book",
-							"target": "_self"
-						}, {
-							"title": "课程模块",
-							"href": "page/cmodules.html",
-							"icon": "fa fa-folder",
-							"target": "_self"
-						}, {
-							"title": "竞赛管理",
-							"href": "page/competition.html",
-							"icon": "fa fa-flag",
-							"target": "_self"
-						}
-					]
+					"title": "教室管理",
+					"href": "page/kfing.html",
+					"icon": "fa fa-bank",
+					"target": "_self"
 				}, {
-					"title": "管理员管理",
+					"title": "课程类型",
+					"href": "page/coursetype.html",
+					"icon": "fa fa-book",
+					"target": "_self"
+				}, {
+					"title": "课程模块",
+					"href": "page/cmodules.html",
+					"icon": "fa fa-folder",
+					"target": "_self"
+				}, {
+					"title": "竞赛管理",
+					"href": "page/competition.html",
+					"icon": "fa fa-flag",
+					"target": "_self"
+				}
+			]
+		},{
+			"title": "管理员管理",
+			"icon": "fa fa-address-book",
+			"href": "",
+			"target": "_self",
+			"child": [
+				{
+					"title": "管理员账号",
 					"href": "page/admin.html",
-					"icon": "fa fa-home",
+					"icon": "fa fa-group",
+					"target": ""
+				}, {
+					"title": "普通账号",
+					"href": "page/kfing.html",
+					"icon": "fa fa-bank",
+					"target": "_self"
+				}, {
+					"title": "权限管理",
+					"href": "page/coursetype.html",
+					"icon": "fa fa-book",
 					"target": "_self"
 				}
 			]
