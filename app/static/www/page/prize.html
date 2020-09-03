@@ -1,7 +1,7 @@
 <div class="layuimini-container layuimini-page-anim">
-    <div class="layuimini-main">
+	<div class="layuimini-main">
 
-        <!--<fieldset class="table-search-fieldset">
+		<!--<fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" action="">
@@ -20,27 +20,33 @@
             </div>
         </fieldset>-->
 
-        <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
-            </div>
-        </script>
+		<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-container">
+				<button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+				<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
+			</div>
+		</script>
 
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+		<table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
-        <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
-        </script>
+		<script type="text/html" id="currentTableBar">
+			<a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="check">查看证书</a>
+			<a class="layui-btn layui-btn layui-btn-xs data-count-edit" lay-event="update">
+				更新上传证书
+			</a>
+			
+		</script>
 
-    </div>
+	</div>
+	
+
 </div>
 
 <script>
-	layui.use(['jquery', 'miniPage'], function() {
+	layui.use(['jquery', 'miniPage', 'upload'], function() {
 		var $ = layui.jquery,
 			miniPage = layui.miniPage,
+			upload = layui.upload,
 			check_user = {
 				"user": localStorage.getItem("user"),
 				"token": localStorage.getItem("token")
@@ -86,7 +92,7 @@
 								},
 								{
 									field: 'name',
-									width: 500,
+									width: 400,
 									title: '竞赛名称'
 								},
 								{
@@ -104,7 +110,12 @@
 									width: 100,
 									title: '获奖等级'
 								},
-								{field: 'img', width: 80, title: '链接',templet: proofurl},
+								{
+									title: '操作',
+									minWidth: 200,
+									toolbar: '#currentTableBar',
+									align: "center"
+								}
 							]
 						],
 						limits: [10, 15, 20, 25, 50, 100],
@@ -112,10 +123,6 @@
 						page: true,
 						skin: 'line'
 					});
-					function proofurl(d){
-        				var proofurl = d.img;
-        				return "<a target='_Blank' class='layui-blue' href='"+proofurl+"'>链接</a>"
-        			}
 
 					// 监听搜索操作
 					form.on('submit(data-search-btn)', function(data) {
@@ -196,30 +203,39 @@
 
 					table.on('tool(currentTableFilter)', function(obj) {
 						var data = obj.data;
-						if(obj.event === 'edit') {
+						if(obj.event === 'check') {
+							if(data.img == null) {
+								layer.msg("没有证书，请上传！！")
+							} else {
+								layer.open({
+									type: 1,
+									title: '查看证书',
+									closeBtn: 0,
+									area: '500px',
+									skin: 'layui-layer-nobg', //没有背景色
+									shadeClose: true,
+									content: "<img src=" +
+										data.img +
+										" style='width: 500px;height: auto'>"
+								});
+							}
 
-							var content = miniPage.getHrefContent('page/prize/add.html');
-							var openWH = miniPage.getOpenWidthHeight();
+						} else if(obj.event === 'update') {
+							var content = miniPage.getHrefContent('page/prize/upload.html');
 
 							var index = layer.open({
-								title: '编辑用户',
+								title: '上传证书',
 								type: 1,
 								shade: 0.2,
-								maxmin: true,
 								shadeClose: true,
-								area: [openWH[0] + 'px', openWH[1] + 'px'],
-								offset: [openWH[2] + 'px', openWH[3] + 'px'],
+								area: ['300px', '300px'],
+								offset: ['300px', '700px'],
 								content: content,
 							});
 							$(window).on("resize", function() {
 								layer.full(index);
 							});
-							return false;
-						} else if(obj.event === 'delete') {
-							layer.confirm('真的删除行么', function(index) {
-								obj.del();
-								layer.close(index);
-							});
+
 						}
 					});
 
@@ -247,6 +263,4 @@
 			};
 		}, 'json')
 	});
-
-
 </script>

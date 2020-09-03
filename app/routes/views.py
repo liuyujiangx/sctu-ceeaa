@@ -603,6 +603,13 @@ def prize_add():
     return jsonify({"code": 0, "info": "添加成功"})
 
 
+@home.route('/prize/upload/',methods=["POST"])
+def prize_upload():
+    img = request.files.get("img")
+    print(img)
+    return img
+
+
 @home.route("/prize/del/", methods=["POST"])
 def prize_del():
     data = request.get_data()
