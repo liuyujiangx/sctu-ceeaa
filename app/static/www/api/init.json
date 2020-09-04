@@ -1,7 +1,7 @@
 {
 	"homeInfo": {
 		"title": "首页",
-		"href": "page/welcome-1.html?t=1"
+		"href": "page/welcome.html?t=1"
 	},
 	"logoInfo": {
 		"title": "人才培养系统",
@@ -10,73 +10,55 @@
 	},
 	"menuInfo": [
 		{
-			"title": "常规管理",
+			"title": "教学管理",
 			"icon": "fa fa-address-book",
 			"href": "",
 			"target": "_self",
 			"child": [
 				{
 					"title": "概况",
-					"href": "page/welcome-1.html",
+					"href": "page/welcome.html",
 					"icon": "fa fa-home",
 					"target": "_self"
 				}, {
-					"title": "系统设置",
-					"href": "page/setting.html",
-					"icon": "fa fa-gears",
-					"target": "_self"
-				}, {
-					"title": "学生",
+					"title": "学生成果管理",
 					"href": "",
-					"icon": "fa fa-child",
+					"icon": "fa fa-list-alt",
 					"target": "_self",
 					"child": [
 						{
-							"title": "学生成果管理",
-							"href": "page/student.html",
-							"icon": "fa fa-list-alt",
-							"target": "_self",
-							"child": [
-								{
-									"title": "大学生创新创业项目",
-									"href": "page/innovation.html",
-									"icon": "fa fa-navicon",
-									"target": "_self"
-								}, {
-									"title": "大学生科研项目",
-									"href": "page/research.html",
-									"icon": "fa fa-navicon",
-									"target": "_self"
-								}, {
-									"title": "竞赛获奖",
-									"href": "page/prize.html",
-									"icon": "fa fa-navicon",
-									"target": "_self"
-								}, {
-									"title": "学术论文",
-									"href": "page/thesis.html",
-									"icon": "fa fa-navicon",
-									"target": "_self"
-								}, {
-									"title": "专利",
-									"href": "page/patent.html",
-									"icon": "fa fa-navicon",
-									"target": "_self"
-								}, {
-									"title": "职业证书",
-									"href": "page/kfing.html",
-									"icon": "fa fa-navicon",
-									"target": "_self"
-								}
-							]
+							"title": "大学生创新创业项目",
+							"href": "page/innovation.html",
+							"icon": "fa fa-navicon",
+							"target": "_self"
 						}, {
-							"title": "学生信息管理",
-							"href": "page/student.html",
+							"title": "大学生科研项目",
+							"href": "page/research.html",
+							"icon": "fa fa-navicon",
+							"target": "_self"
+						}, {
+							"title": "竞赛获奖",
+							"href": "page/prize.html",
+							"icon": "fa fa-navicon",
+							"target": "_self"
+						}, {
+							"title": "学术论文",
+							"href": "page/thesis.html",
+							"icon": "fa fa-navicon",
+							"target": "_self"
+						}, {
+							"title": "专利",
+							"href": "page/patent.html",
+							"icon": "fa fa-navicon",
+							"target": "_self"
+						}, {
+							"title": "职业证书",
+							"href": "page/kfing.html",
 							"icon": "fa fa-navicon",
 							"target": "_self"
 						}
 					]
-				}, {
+				},{
 					"title": "培养目标",
 					"href": "",
 					"icon": "fa fa-calendar",
@@ -137,11 +119,6 @@
 					"target": "_self",
 					"child": [
 						{
-							"title": "教师信息管理",
-							"href": "page/teachers.html",
-							"icon": "fa fa-user",
-							"target": "_self"
-						}, {
 							"title": "科研成果",
 							"href": "page/scientific.html",
 							"icon": "fa fa-table",
@@ -185,6 +162,16 @@
 			"target": "_self",
 			"child": [
 				{
+					"title": "教师信息管理",
+					"href": "page/teachers.html",
+					"icon": "fa fa-user",
+					"target": "_self"
+				}, {
+					"title": "学生信息管理",
+					"href": "page/student.html",
+					"icon": "fa fa-navicon",
+					"target": "_self"
+				}, {
 					"title": "班级管理",
 					"href": "page/class.html",
 					"icon": "fa fa-group",
@@ -211,7 +198,7 @@
 					"target": "_self"
 				}
 			]
-		},{
+		}, {
 			"title": "管理员管理",
 			"icon": "fa fa-address-book",
 			"href": "",
@@ -231,6 +218,11 @@
 					"title": "权限管理",
 					"href": "page/coursetype.html",
 					"icon": "fa fa-book",
+					"target": "_self"
+				}, {
+					"title": "系统设置",
+					"href": "page/setting.html",
+					"icon": "fa fa-gears",
 					"target": "_self"
 				}
 			]
