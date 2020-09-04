@@ -625,6 +625,9 @@ def prize_upload():
     img_filename = change_filename(img.filename)
     img.save(app.config["UP_DIR"]+'imgs/'+img_filename)
     data = request.form.to_dict()
+    print(data)
+    print(data['id'])
+    print(type(data['id']))
     t_prize = T_prize.query.filter_by(id=int(data['id'])).first()
     t_prize.img = 'http://www.yujl.top:2020/'+img_filename
     db.session.add(t_prize)
