@@ -587,7 +587,7 @@ def prize():
          "count": prize_count,
          "data": [
              {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "level": user.level,
-              "p_time": user.p_time, "award": user.award ,"img":user.img}
+              "p_time": user.p_time, "award": user.award ,"img":user.img,"id":user.id}
              for user in prize_list.items]
          }
     )
