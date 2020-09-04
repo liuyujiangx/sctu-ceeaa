@@ -626,7 +626,7 @@ def prize_upload():
     img.save(app.config["UP_DIR"]+'imgs/'+img_filename)
     data = request.form['id']
     t_prize = T_prize.query.filter_by(id=int(data)).first()
-    t_prize.img = img_filename
+    t_prize.img = 'http://www.yujl.top:2020/'+img_filename
     db.session.add(t_prize)
     db.session.commit()
     return jsonify({"code": 0, "info": "上传成功"})
