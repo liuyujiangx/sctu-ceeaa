@@ -1,6 +1,10 @@
+import hashlib
 from datetime import datetime
 
+from sqlalchemy import func
+
 from app import db
+from app.model.BaseModel import BaseModel
 
 
 class T_students(db.Model):
@@ -225,5 +229,76 @@ class T_research(db.Model):
 
     def __repr__(self):
         return "<T_research %r>" % self.name
+
+
+
+
+
+class User(BaseModel):
+    """
+    用户表
+    """
+    __tablename__ = "t_user"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, comment="用户ID")
+    nickname = db.Column(db.String(30), comment="用户昵称")
+    user_name = db.Column(db.String(30), comment="登录账号")
+    user_type = db.Column(db.Boolean, default=1, comment="用户类型（1系统用户")
+    email = db.Column(db.String(50), comment="用户邮箱")
+    phone = db.Column(db.String(20), comment="手机号")
+    phonenumber = db.Column(db.String(11), comment="手机号码")
+    sex = db.Column(db.INTEGER, default=1, comment="用户性别（1男 2女 3未知）")
+    avatar = db.Column(db.String(100), comment="头像路径")
+    password = db.Column(db.String(50), comment="密码")
+    salt = db.Column(db.String(20), comment="盐加密")
+    status = db.Column(db.INTEGER, default=1, comment="帐号状态（1正常 2禁用")
+    dept_id = db.Column(db.INTEGER, comment="部门id")
+    del_flag = db.Column(db.INTEGER, default=1, comment="删除标志（1代表存在 2代表删除）")
+    login_ip = db.Column(db.String(50), comment="最后登陆IP")
+    login_date = db.Column(db.TIMESTAMP, comment="最后登陆时间", nullable=False,
+                           onupdate=func.now())
+    role_user = db.relationship("User_Role",backref="t_user")
+
+
+    def check_password(self, passwd):
+        '''
+        检查密码
+        :param passwd:
+        :return: 0/1
+        '''
+        # 创建md5对象
+        m = hashlib.md5()
+        b = passwd.encode(encoding='utf-8')
+        m.update(b)
+        str_md5 = m.hexdigest()
+        if self.password == str_md5:
+            return 1
+        else:
+            return 0
+    def check_pwd(self, pwd):
+        from werkzeug.security import check_password_hash
+        return check_password_hash(self.password, pwd)
+
+class Role(BaseModel):
+    __tablename__ = "t_role"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, comment="角色ID")
+    role_name = db.Column(db.String(30),comment="角色名称")
+    role_key = db.Column(db.String(100),comment="角色权限字符串")
+    role_sort = db.Column(db.Integer(),comment="显示顺序")
+    data_scope = db.Column(db.Integer(),comment="数据范围（1：全部数据权限 2：自定数据权限）")
+    status = db.Column(db.Integer(),comment="角色状态（1正常 2停用）")
+    create_by = db.Column(db.String(64),comment="创建者")
+    created_at = db.Column(db.DateTime,comment="创建时间")
+    updated_at = db.Column(db.DateTime,comment="更新时间")
+    update_by = db.Column(db.String(64),comment="更新者")
+    remark = db.Column(db.DateTime(500),comment="备注")
+    role_user = db.relationship("User_Role",backref="t_role")
+
+
+class User_Role(BaseModel):
+    __tablename__ = "t_user_role"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer,db.ForeignKey("t_user.id"))
+    role_id = db.Column(db.Integer,db.ForeignKey("t_role.id"))
+
 # if __name__ == "__main__":
 #      db.create_all()
