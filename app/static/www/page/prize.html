@@ -34,11 +34,10 @@
 			<a class="layui-btn layui-btn layui-btn-xs data-count-edit" lay-event="update">
 				上传证书
 			</a>
-			
+
 		</script>
 
 	</div>
-	
 
 </div>
 
@@ -221,19 +220,15 @@
 							}
 
 						} else if(obj.event === 'update') {
-							var content = miniPage.getHrefContent('page/prize/upload.html');
-
-							var index = layer.open({
+							layer.open({
+								type: 2,
 								title: '上传证书',
-								type: 1,
-								shade: 0.2,
-								shadeClose: true,
-								area: ['300px', '300px'],
-								offset: ['300px', '700px'],
-								content: content,
-							});
-							$(window).on("resize", function() {
-								layer.full(index);
+								closeBtn: 1, //显示关闭按钮
+								shade: [0],
+								area: ['500px', '500px'],
+								offset: 'auto', 
+								anim: 2,
+								content: ['page/prize/upload.html', 'no'], //iframe的url，no代表不显示滚动条
 							});
 
 						}

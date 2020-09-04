@@ -1,8 +1,45 @@
-<div class="layuimini-main">
-	<form action="http://tu.yujl.top/prize/upload/" method="post">
-		<input type="file" id="img" name="img" value="上传证书" />
-		<input type="submit" value="提交"/>
-	</form>
-	
-	
-</div>
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Layui</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+	</head>
+
+	<body>
+
+		<div class="layui-upload">
+			<button type="button" name="img" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+			<button type="button" class="layui-btn" id="test9">开始上传</button>
+		</div>
+		<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+		<script>
+			layui.use('upload', function() {
+				var $ = layui.jquery,
+					upload = layui.upload;
+
+				//选完文件后不自动上传
+				upload.render({
+					elem: '#test8',
+					url: 'http://127.0.0.1:5000/prize/upload/' ,
+					auto: false,
+					field:'img',
+					bindAction: '#test9',
+					data:{"id":5},
+					done: function(res) {
+						layer.msg('上传成功');
+						console.log(res)
+					}
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>

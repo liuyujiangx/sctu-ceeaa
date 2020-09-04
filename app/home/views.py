@@ -1,4 +1,7 @@
+import datetime
 import json
+import os
+import uuid
 from functools import wraps
 import time
 import base64
@@ -7,7 +10,7 @@ from flask import request, jsonify, session
 from sqlalchemy import text
 from werkzeug.security import generate_password_hash
 
-from app import db
+from app import db,app
 from app.model.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
     T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses, Admin
 from . import home
@@ -609,12 +612,24 @@ def prize_add():
     db.session.commit()
     return jsonify({"code": 0, "info": "添加成功"})
 
+# 修改文件名称
+def change_filename(filename):
+    fileinfo = os.path.splitext(filename)
+    filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4().hex) + fileinfo[-1]
+    return filename
+
 
 @home.route('/prize/upload/',methods=["POST"])
 def prize_upload():
     img = request.files.get("img")
-    print(img)
-    return img
+    img_filename = change_filename(img.filename)
+    img.save(app.config["UP_DIR"]+'imgs/'+img_filename)
+    data = request.form['id']
+    t_prize = T_prize.query.filter_by(id=int(data)).first()
+    t_prize.img = img_filename
+    db.session.add(t_prize)
+    db.session.commit()
+    return jsonify({"code": 0, "info": "上传成功"})
 
 
 @home.route("/prize/del/", methods=["POST"])
