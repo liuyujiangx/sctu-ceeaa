@@ -3,12 +3,12 @@ from functools import wraps
 import time
 import base64
 import hmac
-from flask import request, jsonify, session, Response, make_response
+from flask import request, jsonify, session
 from sqlalchemy import text
 from werkzeug.security import generate_password_hash
 
 from app import db
-from app.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
+from app.model.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
     T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses, Admin
 from . import home
 
@@ -59,6 +59,13 @@ def certify_token(key, token):
     # token certification success
     return True
 
+
+@home.route('/test/')
+def test():
+    return jsonify({
+            'code': -1,
+            'msg': 'content',
+        })
 
 @home.route('/login/', methods=['POST'])
 def login():
