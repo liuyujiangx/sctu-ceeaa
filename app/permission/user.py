@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, json
 
 from app.model.models import User, Role, User_Role
 from app.utils.common import login_required, create_token, SUCCESS, verify_token, AUTH_ERR, REQUEST_ERROR, OTHER_LOGIN, \
@@ -23,7 +23,9 @@ def login():
     用户登录
     :return:token
     '''
-    res_dir = request.get_json()
+    data = request.get_data()
+    data = str(data, 'utf-8')
+    res_dir = json.loads(data)
     if res_dir is None:
         return NO_PARAMETER()
     # 获取前端传过来的参数
