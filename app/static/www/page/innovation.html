@@ -46,7 +46,7 @@
 				"token": localStorage.getItem("token")
 			};
 
-		$.post(window.url+"/check_login/", JSON.stringify(check_user), function(res) {
+		$.post(localStorage.getItem("url")+"/check_login/", JSON.stringify(check_user), function(res) {
 			if(res.code == 0) {
 				layui.use(['form', 'table', 'miniPage', 'element'], function() {
 					var $ = layui.jquery,
@@ -152,12 +152,12 @@
 							var checkStatus = table.checkStatus('currentTableId'),
 								data = checkStatus.data;
 							//layer.alert(JSON.stringify(data));
-							$.post(window.url+"/innovation/del/", JSON.stringify(data), function(res) {
+							$.post(localStorage.getItem("url")+"/innovation/del/", JSON.stringify(data), function(res) {
 								if(res.status) {
 									layer.msg(res.info, {
 										time: 2000
 									});
-									var url = window.url+"/innovation/del/"; //
+									var url = localStorage.getItem("url")+"/innovation/del/"; //
 									setTimeout(window.location.href = url, 2000);
 								} else {
 									layer.msg(res.info, {

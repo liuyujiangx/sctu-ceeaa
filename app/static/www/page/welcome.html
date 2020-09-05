@@ -271,7 +271,7 @@
 							var $ = layui.jquery;
 							$.ajax({
 								type: "get",
-								url: window.url+"/data/",
+								url: localStorage.getItem("url")+"/data/",
 								async: true,
 								success: function(data) {
 									data = data.data[0]

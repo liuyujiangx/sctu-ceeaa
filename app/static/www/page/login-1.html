@@ -174,7 +174,7 @@
 				// 进行登录操作
 				form.on('submit(login)', function(data) {
 					data = data.field;
-					$.post(window.url+"/login/", JSON.stringify(data), function(res) {
+					$.post(localStorage.getItem("url")+"/login/", JSON.stringify(data), function(res) {
 						if(res.code == 0) {
 							window.location.href = "../index.html"
 							//console.log(res)

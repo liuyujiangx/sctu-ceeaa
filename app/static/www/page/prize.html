@@ -53,7 +53,7 @@
 				miniPage = layui.miniPage;
 			table.render({
 				elem: '#currentTableId',
-				url: window.url+"/prize/",
+				url: localStorage.getItem("url") + "/prize/",
 				headers: {
 					'Authorization': sessionStorage.token
 				},
@@ -71,17 +71,24 @@
 							layer.open({
 								type: 2,
 								title: '登录',
-								shadeClose: true,
-								shade: false,
+								//shadeClose: true,
+								closeBtn: 1,
+								//shade: false,
 								maxmin: true, //开启最大化最小化按钮
 								area: ['500px', '500px'],
-								content: './page/login-2.html'
+								content: './page/login-2.html',
+								end: function() {
+									window.parent.location.reload();
+									parent.layer.closeAll(); //关闭当前页
+								}
 							});
 
 						}, function() {
 							layer.msg('取消登录！')
 						});
 					}
+					
+					
 				},
 				cols: [
 					[{
@@ -192,12 +199,12 @@
 					var checkStatus = table.checkStatus('currentTableId'),
 						data = checkStatus.data;
 					//layer.alert(JSON.stringify(data));
-					$.post(window.url+"/prize/del/", JSON.stringify(data), function(res) {
+					$.post(localStorage.getItem("url") + "/prize/del/", JSON.stringify(data), function(res) {
 						if(res.status) {
 							layer.msg(res.info, {
 								time: 2000
 							});
-							var url = window.url+"/prize/del/"; //
+							var url = localStorage.getItem("url") + "/prize/del/"; //
 							setTimeout(window.location.href = url, 2000);
 						} else {
 							layer.msg(res.info, {
@@ -265,7 +272,7 @@
 								where: {
 									key: {
 										page: 1,
-										limit: 10
+										limit: 20
 									}
 								}
 							}, 'data');

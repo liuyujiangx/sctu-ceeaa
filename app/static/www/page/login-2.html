@@ -161,34 +161,35 @@
 				var $ = layui.jquery;
 
 				// 登录过期的时候，跳出ifram框架
-				if(top.location != self.location) top.location = self.location;
+				//if(top.location != self.location) top.location = self.location;
 
 				// 粒子线条背景
-				$(document).ready(function() {
-					$('.layui-container').particleground({
-						dotColor: '#7ec7fd',
-						lineColor: '#7ec7fd'
-					});
-				});
-
+				//				$(document).ready(function() {
+				//					$('.layui-container').particleground({
+				//						dotColor: '#7ec7fd',
+				//						lineColor: '#7ec7fd'
+				//					});
+				//				});
+				console.log(localStorage.getItem("url"))
 				// 进行登录操作
 				form.on('submit(login)', function(data) {
-					console.log(data)
 					data = data.field;
-					$.post(window.url+"/user/login", JSON.stringify(data), function(res) {
+					$.post(localStorage.getItem("url") + "/user/login", JSON.stringify(data), function(res) {
 						if(res.code == 0) {
 							console.log(res)
 							//window.location.href = "../index.html"
 							//console.log(res)
 							//localStorage.setItem("user",res.user)
 							//localStorage.setItem("token",res.token)
-							sessionStorage.setItem("userName",res.data.userName);
-							sessionStorage.setItem("token",res.data.token);
-							sessionStorage.setItem("userId",res.data.userId);
+							sessionStorage.setItem("userName", res.data.userName);
+							sessionStorage.setItem("token", res.data.token);
+							sessionStorage.setItem("userId", res.data.userId);
 							//console.log(sessionStorage.userName,sessionStorage.token)
+							parent.layer.closeAll(); //关闭当前页
 						} else {
-							console.log(res)
-							layer.msg(res.msg)
+							console.log(res);
+							layer.msg(res.msg);
+							parent.layer.closeAll(); //关闭当前页
 						}
 					}, 'json');
 					return false;
