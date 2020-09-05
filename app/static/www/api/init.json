@@ -58,7 +58,7 @@
 							"target": "_self"
 						}
 					]
-				},{
+				}, {
 					"title": "培养目标",
 					"href": "",
 					"icon": "fa fa-calendar",
@@ -109,47 +109,6 @@
 							"title": "课程达成度分析",
 							"href": "page/kfing.html",
 							"icon": "fa fa-hourglass-end",
-							"target": "_self"
-						}
-					]
-				}, {
-					"title": "师资队伍",
-					"href": "",
-					"icon": "fa fa-mortar-board",
-					"target": "_self",
-					"child": [
-						{
-							"title": "科研成果",
-							"href": "page/scientific.html",
-							"icon": "fa fa-table",
-							"target": "_self"
-						}, {
-							"title": "教研成果",
-							"href": "page/teachingr.html",
-							"icon": "fa fa-server",
-							"target": "_self"
-						}
-					]
-				}, {
-					"title": "支持条件",
-					"icon": "fa fa-lemon-o",
-					"href": "",
-					"target": "_self",
-					"child": [
-						{
-							"title": "实验室管理",
-							"href": "page/kfing.html",
-							"icon": "fa fa-dot-circle-o",
-							"target": "_self"
-						}, {
-							"title": "图书管理",
-							"href": "page/kfing.html",
-							"icon": "fa fa-adn",
-							"target": "_self"
-						}, {
-							"title": "文献管理",
-							"href": "page/kfing.html",
-							"icon": "fa fa-dashboard",
 							"target": "_self"
 						}
 					]
@@ -223,6 +182,47 @@
 					"title": "系统设置",
 					"href": "page/setting.html",
 					"icon": "fa fa-gears",
+					"target": "_self"
+				}
+			]
+		}, {
+			"title": "师资队伍",
+			"href": "",
+			"icon": "fa fa-mortar-board",
+			"target": "_self",
+			"child": [
+				{
+					"title": "科研成果",
+					"href": "page/scientific.html",
+					"icon": "fa fa-table",
+					"target": "_self"
+				}, {
+					"title": "教研成果",
+					"href": "page/teachingr.html",
+					"icon": "fa fa-server",
+					"target": "_self"
+				}
+			]
+		}, {
+			"title": "支持条件",
+			"icon": "fa fa-lemon-o",
+			"href": "",
+			"target": "_self",
+			"child": [
+				{
+					"title": "实验室管理",
+					"href": "page/kfing.html",
+					"icon": "fa fa-dot-circle-o",
+					"target": "_self"
+				}, {
+					"title": "图书管理",
+					"href": "page/kfing.html",
+					"icon": "fa fa-adn",
+					"target": "_self"
+				}, {
+					"title": "文献管理",
+					"href": "page/kfing.html",
+					"icon": "fa fa-dashboard",
 					"target": "_self"
 				}
 			]
