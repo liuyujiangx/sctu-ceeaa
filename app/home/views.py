@@ -14,6 +14,7 @@ from app import db,app
 from app.model.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
     T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses, Admin
 from . import home
+from app.utils.common import login_required
 
 
 def admin_login_req(f):
@@ -64,6 +65,7 @@ def certify_token(key, token):
 
 
 @home.route('/test/')
+@login_required()
 def test():
     return jsonify({
             'code': -1,

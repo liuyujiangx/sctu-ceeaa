@@ -46,17 +46,17 @@ def login():
     print(role_list)
     token = create_token(user.id, user.user_name, role_list)
     data = {'token': token, 'userId': user.id, 'userName': user.user_name, 'nickname': user.nickname}
-    # 记录登录ip将token存入rerdis
-    # try:
-    #     user.login_ip = request.remote_addr
-    #     print(user.login_ip)
-    #     user.update()
-    #     Redis.write(f"token_{user.user_name}", token)
-    #     print(token)
-    #
-    # except Exception as e:
-    #     print(e)
-    #     return jsonify(code=Code.UPDATE_DB_ERROR.value, msg="登录失败")
+    #记录登录ip将token存入rerdis
+    try:
+        user.login_ip = request.remote_addr
+        print(user.login_ip)
+        user.update()
+        Redis.write(f"token_{user.user_name}", token)
+        print(token)
+
+    except Exception as e:
+        print(e)
+        return jsonify(code=Code.UPDATE_DB_ERROR.value, msg="登录失败")
     if token:
         # 把token返回给前端
         return jsonify(code=Code.SUCCESS.value, msg="登录成功", data=data)
@@ -92,8 +92,10 @@ def check_token():
     # 在请求头上拿到token
     token = request.headers["Authorization"]
     user = verify_token(token)
+    print(user)
     if user:
         key = f"token_{user.get('name')}"
+        print(key)
         redis_token = Redis.read(key)
         if redis_token == token:
             return SUCCESS(data=user.get('id'))
