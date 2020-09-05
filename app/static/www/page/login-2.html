@@ -144,7 +144,7 @@
 						<div class="layui-form-item">
 							<input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
 						</div>
-						<div class="layui-form-item">
+						<div class="layui-form-item layui-anim" data-anim="layui-anim-rotate layui-anim-loop">
 							<button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
 						</div>
 					</form>
@@ -174,7 +174,17 @@
 				// 进行登录操作
 				form.on('submit(login)', function(data) {
 					data = data.field;
-					$.post(localStorage.getItem("url") + "/user/login", JSON.stringify(data), function(res) {
+					$.ajax({
+						type: "post",
+						url: localStorage.getItem("url") + "/user/login ",
+						async: true,
+						data: JSON.stringify(data),
+						beforeSend: function() {
+							layer.msg('登录中····', {
+								time: 2000, //20s后自动关闭
+							});
+						},
+						success:function(res) {
 						if(res.code == 0) {
 							console.log(res)
 							//window.location.href = "../index.html"
@@ -189,8 +199,8 @@
 						} else {
 							console.log(res);
 							layer.msg(res.msg);
-							parent.layer.closeAll(); //关闭当前页
 						}
+					}
 					}, 'json');
 					return false;
 				});
