@@ -222,8 +222,9 @@
 									skin: 'layui-layer-nobg', //没有背景色
 									shadeClose: true,
 									content: "<img src=" +
-										data.img +
-										" style='width: 500px;height: auto'>"
+										img +
+										" style='width: 500px;height: auto'>",
+									
 								});
 							}
 
@@ -235,11 +236,23 @@
 								closeBtn: 1, //显示关闭按钮
 								shade: [0],
 								area: ['200px', '200px'],
-								offset: 'auto', 
+								offset: 'auto',
 								anim: 2,
-								content: ['page/prize/upload.html?id='+id, 'no'], //iframe的url，no代表不显示滚动条
+								content: ['page/prize/upload.html?id=' + id, 'no'], //iframe的url，no代表不显示滚动条
+								end: function() {
+										table.reload('currentTableId', {
+											page: {
+												curr: 1
+											},
+											where: {
+												key: {
+													page: 1,
+													limit: 10
+												}
+											}
+										}, 'data');
+									}
 							});
-							
 
 						}
 					});
