@@ -58,9 +58,43 @@
         <div class="layui-form-item">
             <label class="layui-form-label required">竞赛名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" lay-verify="required" lay-reqtext="项目名称" placeholder="请输入项目名称" value="" class="layui-input">
+                <input type="text" id="demo3" name="name" lay-verify="required" lay-reqtext="竞赛名称" placeholder="请输入竞赛名称" value="" class="layui-input">
             </div>
         </div>
+        <script>
+    layui.use(['table', 'form', 'tableSelect'], function () {
+        var $ = layui.jquery,
+            table = layui.table,
+            form = layui.form,
+            tableSelect = layui.tableSelect;
+            
+        tableSelect.render({
+            elem: '#demo3',
+            checkedKey: 'name',
+            table: {
+                url: 'http://api.yujl.top/competition/',
+                cols: [[
+                    { type: 'radio' },
+                //{field: 'id', width: 80, title: '编号', sort: true},
+                {field: 'name', width: 300, title: '竞赛全称'},
+                {field: 'af_name', width: 200, title: '竞赛简称'},
+                {field: 'organizer', width: 200, title: '主办单位'},
+                {field: 'undertaker', width: 200, title: '承办单位'},
+                {field: 'co_organizer', width: 200, title: '协办单位'},
+                ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.name)
+                })
+                elem.val(NEWJSON[0])
+                $("#demo3").attr("value",NEWJSON[1])
+            }
+        })
+
+    });
+</script>
         <div class="layui-form-item">
             <label class="layui-form-label required">获奖时间</label>
             <div class="layui-input-block">
