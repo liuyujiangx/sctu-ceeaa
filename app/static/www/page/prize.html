@@ -208,8 +208,10 @@
 
 					table.on('tool(currentTableFilter)', function(obj) {
 						var data = obj.data;
+						var id = data.id;
+						var img = data.img;
 						if(obj.event === 'check') {
-							if(data.img == null) {
+							if(img == null) {
 								layer.msg("没有证书，请上传！！")
 							} else {
 								layer.open({
@@ -226,6 +228,7 @@
 							}
 
 						} else if(obj.event === 'update') {
+							console.log(id)
 							layer.open({
 								type: 2,
 								title: '上传证书',
@@ -234,12 +237,9 @@
 								area: ['200px', '200px'],
 								offset: 'auto', 
 								anim: 2,
-								success:function(layero,index){
-									window.formData = data.id;
-									
-								},
-								content: ['page/prize/upload.html', 'no'], //iframe的url，no代表不显示滚动条
+								content: ['page/prize/upload.html?id='+id, 'no'], //iframe的url，no代表不显示滚动条
 							});
+							
 
 						}
 					});
