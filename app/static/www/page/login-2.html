@@ -175,7 +175,7 @@
 				form.on('submit(login)', function(data) {
 					console.log(data)
 					data = data.field;
-					$.post(window.url+"/user/login', JSON.stringify(data), function(res) {
+					$.post(window.url+"/user/login", JSON.stringify(data), function(res) {
 						if(res.code == 0) {
 							console.log(res)
 							//window.location.href = "../index.html"
