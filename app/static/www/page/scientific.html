@@ -46,7 +46,7 @@
 				"token": localStorage.getItem("token")
 			};
 
-		$.post("http://api.yujl.top/check_login/", JSON.stringify(check_user), function(res) {
+		$.post(window.url+"/check_login/", JSON.stringify(check_user), function(res) {
 			if(res.code == 0) {
 				layui.use(['form', 'table', 'miniPage', 'element'], function() {
 					var $ = layui.jquery,
@@ -162,12 +162,12 @@
 							var checkStatus = table.checkStatus('currentTableId'),
 								data = checkStatus.data;
 							//layer.alert(JSON.stringify(data));
-							$.post("http://api.yujl.top/scientific/del/", JSON.stringify(data), function(res) {
+							$.post(window.url+"/scientific/del/", JSON.stringify(data), function(res) {
 								if(res.status) {
 									layer.msg(res.info, {
 										time: 2000
 									});
-									var url = "http://api.yujl.top/scientific/del/"; //
+									var url = window.url+"/scientific/del/"; //
 									setTimeout(window.location.href = url, 2000);
 								} else {
 									layer.msg(res.info, {

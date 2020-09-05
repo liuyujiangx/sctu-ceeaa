@@ -271,7 +271,7 @@
 							var $ = layui.jquery;
 							$.ajax({
 								type: "get",
-								url: "http://api.yujl.top/data/",
+								url: window.url+"/data/",
 								async: true,
 								success: function(data) {
 									data = data.data[0]

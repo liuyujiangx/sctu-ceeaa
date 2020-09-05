@@ -10,9 +10,10 @@ from flask import request, jsonify, session
 from sqlalchemy import text
 from werkzeug.security import generate_password_hash
 
-from app import db,app
+from app import db, app
 from app.model.models import T_students, T_innovation, T_classes, T_teachers, T_scientific, T_teachingr, T_coursetype, \
     T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses, Admin
+from app.utils.code_enum import Code
 from . import home
 from app.utils.common import login_required
 
@@ -68,9 +69,10 @@ def certify_token(key, token):
 @login_required()
 def test():
     return jsonify({
-            'code': -1,
-            'msg': 'content',
-        })
+        'code': -1,
+        'msg': 'content',
+    })
+
 
 @home.route('/login/', methods=['POST'])
 def login():
@@ -577,19 +579,22 @@ def competition_del():
 
 # 大学生获奖
 @home.route('/prize/')
+@login_required()
 def prize():
     prize_count = T_prize.query.count()
     data = request.args.to_dict()
+    if data is None:
+        data = {"page": 1, "limit": 10}
     prize_list = T_prize.query.order_by(
         T_prize.id.asc()
     ).paginate(page=int(data.get('page')), per_page=int(data.get('limit')))
     return jsonify(
-        {"code": 0,
+        {"code": Code.SUCCESS.value,
          "msg": '',
          "count": prize_count,
          "data": [
              {"sno": user.sno, "sname": user.sname, "grade": user.grade, "name": user.name, "level": user.level,
-              "p_time": user.p_time, "award": user.award ,"img":user.img,"id":user.id}
+              "p_time": user.p_time, "award": user.award, "img": user.img, "id": user.id}
              for user in prize_list.items]
          }
     )
@@ -614,6 +619,7 @@ def prize_add():
     db.session.commit()
     return jsonify({"code": 0, "info": "添加成功"})
 
+
 # 修改文件名称
 def change_filename(filename):
     fileinfo = os.path.splitext(filename)
@@ -621,17 +627,17 @@ def change_filename(filename):
     return filename
 
 
-@home.route('/prize/upload/',methods=["POST"])
+@home.route('/prize/upload/', methods=["POST"])
 def prize_upload():
     img = request.files.get("img")
     img_filename = change_filename(img.filename)
-    img.save(app.config["UP_DIR"]+'imgs/'+img_filename)
+    img.save(app.config["UP_DIR"] + 'imgs/' + img_filename)
     data = request.form.to_dict()
     print(data)
     print(data['id'])
     print(type(data['id']))
     t_prize = T_prize.query.filter_by(id=int(data['id'])).first()
-    t_prize.img = 'http://www.yujl.top:2020/'+img_filename
+    t_prize.img = 'http://www.yujl.top:2020/' + img_filename
     db.session.add(t_prize)
     db.session.commit()
     return jsonify({"code": 0, "info": "上传成功"})

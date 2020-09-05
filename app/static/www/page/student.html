@@ -46,7 +46,7 @@
 				"token": localStorage.getItem("token")
 			};
 
-		$.post("http://api.yujl.top/check_login/", JSON.stringify(check_user), function(res) {
+		$.post(window.url+"/check_login/", JSON.stringify(check_user), function(res) {
 			if(res.code == 0) {
 				layui.use(['form', 'table', 'miniPage', 'element'], function() {
 					var $ = layui.jquery,
@@ -56,7 +56,7 @@
 
 					table.render({
 						elem: '#currentTableId',
-						url: 'http://api.yujl.top/student/',
+						url: window.url+"/student/",
 						toolbar: '#toolbarDemo',
 						defaultToolbar: ['filter', 'exports', 'print', {
 							title: '提示',
@@ -159,12 +159,12 @@
 							var checkStatus = table.checkStatus('currentTableId'),
 								data = checkStatus.data;
 							//layer.alert(JSON.stringify(data));
-							$.post("http://api.yujl.top/student/del/", JSON.stringify(data), function(res) {
+							$.post(window.url+"/student/del/", JSON.stringify(data), function(res) {
 								if(res.code == 1) {
 									layer.msg(res.info, {
 										time: 2000
 									});
-									var url = "http://api.yujl.top/student/del/"; //
+									var url = window.url+"/student/del/"; //
 									setTimeout(window.location.href = url, 2000);
 								} else {
 									layer.msg(res.info, {
@@ -215,7 +215,7 @@
 						} else if(obj.event === 'delete') {
 							layer.confirm('真的删除行么', function(index) {
 								//								obj.del();
-								$.post("http://api.yujl.top/student/del/", JSON.stringify([obj.data]), function(res) {
+								$.post(window.url+"/student/del/", JSON.stringify([obj.data]), function(res) {
 									if(res.code == 1) {
 										layer.msg(res.info, {
 											time: 2000

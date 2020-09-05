@@ -54,6 +54,7 @@ def login_required(*role):
             try:
                 # 在请求头上拿到token
                 token = request.headers["Authorization"]
+                print(token)
             except Exception as e:
                 # 没接收的到token,给前端抛出错误
                 return jsonify(code=Code.NO_PARAMETER.value, msg='缺少参数token')
