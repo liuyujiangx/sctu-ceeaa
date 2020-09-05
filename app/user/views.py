@@ -78,6 +78,7 @@ def logout():
             key = f"token_{user.get('name')}"
             redis_token = Redis.read(key)
             if redis_token:
+                print('test')
                 Redis.delete(key)
             return SUCCESS()
         else:
