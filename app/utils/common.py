@@ -1,15 +1,5 @@
-# !/usr/bin/python3
-# -*- coding: utf-8 -*-
-"""
-@Author         :  Huguodong
-@Version        :  
-------------------------------------
-@File           :  common.py
-@Description    :  
-@CreateTime     :  2020/3/7 19:01
-------------------------------------
-@ModifyTime     :  
-"""
+
+
 
 # 导入依赖包
 import functools

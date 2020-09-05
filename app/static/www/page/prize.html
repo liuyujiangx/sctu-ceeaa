@@ -93,7 +93,8 @@
 								{
 									field: 'grade',
 									width: 80,
-									title: '年级'
+									title: '年级',
+									sort: true
 								},
 								{
 									field: 'name',
@@ -103,7 +104,8 @@
 								{
 									field: 'p_time',
 									width: 100,
-									title: '获奖时间'
+									title: '获奖时间',
+									sort: true
 								},
 								{
 									field: 'level',
@@ -113,7 +115,8 @@
 								{
 									field: 'award',
 									width: 100,
-									title: '获奖等级'
+									title: '获奖等级',
+									sort: true
 								},
 								{
 									title: '操作',
@@ -124,7 +127,7 @@
 							]
 						],
 						limits: [10, 15, 20, 25, 50, 100],
-						limit: 10,
+						limit: 20,
 						page: true,
 						skin: 'line'
 					});
@@ -270,7 +273,7 @@
 						shadeClose: true,
 						shade: false,
 						maxmin: true, //开启最大化最小化按钮
-						area: ['893px', '600px'],
+						area: ['500px', '500px'],
 						content: './page/login-1.html'
 					});
 

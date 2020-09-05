@@ -1,12 +1,15 @@
 from flask import request, jsonify
 
 from app.model.models import User, Role, User_Role
-from . import user
 from app.utils.common import login_required, create_token, SUCCESS, verify_token, AUTH_ERR, REQUEST_ERROR, OTHER_LOGIN, \
     NO_PARAMETER
 from app.utils.code_enum import Code
 from app import app
 from app.utils.redis_utils import Redis
+from flask import Blueprint
+
+user = Blueprint("user", __name__)
+
 
 @user.route('/test')
 # @login_required('admin')
@@ -45,7 +48,7 @@ def login():
     role_list = [i.role_key for i in user_role]
     token = create_token(user.id, user.user_name, role_list)
     data = {'token': token, 'userId': user.id, 'userName': user.user_name, 'nickname': user.nickname}
-    #记录登录ip将token存入rerdis
+    # 记录登录ip将token存入rerdis
     try:
         user.login_ip = request.remote_addr
         user.update()

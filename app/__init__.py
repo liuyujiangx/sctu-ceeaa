@@ -21,7 +21,9 @@ app.debug = True
 db = SQLAlchemy(app)
 
 from app.home import home as home_blueprint
-from app.user import user as user_blueprint
+from app.permission.user import user as user_blueprint
+from app.permission.menu import menu as menu_buleprint
 
 app.register_blueprint(home_blueprint)
 app.register_blueprint(user_blueprint, url_prefix="/user/")
+app.register_blueprint(menu_buleprint, url_prefix="/menu/")
