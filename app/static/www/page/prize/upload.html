@@ -36,8 +36,7 @@
 				}
 				upload.render({
 					elem: '#test8',
-					url: window.url + '/prize/upload/',
-					//url: 'http://127.0.0.1:5000/prize/upload/',
+					url: localStorage.getItem("url") + + '/prize/upload/',
 					auto: false,
 					field: 'img',
 					bindAction: '#test9',

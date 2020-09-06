@@ -32,28 +32,11 @@
             checkedKey: 'sno',
             table: {
                 url: localStorage.getItem("url") + '/student/',
-                cols: [[
-                    { type: 'radio' },
-	                {field: 'sno', width: 150, title: '学号', sort: true},
-	                {field: 'sname', width: 80, title: '姓名'},
-	                {field: 'ssex', width: 80, title: '性别'},
-	                {field: 'sclass', width: 200, title: '班级'},
-	                {field: 'scollege', width: 200, title: '学院'},
-	                {field: 'smajor', width: 200, title: '专业'},
-                ]]
-            },
-            headers: {
+                headers: {
 					'Authorization': sessionStorage.token
 				},
-			done: function(elem, data,res) {
-				var NEWJSON = []
-                layui.each(data.data, function (index, item) {
-                    NEWJSON.push(item.sno)
-                    NEWJSON.push(item.sname)
-                })
-                elem.val(NEWJSON[0])
-                $("#demo2").attr("value",NEWJSON[1])
-				if(res.code != 0) {
+				done:function(res){
+					if(res.code != 0) {
 					layer.confirm('是否登录？', {
 						btn: ['登录', '算了'] //按钮
 					}, function() {
@@ -76,6 +59,27 @@
 						layer.msg('取消登录！')
 					});
 				}
+				},
+                cols: [[
+                    { type: 'radio' },
+	                {field: 'sno', width: 150, title: '学号', sort: true},
+	                {field: 'sname', width: 80, title: '姓名'},
+	                {field: 'ssex', width: 80, title: '性别'},
+	                {field: 'sclass', width: 200, title: '班级'},
+	                {field: 'scollege', width: 200, title: '学院'},
+	                {field: 'smajor', width: 200, title: '专业'},
+                ]]
+            },
+            
+			done: function(elem, data) {
+				var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.sno)
+                    NEWJSON.push(item.sname)
+                })
+                elem.val(NEWJSON[0])
+                $("#demo2").attr("value",NEWJSON[1])
+				
 
 			},
             
@@ -101,27 +105,11 @@
             checkedKey: 'name',
             table: {
                 url: localStorage.getItem("url") + '/competition/',
-                cols: [[
-                    { type: 'radio' },
-                //{field: 'id', width: 80, title: '编号', sort: true},
-                {field: 'name', width: 300, title: '竞赛全称'},
-                {field: 'af_name', width: 200, title: '竞赛简称'},
-                {field: 'organizer', width: 200, title: '主办单位'},
-                {field: 'undertaker', width: 200, title: '承办单位'},
-                {field: 'co_organizer', width: 200, title: '协办单位'},
-                ]]
-            },
-            headers: {
+                headers: {
 					'Authorization': sessionStorage.token
 				},
-			done: function(elem, data,res) {
-				var NEWJSON = []
-                layui.each(data.data, function (index, item) {
-                    NEWJSON.push(item.name)
-                })
-                elem.val(NEWJSON[0])
-                $("#demo3").attr("value",NEWJSON[1])
-				if(res.code != 0) {
+				done:function(res){
+					if(res.code != 0) {
 					layer.confirm('是否登录？', {
 						btn: ['登录', '算了'] //按钮
 					}, function() {
@@ -144,6 +132,26 @@
 						layer.msg('取消登录！')
 					});
 				}
+				},
+                cols: [[
+                    { type: 'radio' },
+                //{field: 'id', width: 80, title: '编号', sort: true},
+                {field: 'name', width: 300, title: '竞赛全称'},
+                {field: 'af_name', width: 200, title: '竞赛简称'},
+                {field: 'organizer', width: 200, title: '主办单位'},
+                {field: 'undertaker', width: 200, title: '承办单位'},
+                {field: 'co_organizer', width: 200, title: '协办单位'},
+                ]]
+            },
+            
+			done: function(elem, data) {
+				var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.name)
+                })
+                elem.val(NEWJSON[0])
+                $("#demo3").attr("value",NEWJSON[1])
+				
 
 			},
             
@@ -196,10 +204,10 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	$.post("http://api.yujl.top/prize/add/",JSON.stringify(data.field),function(res){
+        	$.post(localStorage.getItem("url") +"/prize/add/",JSON.stringify(data.field),function(res){
 			if(res.status){
 				layer.msg(res.info, {time: 2000});
-				var url = "http://api.yujl.top/prize/add/"; //
+				var url = localStorage.getItem("url") +"/prize/add/"; //
 				setTimeout(window.location.href=url,2000);
 				}else{
 				layer.msg(res.info, {time: 2000});
