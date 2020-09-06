@@ -669,7 +669,7 @@ def prize_upload():
     t_prize.img = 'http://www.yujl.top:2020/' + img_filename
     db.session.add(t_prize)
     db.session.commit()
-    return jsonify({"code": 0, "info": "上传成功"})
+    return jsonify({"code": 0, "msg": "上传成功"})
 
 
 @home.route("/prize/del/", methods=["POST"])

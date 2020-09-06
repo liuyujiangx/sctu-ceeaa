@@ -22,6 +22,7 @@
 			layui.use('upload', function() {
 				var $ = layui.jquery,
 					upload = layui.upload;
+
 				function getQueryVariable(variable) {
 					var query = window.location.search.substring(1);
 					var vars = query.split("&");
@@ -33,10 +34,9 @@
 					}
 					return(false);
 				}
-				console.log(getQueryVariable("id"))
 				upload.render({
 					elem: '#test8',
-					url: window.url+'/prize/upload/',
+					url: window.url + '/prize/upload/',
 					//url: 'http://127.0.0.1:5000/prize/upload/',
 					auto: false,
 					field: 'img',
@@ -44,10 +44,18 @@
 					data: {
 						"id": getQueryVariable("id")
 					},
+					headers: {
+						'Authorization': sessionStorage.token
+					},
 					done: function(res) {
-						layer.msg('上传成功');
-						parent.layer.closeAll();
+						layer.msg(res.msg);
+						if(res.code!=0){
+							layer.msg('出错误了，请重新登录！')
+						}else{
+							parent.layer.closeAll();
+						}
 						
+
 					}
 				});
 

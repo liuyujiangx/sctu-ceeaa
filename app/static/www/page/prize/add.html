@@ -31,7 +31,7 @@
             elem: '#demo',
             checkedKey: 'sno',
             table: {
-                url: 'http://api.yujl.top/student/',
+                url: localStorage.getItem("url") + '/student/',
                 cols: [[
                     { type: 'radio' },
 	                {field: 'sno', width: 150, title: '学号', sort: true},
@@ -42,15 +42,43 @@
 	                {field: 'smajor', width: 200, title: '专业'},
                 ]]
             },
-            done: function (elem, data) {
-                var NEWJSON = []
+            headers: {
+					'Authorization': sessionStorage.token
+				},
+			done: function(elem, data,res) {
+				var NEWJSON = []
                 layui.each(data.data, function (index, item) {
                     NEWJSON.push(item.sno)
                     NEWJSON.push(item.sname)
                 })
                 elem.val(NEWJSON[0])
                 $("#demo2").attr("value",NEWJSON[1])
-            }
+				if(res.code != 0) {
+					layer.confirm('是否登录？', {
+						btn: ['登录', '算了'] //按钮
+					}, function() {
+						layer.open({
+							type: 2,
+							title: '登录',
+							//shadeClose: true,
+							closeBtn: 1,
+							//shade: false,
+							maxmin: true, //开启最大化最小化按钮
+							area: ['500px', '500px'],
+							content: './page/login-2.html',
+							end: function() {
+								window.parent.location.reload();
+								parent.layer.closeAll(); //关闭当前页
+							}
+						});
+
+					}, function() {
+						layer.msg('取消登录！')
+					});
+				}
+
+			},
+            
         })
 
     });
@@ -72,7 +100,7 @@
             elem: '#demo3',
             checkedKey: 'name',
             table: {
-                url: 'http://api.yujl.top/competition/',
+                url: localStorage.getItem("url") + '/competition/',
                 cols: [[
                     { type: 'radio' },
                 //{field: 'id', width: 80, title: '编号', sort: true},
@@ -83,14 +111,42 @@
                 {field: 'co_organizer', width: 200, title: '协办单位'},
                 ]]
             },
-            done: function (elem, data) {
-                var NEWJSON = []
+            headers: {
+					'Authorization': sessionStorage.token
+				},
+			done: function(elem, data,res) {
+				var NEWJSON = []
                 layui.each(data.data, function (index, item) {
                     NEWJSON.push(item.name)
                 })
                 elem.val(NEWJSON[0])
                 $("#demo3").attr("value",NEWJSON[1])
-            }
+				if(res.code != 0) {
+					layer.confirm('是否登录？', {
+						btn: ['登录', '算了'] //按钮
+					}, function() {
+						layer.open({
+							type: 2,
+							title: '登录',
+							//shadeClose: true,
+							closeBtn: 1,
+							//shade: false,
+							maxmin: true, //开启最大化最小化按钮
+							area: ['500px', '500px'],
+							content: './page/login-2.html',
+							end: function() {
+								window.parent.location.reload();
+								parent.layer.closeAll(); //关闭当前页
+							}
+						});
+
+					}, function() {
+						layer.msg('取消登录！')
+					});
+				}
+
+			},
+            
         })
 
     });
