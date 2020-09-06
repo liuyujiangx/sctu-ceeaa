@@ -212,14 +212,12 @@
 						data = checkStatus.data;
 					//layer.alert(JSON.stringify(data));
 					$.post(localStorage.getItem("url") + "/prize/del/", JSON.stringify(data), function(res) {
-						if(res.status) {
+						if(res.code==1) {
 							layer.msg(res.info, {
 								time: 2000
 							});
-							var url = localStorage.getItem("url") + "/prize/del/"; //
-							setTimeout(window.location.href = url, 2000);
 						} else {
-							layer.msg(res.info, {
+							layer.msg(res, {
 								time: 2000
 							});
 						}
