@@ -1,237 +1,293 @@
 <div class="layuimini-main">
 
-    <div class="layui-form layuimini-form">
-        <div class="layui-form-item">
-            <label class="layui-form-label required">学号</label>
-            <div class="layui-input-block">
-                <input type="text" name="sno" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" id="demo" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">姓名</label>
-            <div class="layui-input-block">
-                <input type="text" name="sname" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" id="demo2" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">年级</label>
-            <div class="layui-input-block">
-                <input type="text" name="grade" lay-verify="required" lay-reqtext="年级不能为空" placeholder="请输入年级" value="" class="layui-input">
-            </div>
-        </div>
+	<div class="layui-form layuimini-form">
+		<div class="layui-form-item">
+			<label class="layui-form-label required">学号</label>
+			<div class="layui-input-block">
+				<input type="text" name="sno" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" id="demo" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label required">姓名</label>
+			<div class="layui-input-block">
+				<input type="text" name="sname" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" id="demo2" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label required">年级</label>
+			<div class="layui-input-block">
+				<input type="text" name="grade" lay-verify="required" lay-reqtext="年级不能为空" placeholder="请输入年级" value="" class="layui-input">
+			</div>
+		</div>
 
-        <script>
-    layui.use(['table', 'form', 'tableSelect'], function () {
-        var $ = layui.jquery,
-            table = layui.table,
-            form = layui.form,
-            tableSelect = layui.tableSelect;
-            
-        tableSelect.render({
-            elem: '#demo',
-            checkedKey: 'sno',
-            table: {
-                url: localStorage.getItem("url") + '/student/',
-                headers: {
-					'Authorization': sessionStorage.token
-				},
-				done:function(res){
-					if(res.code != 0) {
-					layer.confirm('是否登录？', {
-						btn: ['登录', '算了'] //按钮
-					}, function() {
-						layer.open({
-							type: 2,
-							title: '登录',
-							//shadeClose: true,
-							closeBtn: 1,
-							//shade: false,
-							maxmin: true, //开启最大化最小化按钮
-							area: ['500px', '500px'],
-							content: './page/login-2.html',
-							end: function() {
-								window.parent.location.reload();
-								parent.layer.closeAll(); //关闭当前页
+		<script>
+			layui.use(['table', 'form', 'tableSelect'], function() {
+				var $ = layui.jquery,
+					table = layui.table,
+					form = layui.form,
+					tableSelect = layui.tableSelect;
+
+				tableSelect.render({
+					elem: '#demo',
+					checkedKey: 'sno',
+					table: {
+						url: localStorage.getItem("url") + '/student/',
+						headers: {
+							'Authorization': sessionStorage.token
+						},
+						done: function(res) {
+							if(res.code != 0) {
+								layer.confirm('是否登录？', {
+									btn: ['登录', '算了'] //按钮
+								}, function() {
+									layer.open({
+										type: 2,
+										title: '登录',
+										//shadeClose: true,
+										closeBtn: 1,
+										//shade: false,
+										maxmin: true, //开启最大化最小化按钮
+										area: ['500px', '500px'],
+										content: './page/login-2.html',
+										end: function() {
+											window.parent.location.reload();
+											parent.layer.closeAll(); //关闭当前页
+										}
+									});
+
+								}, function() {
+									layer.msg('取消登录！')
+								});
 							}
-						});
+						},
+						cols: [
+							[{
+									type: 'radio'
+								},
+								{
+									field: 'sno',
+									width: 150,
+									title: '学号',
+									sort: true
+								},
+								{
+									field: 'sname',
+									width: 80,
+									title: '姓名'
+								},
+								{
+									field: 'ssex',
+									width: 80,
+									title: '性别'
+								},
+								{
+									field: 'sclass',
+									width: 200,
+									title: '班级'
+								},
+								{
+									field: 'scollege',
+									width: 200,
+									title: '学院'
+								},
+								{
+									field: 'smajor',
+									width: 200,
+									title: '专业'
+								},
+							]
+						]
+					},
 
-					}, function() {
-						layer.msg('取消登录！')
-					});
-				}
-				},
-                cols: [[
-                    { type: 'radio' },
-	                {field: 'sno', width: 150, title: '学号', sort: true},
-	                {field: 'sname', width: 80, title: '姓名'},
-	                {field: 'ssex', width: 80, title: '性别'},
-	                {field: 'sclass', width: 200, title: '班级'},
-	                {field: 'scollege', width: 200, title: '学院'},
-	                {field: 'smajor', width: 200, title: '专业'},
-                ]]
-            },
-            
-			done: function(elem, data) {
-				var NEWJSON = []
-                layui.each(data.data, function (index, item) {
-                    NEWJSON.push(item.sno)
-                    NEWJSON.push(item.sname)
-                })
-                elem.val(NEWJSON[0])
-                $("#demo2").attr("value",NEWJSON[1])
-				
+					done: function(elem, data) {
+						var NEWJSON = []
+						layui.each(data.data, function(index, item) {
+							NEWJSON.push(item.sno)
+							NEWJSON.push(item.sname)
+						})
+						elem.val(NEWJSON[0])
+						$("#demo2").attr("value", NEWJSON[1])
 
-			},
-            
-        })
+					},
 
-    });
-</script>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">竞赛名称</label>
-            <div class="layui-input-block">
-                <input type="text" id="demo3" name="name" lay-verify="required" lay-reqtext="竞赛名称" placeholder="请输入竞赛名称" value="" class="layui-input">
-            </div>
-        </div>
-        <script>
-    layui.use(['table', 'form', 'tableSelect'], function () {
-        var $ = layui.jquery,
-            table = layui.table,
-            form = layui.form,
-            tableSelect = layui.tableSelect;
-            
-        tableSelect.render({
-            elem: '#demo3',
-            checkedKey: 'name',
-            table: {
-                url: localStorage.getItem("url") + '/competition/',
-                headers: {
-					'Authorization': sessionStorage.token
-				},
-				done:function(res){
-					if(res.code != 0) {
-					layer.confirm('是否登录？', {
-						btn: ['登录', '算了'] //按钮
-					}, function() {
-						layer.open({
-							type: 2,
-							title: '登录',
-							//shadeClose: true,
-							closeBtn: 1,
-							//shade: false,
-							maxmin: true, //开启最大化最小化按钮
-							area: ['500px', '500px'],
-							content: './page/login-2.html',
-							end: function() {
-								window.parent.location.reload();
-								parent.layer.closeAll(); //关闭当前页
+				})
+
+			});
+		</script>
+		<div class="layui-form-item">
+			<label class="layui-form-label required">竞赛名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="demo3" name="name" lay-verify="required" lay-reqtext="竞赛名称" placeholder="请输入竞赛名称" value="" class="layui-input">
+			</div>
+		</div>
+		<script>
+			layui.use(['table', 'form', 'tableSelect'], function() {
+				var $ = layui.jquery,
+					table = layui.table,
+					form = layui.form,
+					tableSelect = layui.tableSelect;
+
+				tableSelect.render({
+					elem: '#demo3',
+					checkedKey: 'name',
+					table: {
+						url: localStorage.getItem("url") + '/competition/',
+						headers: {
+							'Authorization': sessionStorage.token
+						},
+						done: function(res) {
+							if(res.code != 0) {
+								layer.confirm('是否登录？', {
+									btn: ['登录', '算了'] //按钮
+								}, function() {
+									layer.open({
+										type: 2,
+										title: '登录',
+										//shadeClose: true,
+										closeBtn: 1,
+										//shade: false,
+										maxmin: true, //开启最大化最小化按钮
+										area: ['500px', '500px'],
+										content: './page/login-2.html',
+										end: function() {
+											window.parent.location.reload();
+											parent.layer.closeAll(); //关闭当前页
+										}
+									});
+
+								}, function() {
+									layer.msg('取消登录！')
+								});
 							}
-						});
+						},
+						cols: [
+							[{
+									type: 'radio'
+								},
+								//{field: 'id', width: 80, title: '编号', sort: true},
+								{
+									field: 'name',
+									width: 300,
+									title: '竞赛全称'
+								},
+								{
+									field: 'af_name',
+									width: 200,
+									title: '竞赛简称'
+								},
+								{
+									field: 'organizer',
+									width: 200,
+									title: '主办单位'
+								},
+								{
+									field: 'undertaker',
+									width: 200,
+									title: '承办单位'
+								},
+								{
+									field: 'co_organizer',
+									width: 200,
+									title: '协办单位'
+								},
+							]
+						]
+					},
 
-					}, function() {
-						layer.msg('取消登录！')
-					});
-				}
-				},
-                cols: [[
-                    { type: 'radio' },
-                //{field: 'id', width: 80, title: '编号', sort: true},
-                {field: 'name', width: 300, title: '竞赛全称'},
-                {field: 'af_name', width: 200, title: '竞赛简称'},
-                {field: 'organizer', width: 200, title: '主办单位'},
-                {field: 'undertaker', width: 200, title: '承办单位'},
-                {field: 'co_organizer', width: 200, title: '协办单位'},
-                ]]
-            },
-            
-			done: function(elem, data) {
-				var NEWJSON = []
-                layui.each(data.data, function (index, item) {
-                    NEWJSON.push(item.name)
-                })
-                elem.val(NEWJSON[0])
-                $("#demo3").attr("value",NEWJSON[1])
-				
+					done: function(elem, data) {
+						var NEWJSON = []
+						layui.each(data.data, function(index, item) {
+							NEWJSON.push(item.name)
+						})
+						elem.val(NEWJSON[0])
+						$("#demo3").attr("value", NEWJSON[1])
 
-			},
-            
-        })
+					},
 
-    });
-</script>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">获奖时间</label>
-            <div class="layui-input-block">
-                <input type="text" name="p_time" lay-verify="required" lay-reqtext="获奖时间" placeholder="请输入获奖时间" value="" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">获奖级别</label>
-            <div class="layui-input-block">
-                <input type="text" name="level" lay-verify="required" lay-reqtext="获奖级别" placeholder="请输入获奖级别" value="" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">获奖等级</label>
-            <div class="layui-input-block">
-                <input type="text" name="award" lay-verify="required" lay-reqtext="获奖等级" placeholder="请输入获奖等级" value="" class="layui-input">
-            </div>
-        </div>
-        
-        
+				})
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
-            </div>
-        </div>
-    </div>
+			});
+		</script>
+		<div class="layui-form-item">
+			<label class="layui-form-label required">获奖时间</label>
+			<div class="layui-input-block">
+				<input type="text" name="p_time" lay-verify="required" lay-reqtext="获奖时间" placeholder="请输入获奖时间" value="" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label required">获奖级别</label>
+			<div class="layui-input-block">
+				<input type="text" name="level" lay-verify="required" lay-reqtext="获奖级别" placeholder="请输入获奖级别" value="" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label required">获奖等级</label>
+			<div class="layui-input-block">
+				<input type="text" name="award" lay-verify="required" lay-reqtext="获奖等级" placeholder="请输入获奖等级" value="" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
-    layui.use(['form', 'table'], function () {
-        var form = layui.form,
-            layer = layui.layer,
-            table = layui.table,
-            $ = layui.$;
+	layui.use(['form', 'table'], function() {
+		var form = layui.form,
+			layer = layui.layer,
+			table = layui.table,
+			$ = layui.$;
 
-        /**
-         * 初始化表单，要加上，不然刷新部分组件可能会不加载
-         */
-        form.render();
+		/**
+		 * 初始化表单，要加上，不然刷新部分组件可能会不加载
+		 */
+		form.render();
 
-        // 当前弹出层，防止ID被覆盖
-        var parentIndex = layer.index;
+		// 当前弹出层，防止ID被覆盖
+		var parentIndex = layer.index;
 
-        //监听提交
-        form.on('submit(saveBtn)', function (data) {
-        	$.post(localStorage.getItem("url") +"/prize/add/",JSON.stringify(data.field),function(res){
-			if(res.status){
-				layer.msg(res.info, {time: 2000});
-				var url = localStorage.getItem("url") +"/prize/add/"; //
-				setTimeout(window.location.href=url,2000);
-				}else{
-				layer.msg(res.info, {time: 2000});
-			}
-		},'json');
-		table.reload('currentTableId',{
-					page:{
-						curr:1
-					},
-					where:{
-						key:{
-							page:1,
-							limit:10
-						}
+		//监听提交
+		form.on('submit(saveBtn)', function(data) {
+
+			$.ajax({
+				type: "post",
+				url: localStorage.getItem("url") + "/prize/add/",
+				async: true,
+				headers: {
+					'Authorization': sessionStorage.token
+				},
+				data: JSON.stringify(data.field),
+				success: function(res) {
+					if(res.code == 0) {
+						layer.msg(res.info, {
+							time: 2000
+						});
+						parent.layer.closeAll();
+					} else {
+						layer.msg(res.msg, {
+							time: 2000
+						});
 					}
-				},'data');
-        	
-        	
-        	
-            
+				}
 
+			}, 'json');
+			table.reload('currentTableId', {
+				page: {
+					curr: 1
+				},
+				where: {
+					key: {
+						page: 1,
+						limit: 10
+					}
+				}
+			}, 'data');
 
-            return false;
-        });
+			return false;
+		});
 
-    });
+	});
 </script>

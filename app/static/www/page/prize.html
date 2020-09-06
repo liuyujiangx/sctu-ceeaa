@@ -88,8 +88,6 @@
 						});
 					}
 
-					
-					
 				},
 				cols: [
 					[{
@@ -192,6 +190,19 @@
 						area: [openWH[0] + 'px', openWH[1] + 'px'],
 						offset: [openWH[2] + 'px', openWH[3] + 'px'],
 						content: content,
+						end: function() {
+							table.reload('currentTableId', {
+								page: {
+									curr: 1
+								},
+								where: {
+									key: {
+										page: 1,
+										limit: 10
+									}
+								}
+							}, 'data');
+						}
 					});
 					$(window).on("resize", function() {
 						layer.full(index);
