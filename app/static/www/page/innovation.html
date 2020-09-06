@@ -38,203 +38,199 @@
 </div>
 
 <script>
-	layui.use(['jquery', 'miniPage'], function() {
+	layui.use(['form', 'table', 'miniPage', 'element', 'jquery'], function() {
 		var $ = layui.jquery,
-			miniPage = layui.miniPage,
-			check_user = {
-				"user": localStorage.getItem("user"),
-				"token": localStorage.getItem("token")
-			};
+			form = layui.form,
+			table = layui.table,
+			miniPage = layui.miniPage;
 
-		$.post(localStorage.getItem("url")+"/check_login/", JSON.stringify(check_user), function(res) {
-			if(res.code == 0) {
-				layui.use(['form', 'table', 'miniPage', 'element'], function() {
-					var $ = layui.jquery,
-						form = layui.form,
-						table = layui.table,
-						miniPage = layui.miniPage;
-
-					table.render({
-						elem: '#currentTableId',
-						url: 'http://api.yujl.top/innovation/',
-						toolbar: '#toolbarDemo',
-						defaultToolbar: ['filter', 'exports', 'print', {
-							title: '提示',
-							layEvent: 'LAYTABLE_TIPS',
-							icon: 'layui-icon-tips'
-						}],
-						cols: [
-							[{
-									type: "checkbox",
-									width: 50
-								},
-								{
-									field: 'sno',
-									width: 140,
-									title: '学号',
-									sort: true
-								},
-								{
-									field: 'sname',
-									width: 80,
-									title: '姓名'
-								},
-								{
-									field: 'grade',
-									width: 80,
-									title: '年级'
-								},
-								{
-									field: 'name',
-									width: 500,
-									title: '项目名称'
-								},
-								{
-									field: 'level',
-									width: 100,
-									title: '项目级别'
-								},
-								{
-									field: 'category',
-									width: 100,
-									title: '项目类别'
-								},
-							]
-						],
-						limits: [10, 15, 20, 25, 50, 100],
-						limit: 10,
-						page: true,
-						skin: 'line'
-					});
-
-					// 监听搜索操作
-					form.on('submit(data-search-btn)', function(data) {
-						var result = JSON.stringify(data.field);
-						layer.alert(result, {
-							title: '最终的搜索信息'
+		table.render({
+			elem: '#currentTableId',
+			url: localStorage.getItem("url") + '/innovation/',
+			toolbar: '#toolbarDemo',
+			defaultToolbar: ['filter', 'exports', 'print', {
+				title: '提示',
+				layEvent: 'LAYTABLE_TIPS',
+				icon: 'layui-icon-tips'
+			}],
+			headers: {
+					'Authorization': sessionStorage.token
+				},
+			done: function(res) {
+				if(res.code != 0) {
+					layer.confirm('是否登录？', {
+						btn: ['登录', '算了'] //按钮
+					}, function() {
+						layer.open({
+							type: 2,
+							title: '登录',
+							//shadeClose: true,
+							closeBtn: 1,
+							//shade: false,
+							maxmin: true, //开启最大化最小化按钮
+							area: ['500px', '500px'],
+							content: './page/login-2.html',
+							end: function() {
+								window.parent.location.reload();
+								parent.layer.closeAll(); //关闭当前页
+							}
 						});
 
-						//执行搜索重载
-						table.reload('currentTableId', {
-							page: {
-								curr: 1
-							},
-							where: {
-								searchParams: result
-							}
-						}, 'data');
-
-						return false;
+					}, function() {
+						layer.msg('取消登录！')
 					});
+				}
 
-					/**
-					 * toolbar事件监听
-					 */
-					table.on('toolbar(currentTableFilter)', function(obj) {
-						if(obj.event === 'add') { // 监听添加操作
-							var content = miniPage.getHrefContent('page/innovation/add.html');
-							var openWH = miniPage.getOpenWidthHeight();
+			},
+			cols: [
+				[{
+						type: "checkbox",
+						width: 50
+					},
+					{
+						field: 'sno',
+						width: 140,
+						title: '学号',
+						sort: true
+					},
+					{
+						field: 'sname',
+						width: 80,
+						title: '姓名'
+					},
+					{
+						field: 'grade',
+						width: 80,
+						title: '年级'
+					},
+					{
+						field: 'name',
+						width: 500,
+						title: '项目名称'
+					},
+					{
+						field: 'level',
+						width: 100,
+						title: '项目级别'
+					},
+					{
+						field: 'category',
+						width: 100,
+						title: '项目类别'
+					},
+				]
+			],
+			limits: [10, 15, 20, 25, 50, 100],
+			limit: 10,
+			page: true,
+			skin: 'line'
+		});
 
-							var index = layer.open({
-								title: '添加用户',
-								type: 1,
-								shade: 0.2,
-								maxmin: true,
-								shadeClose: true,
-								area: [openWH[0] + 'px', openWH[1] + 'px'],
-								offset: [openWH[2] + 'px', openWH[3] + 'px'],
-								content: content,
-							});
-							$(window).on("resize", function() {
-								layer.full(index);
-							});
-						} else if(obj.event === 'delete') { // 监听删除操作
-							var checkStatus = table.checkStatus('currentTableId'),
-								data = checkStatus.data;
-							//layer.alert(JSON.stringify(data));
-							$.post(localStorage.getItem("url")+"/innovation/del/", JSON.stringify(data), function(res) {
-								if(res.status) {
-									layer.msg(res.info, {
-										time: 2000
-									});
-									var url = localStorage.getItem("url")+"/innovation/del/"; //
-									setTimeout(window.location.href = url, 2000);
-								} else {
-									layer.msg(res.info, {
-										time: 2000
-									});
-								}
-							}, 'json');
-							table.reload('currentTableId', {
-								page: {
-									curr: 1
-								},
-								where: {
-									key: {
-										page: 1,
-										limit: 10
-									}
-								}
-							}, 'data');
-						}
-					});
+		// 监听搜索操作
+		form.on('submit(data-search-btn)', function(data) {
+			var result = JSON.stringify(data.field);
+			layer.alert(result, {
+				title: '最终的搜索信息'
+			});
 
-					//监听表格复选框选择
-					table.on('checkbox(currentTableFilter)', function(obj) {
-						console.log(obj)
-					});
+			//执行搜索重载
+			table.reload('currentTableId', {
+				page: {
+					curr: 1
+				},
+				where: {
+					searchParams: result
+				}
+			}, 'data');
 
-					table.on('tool(currentTableFilter)', function(obj) {
-						var data = obj.data;
-						if(obj.event === 'edit') {
+			return false;
+		});
 
-							var content = miniPage.getHrefContent('page/innovation/add.html');
-							var openWH = miniPage.getOpenWidthHeight();
+		/**
+		 * toolbar事件监听
+		 */
+		table.on('toolbar(currentTableFilter)', function(obj) {
+			if(obj.event === 'add') { // 监听添加操作
+				var content = miniPage.getHrefContent('page/innovation/add.html');
+				var openWH = miniPage.getOpenWidthHeight();
 
-							var index = layer.open({
-								title: '编辑用户',
-								type: 1,
-								shade: 0.2,
-								maxmin: true,
-								shadeClose: true,
-								area: [openWH[0] + 'px', openWH[1] + 'px'],
-								offset: [openWH[2] + 'px', openWH[3] + 'px'],
-								content: content,
-							});
-							$(window).on("resize", function() {
-								layer.full(index);
-							});
-							return false;
-						} else if(obj.event === 'delete') {
-							layer.confirm('真的删除行么', function(index) {
-								obj.del();
-								layer.close(index);
-							});
-						}
-					});
-
+				var index = layer.open({
+					title: '添加用户',
+					type: 1,
+					shade: 0.2,
+					maxmin: true,
+					shadeClose: true,
+					area: [openWH[0] + 'px', openWH[1] + 'px'],
+					offset: [openWH[2] + 'px', openWH[3] + 'px'],
+					content: content,
 				});
-
-			} else {
-				console.log(res);
-				layer.confirm('是否登录？', {
-					btn: ['登录', '算了'] //按钮
-				}, function() {
-					layer.open({
-						type: 2,
-						title: '登录',
-						shadeClose: true,
-						shade: false,
-						maxmin: true, //开启最大化最小化按钮
-						area: ['893px', '600px'],
-						content: './page/login-1.html'
-					});
-
-				}, function() {
-					layer.msg('取消登录！')
+				$(window).on("resize", function() {
+					layer.full(index);
 				});
+			} else if(obj.event === 'delete') { // 监听删除操作
+				var checkStatus = table.checkStatus('currentTableId'),
+					data = checkStatus.data;
+				//layer.alert(JSON.stringify(data));
+				$.post(localStorage.getItem("url") + "/innovation/del/", JSON.stringify(data), function(res) {
+					if(res.status) {
+						layer.msg(res.info, {
+							time: 2000
+						});
+						var url = localStorage.getItem("url") + "/innovation/del/"; //
+						setTimeout(window.location.href = url, 2000);
+					} else {
+						layer.msg(res.info, {
+							time: 2000
+						});
+					}
+				}, 'json');
+				table.reload('currentTableId', {
+					page: {
+						curr: 1
+					},
+					where: {
+						key: {
+							page: 1,
+							limit: 10
+						}
+					}
+				}, 'data');
+			}
+		});
 
-			};
-		}, 'json')
+		//监听表格复选框选择
+		table.on('checkbox(currentTableFilter)', function(obj) {
+			console.log(obj)
+		});
+
+		table.on('tool(currentTableFilter)', function(obj) {
+			var data = obj.data;
+			if(obj.event === 'edit') {
+
+				var content = miniPage.getHrefContent('page/innovation/add.html');
+				var openWH = miniPage.getOpenWidthHeight();
+
+				var index = layer.open({
+					title: '编辑用户',
+					type: 1,
+					shade: 0.2,
+					maxmin: true,
+					shadeClose: true,
+					area: [openWH[0] + 'px', openWH[1] + 'px'],
+					offset: [openWH[2] + 'px', openWH[3] + 'px'],
+					content: content,
+				});
+				$(window).on("resize", function() {
+					layer.full(index);
+				});
+				return false;
+			} else if(obj.event === 'delete') {
+				layer.confirm('真的删除行么', function(index) {
+					obj.del();
+					layer.close(index);
+				});
+			}
+		});
+
 	});
 </script>

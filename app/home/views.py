@@ -18,51 +18,51 @@ from . import home
 from app.utils.common import login_required
 
 
-def admin_login_req(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if "home" not in session:
-            return jsonify(
-                {"code": 44,
-                 "msg": '请登录'
-                 }
-
-            )
-        return f(*args, **kwargs)
-
-    return decorated_function
-
-
-# 生成token 入参：用户id
-def generate_token(key, expire=3600):
-    ts_str = str(time.time() + expire)
-    ts_byte = ts_str.encode("utf-8")
-    sha1_tshexstr = hmac.new(key.encode("utf-8"), ts_byte, 'sha1').hexdigest()
-    token = ts_str + ':' + sha1_tshexstr
-    b64_token = base64.urlsafe_b64encode(token.encode("utf-8"))
-    return b64_token.decode("utf-8")
-
-
-# 验证token 入参：用户id 和 token
-def certify_token(key, token):
-    if key is None or token is None:
-        return False
-    token_str = base64.urlsafe_b64decode(token).decode('utf-8')
-    token_list = token_str.split(':')
-    if len(token_list) != 2:
-        return False
-    ts_str = token_list[0]
-    if float(ts_str) < time.time():
-        # token expired
-        return False
-    known_sha1_tsstr = token_list[1]
-    sha1 = hmac.new(key.encode("utf-8"), ts_str.encode('utf-8'), 'sha1')
-    calc_sha1_tsstr = sha1.hexdigest()
-    if calc_sha1_tsstr != known_sha1_tsstr:
-        # token certification failed
-        return False
-    # token certification success
-    return True
+# def admin_login_req(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         if "home" not in session:
+#             return jsonify(
+#                 {"code": 44,
+#                  "msg": '请登录'
+#                  }
+#
+#             )
+#         return f(*args, **kwargs)
+#
+#     return decorated_function
+#
+#
+# # 生成token 入参：用户id
+# def generate_token(key, expire=3600):
+#     ts_str = str(time.time() + expire)
+#     ts_byte = ts_str.encode("utf-8")
+#     sha1_tshexstr = hmac.new(key.encode("utf-8"), ts_byte, 'sha1').hexdigest()
+#     token = ts_str + ':' + sha1_tshexstr
+#     b64_token = base64.urlsafe_b64encode(token.encode("utf-8"))
+#     return b64_token.decode("utf-8")
+#
+#
+# # 验证token 入参：用户id 和 token
+# def certify_token(key, token):
+#     if key is None or token is None:
+#         return False
+#     token_str = base64.urlsafe_b64decode(token).decode('utf-8')
+#     token_list = token_str.split(':')
+#     if len(token_list) != 2:
+#         return False
+#     ts_str = token_list[0]
+#     if float(ts_str) < time.time():
+#         # token expired
+#         return False
+#     known_sha1_tsstr = token_list[1]
+#     sha1 = hmac.new(key.encode("utf-8"), ts_str.encode('utf-8'), 'sha1')
+#     calc_sha1_tsstr = sha1.hexdigest()
+#     if calc_sha1_tsstr != known_sha1_tsstr:
+#         # token certification failed
+#         return False
+#     # token certification success
+#     return True
 
 
 @home.route('/test/')
@@ -75,56 +75,57 @@ def test():
 
 
 @home.route('/login/', methods=['POST'])
-def login():
-    data = request.get_data()
-    data = str(data, 'utf-8')
-    data = json.loads(data)
-    admin = Admin.query.filter_by(name=data['username']).first()
-    if not admin:
-        return jsonify({
-            'code': -1,
-            'msg': '账号或密码错误',
-        })
-    if not admin.check_pwd(data['password']):
-        content = "账号或密码错误"
-        return jsonify({
-            'code': -1,
-            'msg': content,
-        })
-    else:
-        token = generate_token(data['username'])
-        return jsonify({
-            'code': 0,
-            'token': token,
-            'user': data['username'],
-            'msg': '登录成功'
-        })
+# def login():
+#     data = request.get_data()
+#     data = str(data, 'utf-8')
+#     data = json.loads(data)
+#     admin = Admin.query.filter_by(name=data['username']).first()
+#     if not admin:
+#         return jsonify({
+#             'code': -1,
+#             'msg': '账号或密码错误',
+#         })
+#     if not admin.check_pwd(data['password']):
+#         content = "账号或密码错误"
+#         return jsonify({
+#             'code': -1,
+#             'msg': content,
+#         })
+#     else:
+#         token = generate_token(data['username'])
+#         return jsonify({
+#             'code': 0,
+#             'token': token,
+#             'user': data['username'],
+#             'msg': '登录成功'
+#         })
 
 
-@home.route('/check_login/', methods=['POST'])
-def check_login():
-    data = request.get_data()
-    data = str(data, 'utf-8')
-    data = json.loads(data)
-    print(data)
-    if certify_token(data['user'], data['token']):
-        return jsonify(
-            {"code": 0,
-             "msg": '已登录'
-             }
-
-        )
-    else:
-        return jsonify(
-            {"code": -1,
-             "msg": '请登录'
-             }
-
-        )
+# @home.route('/check_login/', methods=['POST'])
+# def check_login():
+#     data = request.get_data()
+#     data = str(data, 'utf-8')
+#     data = json.loads(data)
+#     print(data)
+#     if certify_token(data['user'], data['token']):
+#         return jsonify(
+#             {"code": 0,
+#              "msg": '已登录'
+#              }
+#
+#         )
+#     else:
+#         return jsonify(
+#             {"code": -1,
+#              "msg": '请登录'
+#              }
+#
+#         )
 
 
 # 学生列表
 @home.route('/student/')
+@login_required()
 def student():
     student_count = T_students.query.count()
     data = request.args.to_dict()
@@ -154,6 +155,7 @@ def student():
 
 # 大学生创新创业
 @home.route('/innovation/')
+@login_required()
 def innovation():
     innovation_count = T_innovation.query.count()
     data = request.args.to_dict()
@@ -173,6 +175,7 @@ def innovation():
 
 
 @home.route('/classes/')
+@login_required()
 def classes():
     classes_count = T_classes.query.count()
     data = request.args.to_dict()
@@ -192,6 +195,7 @@ def classes():
 
 #  增加班级
 @home.route("/classes/add/", methods=["POST"])
+@login_required()
 def classes_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -206,6 +210,7 @@ def classes_add():
 
 
 @home.route("/classes/del/", methods=["POST"])
+@login_required()
 def classes_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -219,6 +224,7 @@ def classes_del():
 
 #  增加学生
 @home.route("/student/add/", methods=["POST"])
+@login_required()
 def student_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -237,6 +243,7 @@ def student_add():
 
 
 @home.route("/student/del/", methods=["POST"])
+@login_required()
 def student_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -250,6 +257,7 @@ def student_del():
 
 #  增加大学生创新创业
 @home.route("/innovation/add/", methods=["POST"])
+@login_required()
 def innovation_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -268,6 +276,7 @@ def innovation_add():
 
 
 @home.route("/innovation/del/", methods=["POST"])
+@login_required()
 def innovation_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -281,6 +290,7 @@ def innovation_del():
 
 #  教师信息管理
 @home.route("/teachers/")
+@login_required()
 def teachers_list():
     data = request.args.to_dict()
     innovation_count = T_teachers.query.count()
@@ -301,6 +311,7 @@ def teachers_list():
 
 #  增加老师
 @home.route("/teachers/add/", methods=["POST"])
+@login_required()
 def teachers_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -319,6 +330,7 @@ def teachers_add():
 
 
 @home.route("/teachers/del/", methods=["POST"])
+@login_required()
 def teachers_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -332,6 +344,7 @@ def teachers_del():
 
 # 教师科研成果
 @home.route('/scientific/')
+@login_required()
 def scientific():
     scientific_count = T_scientific.query.count()
     data = request.args.to_dict()
@@ -352,6 +365,7 @@ def scientific():
 
 #  增加教师科研成果
 @home.route("/scientific/add/", methods=["POST"])
+@login_required()
 def scientific_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -371,6 +385,7 @@ def scientific_add():
 
 
 @home.route("/scientific/del/", methods=["POST"])
+@login_required()
 def scientific_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -384,6 +399,7 @@ def scientific_del():
 
 # 教师教研成果
 @home.route('/teachingr/')
+@login_required()
 def teachingr():
     teachingr_count = T_teachingr.query.count()
     data = request.args.to_dict()
@@ -404,6 +420,7 @@ def teachingr():
 
 #  增加教师教研成果
 @home.route("/teachingr/add/", methods=["POST"])
+@login_required()
 def teachingr_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -422,6 +439,7 @@ def teachingr_add():
 
 
 @home.route("/teachingr/del/", methods=["POST"])
+@login_required()
 def teachingr_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -435,6 +453,7 @@ def teachingr_del():
 
 # 课程类型
 @home.route('/coursetype/')
+@login_required()
 def coursetype():
     coursetype_count = T_coursetype.query.count()
     data = request.args.to_dict()
@@ -454,6 +473,7 @@ def coursetype():
 
 #  增加课程类型
 @home.route("/coursetype/add/", methods=["POST"])
+@login_required()
 def coursetype_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -467,6 +487,7 @@ def coursetype_add():
 
 
 @home.route("/coursetype/del/", methods=["POST"])
+@login_required()
 def coursetype_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -480,6 +501,7 @@ def coursetype_del():
 
 # 课程模块
 @home.route('/cmodules/')
+@login_required()
 def cmodules():
     cmodules_count = T_cmodules.query.count()
     data = request.args.to_dict()
@@ -499,6 +521,7 @@ def cmodules():
 
 #  增加课程模块
 @home.route("/cmodules/add/", methods=["POST"])
+@login_required()
 def cmodules_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -514,6 +537,7 @@ def cmodules_add():
 
 
 @home.route("/cmodules/del/", methods=["POST"])
+@login_required()
 def cmodules_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -527,6 +551,7 @@ def cmodules_del():
 
 # 竞赛管理
 @home.route('/competition/')
+@login_required()
 def competition():
     competition_count = T_competition.query.count()
     data = request.args.to_dict()
@@ -548,6 +573,7 @@ def competition():
 
 #  增加竞赛
 @home.route("/competition/add/", methods=["POST"])
+@login_required()
 def competition_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -566,6 +592,7 @@ def competition_add():
 
 
 @home.route("/competition/del/", methods=["POST"])
+@login_required()
 def competition_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -602,6 +629,7 @@ def prize():
 
 #  增加获奖
 @home.route("/prize/add/", methods=["POST"])
+@login_required()
 def prize_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -628,6 +656,7 @@ def change_filename(filename):
 
 
 @home.route('/prize/upload/', methods=["POST"])
+@login_required()
 def prize_upload():
     img = request.files.get("img")
     img_filename = change_filename(img.filename)
@@ -644,6 +673,7 @@ def prize_upload():
 
 
 @home.route("/prize/del/", methods=["POST"])
+@login_required()
 def prize_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -657,6 +687,7 @@ def prize_del():
 
 # 大学生发表论文情况
 @home.route('/thesis/')
+@login_required()
 def thesis():
     thesis_count = T_thesis.query.count()
     data = request.args.to_dict()
@@ -678,6 +709,7 @@ def thesis():
 
 #  增加论文
 @home.route("/thesis/add/", methods=["POST"])
+@login_required()
 def thesis_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -697,6 +729,7 @@ def thesis_add():
 
 
 @home.route("/thesis/del/", methods=["POST"])
+@login_required()
 def thesis_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -710,6 +743,7 @@ def thesis_del():
 
 # 大学生专利情况
 @home.route('/patent/')
+@login_required()
 def patent():
     patent_count = T_patent.query.count()
     data = request.args.to_dict()
@@ -730,6 +764,7 @@ def patent():
 
 #  增加论文
 @home.route("/patent/add/", methods=["POST"])
+@login_required()
 def patent_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -750,6 +785,7 @@ def patent_add():
 
 
 @home.route("/patent/del/", methods=["POST"])
+@login_required()
 def patent_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -763,6 +799,7 @@ def patent_del():
 
 # 大学生科研项目
 @home.route('/research/')
+@login_required()
 def research():
     research_count = T_research.query.count()
     data = request.args.to_dict()
@@ -784,6 +821,7 @@ def research():
 
 #  增加大学生创新创业
 @home.route("/research/add/", methods=["POST"])
+@login_required()
 def research_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -802,6 +840,7 @@ def research_add():
 
 
 @home.route("/research/del/", methods=["POST"])
+@login_required()
 def research_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -815,6 +854,7 @@ def research_del():
 
 # 课程
 @home.route('/courses/')
+@login_required()
 def courses():
     courses_count = T_courses.query.count()
     data = request.args.to_dict()
@@ -836,6 +876,7 @@ def courses():
 
 #  增加课程
 @home.route("/courses/add/", methods=["POST"])
+@login_required()
 def courses_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -857,6 +898,7 @@ def courses_add():
 
 
 @home.route("/courses/del/", methods=["POST"])
+@login_required()
 def courses_del():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -899,6 +941,7 @@ def data():
 
 # 管理员管理
 @home.route('/admin/')
+@login_required()
 def admin():
     admin_count = Admin.query.count()
     data = request.args.to_dict()
@@ -918,6 +961,7 @@ def admin():
 
 #  增加管理员
 @home.route("/admin/add/", methods=["POST"])
+@login_required()
 def admin_add():
     data = request.get_data()
     data = str(data, 'utf-8')
@@ -938,6 +982,7 @@ def admin_add():
 
 
 @home.route("/admin/del/", methods=["POST"])
+@login_required()
 def admin_del():
     data = request.get_data()
     data = str(data, 'utf-8')

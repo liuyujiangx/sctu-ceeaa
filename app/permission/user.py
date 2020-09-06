@@ -26,6 +26,7 @@ def login():
     data = request.get_data()
     data = str(data, 'utf-8')
     res_dir = json.loads(data)
+    print(res_dir)
     if res_dir is None:
         return NO_PARAMETER()
     # 获取前端传过来的参数
@@ -53,11 +54,13 @@ def login():
     # 记录登录ip将token存入rerdis
     try:
         user.login_ip = request.remote_addr
+        print(user)
         user.update()
         Redis.write(f"token_{user.user_name}", token)
 
     except Exception as e:
-        return jsonify(code=Code.UPDATE_DB_ERROR.value, msg="登录失败")
+        print(e)
+        return jsonify(code=Code.UPDATE_DB_ERROR.value, msg="登录失败:"+str(e))
     if token:
         # 把token返回给前端
         return jsonify(code=Code.SUCCESS.value, msg="登录成功", data=data)
