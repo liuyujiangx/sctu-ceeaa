@@ -1,0 +1,96 @@
+<div class="layuimini-main">
+
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">项目名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" lay-reqtext="项目名称不能为空" placeholder="请输入项目名称" id="demo" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">主持人姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="t_name" lay-verify="required" lay-reqtext="主持人姓名不能为空" placeholder="请输入主持人姓名" id="demo2" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">级别</label>
+            <div class="layui-input-block">
+                <input type="text" name="level" lay-verify="required" lay-reqtext="级别不能为空" placeholder="请输入级别" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">参与教师人数（人）</label>
+            <div class="layui-input-block">
+                <input type="text" name="t_num" lay-verify="required" lay-reqtext="人数不能为空" placeholder="参与教师人数" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">项目经费(万元)</label>
+            <div class="layui-input-block">
+                <input type="text" name="funds" lay-verify="required" lay-reqtext="项目经费(万元)不能为空" placeholder="请输入项目经费(万元)" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">立项编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="number" lay-verify="required" lay-reqtext="立项编号不能为空" placeholder="请输入立项编号" value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+<script>
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.$;
+
+        /**
+         * 初始化表单，要加上，不然刷新部分组件可能会不加载
+         */
+        form.render();
+
+        // 当前弹出层，防止ID被覆盖
+        var parentIndex = layer.index;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+        	$.post("http://api.yujl.top/teachingr/add/",JSON.stringify(data.field),function(res){
+			if(res.status){
+				layer.msg(res.info, {time: 2000});
+				var url = "http://api.yujl.top/teachingr/add/"; //
+				setTimeout(window.location.href=url,2000);
+				}else{
+				layer.msg(res.info, {time: 2000});
+			}
+		},'json');
+		table.reload('currentTableId',{
+					page:{
+						curr:1
+					},
+					where:{
+						key:{
+							page:1,
+							limit:10
+						}
+					}
+				},'data');
+        	
+        	
+        	
+            
+
+
+            return false;
+        });
+
+    });
+</script>
