@@ -35,31 +35,6 @@
 						headers: {
 							'Authorization': sessionStorage.token
 						},
-						done: function(res) {
-							if(res.code != 0) {
-								layer.confirm('是否登录？', {
-									btn: ['登录', '算了'] //按钮
-								}, function() {
-									layer.open({
-										type: 2,
-										title: '登录',
-										//shadeClose: true,
-										closeBtn: 1,
-										//shade: false,
-										maxmin: true, //开启最大化最小化按钮
-										area: ['500px', '500px'],
-										content: './page/login-2.html',
-										end: function() {
-											window.parent.location.reload();
-											parent.layer.closeAll(); //关闭当前页
-										}
-									});
-
-								}, function() {
-									layer.msg('取消登录！')
-								});
-							}
-						},
 						cols: [
 							[{
 									type: 'radio'
@@ -134,31 +109,6 @@
 						url: localStorage.getItem("url") + '/competition/',
 						headers: {
 							'Authorization': sessionStorage.token
-						},
-						done: function(res) {
-							if(res.code != 0) {
-								layer.confirm('是否登录？', {
-									btn: ['登录', '算了'] //按钮
-								}, function() {
-									layer.open({
-										type: 2,
-										title: '登录',
-										//shadeClose: true,
-										closeBtn: 1,
-										//shade: false,
-										maxmin: true, //开启最大化最小化按钮
-										area: ['500px', '500px'],
-										content: './page/login-2.html',
-										end: function() {
-											window.parent.location.reload();
-											parent.layer.closeAll(); //关闭当前页
-										}
-									});
-
-								}, function() {
-									layer.msg('取消登录！')
-								});
-							}
 						},
 						cols: [
 							[{
