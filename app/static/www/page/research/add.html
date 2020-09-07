@@ -99,26 +99,29 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-        	$.post("http://api.yujl.top/research/add/",JSON.stringify(data.field),function(res){
-			if(res.status){
-				layer.msg(res.info, {time: 2000});
-				var url = "http://api.yujl.top/research/add/"; //
-				setTimeout(window.location.href=url,2000);
-				}else{
-				layer.msg(res.info, {time: 2000});
-			}
-		},'json');
-		table.reload('currentTableId',{
-					page:{
-						curr:1
-					},
-					where:{
-						key:{
-							page:1,
-							limit:10
-						}
+        	$.ajax({
+				type: "post",
+				url: localStorage.getItem("url") + "/research/add/",
+				async: true,
+				headers: {
+					'Authorization': sessionStorage.token
+				},
+				data: JSON.stringify(data.field),
+				success: function(res) {
+					if(res.code == 0) {
+						layer.msg(res.info, {
+							time: 2000
+						});
+						parent.layer.closeAll();
+					} else {
+						layer.msg(res.msg, {
+							time: 2000
+						});
 					}
-				},'data');
+				}
+
+			}, 'json');
+
         	
         	
         	
