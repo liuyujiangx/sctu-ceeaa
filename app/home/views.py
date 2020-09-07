@@ -1093,7 +1093,7 @@ def search():
 
         patent_dics = []
         patent_list = T_patent.query.filter_by(sname=stu.sname).all()
-        for thesis in patent_list:
+        for patent in patent_list:
             patent_dic = {}
             patent_dic['名称'] = patent.name
             patent_dic['类别'] = patent.category
