@@ -31,7 +31,10 @@
             elem: '#demo',
             checkedKey: 'sno',
             table: {
-                url: 'http://api.yujl.top/student/',
+                url: localStorage.getItem("url") + '/student/',
+				headers: {
+					'Authorization': sessionStorage.token
+				},
                 cols: [[
                     { type: 'radio' },
 	                {field: 'sno', width: 150, title: '学号', sort: true},
