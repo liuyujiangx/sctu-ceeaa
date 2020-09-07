@@ -1,11 +1,22 @@
 import hashlib
 from datetime import datetime
 
+from flask import jsonify
 from sqlalchemy import func
 
 from app import db
 from app.model.BaseModel import BaseModel
 
+
+
+
+def toJson(*args):
+    dic = {}
+    for i in args:
+        print(i)
+        dic[i] = i
+    print(dic)
+    return str(dic)
 
 class T_students(db.Model):
     __tablename__ = 't_students'
@@ -15,9 +26,13 @@ class T_students(db.Model):
     sclass = db.Column(db.String(100))  # 班级
     scollege = db.Column(db.String(100))  # 学院
     smajor = db.Column(db.String(100))  # 专业
-
-    def __repr__(self):
-        return "<T_students %r>" % self.sname
+    stu_innovation = db.relationship("T_innovation", backref="t_students")
+    stu_research = db.relationship("T_research", backref="t_students")
+    stu_patent = db.relationship("T_patent", backref="t_students")
+    stu_thesis = db.relationship("T_thesis", backref="t_students")
+    stu_prize = db.relationship("T_prize", backref="t_students")
+    # def __repr__(self):
+    #     return toJson(self.sname,self.sno,self.sclass,)
 
 
 class T_classes(db.Model):
@@ -95,7 +110,8 @@ class T_teachers(db.Model):
     education = db.Column(db.String(100))  # 学历
     degree = db.Column(db.String(100))  # 最高学位
     year = db.Column(db.String(100))  # 从事专业教学时间
-
+    tea_scientific = db.relationship("T_scientific", backref="t_teachers")
+    tea_teachingr = db.relationship("T_teachingr", backref="t_teachers")
     def __repr__(self):
         return "<T_teachers %r>" % self.name
 
@@ -105,7 +121,7 @@ class T_scientific(db.Model):
     __tablename__ = 't_scientific'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))  # 项目名称
-    t_name = db.Column(db.String(100))  # 主持人姓名
+    t_name = db.Column(db.String(100),db.ForeignKey('t_teachers.name'))  # 主持人姓名
     nature = db.Column(db.String(100))  # 项目性质
     category = db.Column(db.String(100))  # 纵向项目类别
     sort = db.Column(db.String(100))  # 立项单位排序
@@ -122,7 +138,7 @@ class T_teachingr(db.Model):
     __tablename__ = 't_teachingr'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))  # 项目名称
-    t_name = db.Column(db.String(100))  # 主持人姓名
+    t_name = db.Column(db.String(100),db.ForeignKey('t_teachers.name'))  # 主持人姓名
     level = db.Column(db.String(100))  # 级别
     t_num = db.Column(db.Integer)  # 参与教师数
     funds = db.Column(db.Float)  # 项目经费（万元）
@@ -159,7 +175,7 @@ class T_coursetype(db.Model):
 class T_innovation(db.Model):
     __tablename__ = 't_innovation'
     id = db.Column(db.Integer, primary_key=True)
-    sno = db.Column(db.String(100))  # 学号
+    sno = db.Column(db.String(100),db.ForeignKey('t_students.sno'))  # 学号
     sname = db.Column(db.String(100))  # 学生姓名
     grade = db.Column(db.String(100))  # 年级
     name = db.Column(db.String(100))  # 项目名称
@@ -172,7 +188,7 @@ class T_innovation(db.Model):
 class T_prize(db.Model):
     __tablename__ = 't_prize'
     id = db.Column(db.Integer, primary_key=True)
-    sno = db.Column(db.String(100))  # 学号
+    sno = db.Column(db.String(100),db.ForeignKey('t_students.sno'))  # 学号
     sname = db.Column(db.String(100))  # 学生姓名
     grade = db.Column(db.String(100))  # 年级
     name = db.Column(db.String(100))  # 竞赛名称
@@ -189,7 +205,7 @@ class T_prize(db.Model):
 class T_thesis(db.Model):
     __tablename__ = 't_thesis'
     id = db.Column(db.Integer, primary_key=True)
-    sno = db.Column(db.String(100))  # 学号
+    sno = db.Column(db.String(100),db.ForeignKey('t_students.sno'))  # 学号
     sname = db.Column(db.String(100))  # 学生姓名
     grade = db.Column(db.String(100))  # 年级
     name = db.Column(db.String(100))  # 竞赛名称
@@ -204,7 +220,7 @@ class T_thesis(db.Model):
 class T_patent(db.Model):
     __tablename__ = 't_patent'
     id = db.Column(db.Integer, primary_key=True)
-    sno = db.Column(db.String(100))  # 学号
+    sno = db.Column(db.String(100),db.ForeignKey('t_students.sno'))  # 学号
     sname = db.Column(db.String(100))  # 学生姓名
     grade = db.Column(db.String(100))  # 年级
     name = db.Column(db.String(100))  # 竞赛名称
@@ -220,7 +236,7 @@ class T_patent(db.Model):
 class T_research(db.Model):
     __tablename__ = 't_research'
     id = db.Column(db.Integer, primary_key=True)
-    sno = db.Column(db.String(100))  # 学号
+    sno = db.Column(db.String(100),db.ForeignKey('t_students.sno'))  # 学号
     sname = db.Column(db.String(100))  # 学生姓名
     grade = db.Column(db.String(100))  # 年级
     name = db.Column(db.String(100))  # 项目名称
