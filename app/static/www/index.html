@@ -24,6 +24,12 @@
     <![endif]-->
     <style id="layuimini-bg-color">
     </style>
+    <style type="text/css">
+    	.search{
+    		position: absolute;
+    		left: 800px;
+    	}
+    </style>
     
 </head>
 <body class="layui-layout-body layuimini-all">
@@ -49,6 +55,21 @@
                     </dl>
                 </li>
             </ul>
+			<ul class="search layui-nav layui-layout-ce layuimini-header-menu">
+				<li class="layui-nav-item" lay-unselect >
+					<div class="layui-input-block" style="color: #000000;">
+						
+					<form class="layui-form">
+						<div class="layui-inline">
+							<input style="width: 140px" name="content" type="text" required lay-verify="required" class="layui-input" id="content" placeholder="搜索姓名" />
+
+						</div>
+						<button class="layui-btn layui-btn-container" lay-submit lay-filter="formDemo">搜索</button>
+					</form>
+					
+					</div>
+				</li>
+			</ul>
 			
             <ul class="layui-nav layui-layout-right">
             	<li class="wid layui-nav-item" style="width: 190px;" lay-unselect>
@@ -83,7 +104,7 @@
 					today = new Date(today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate());
 					dateDiff = today - sDate;
 					if(dateDiff < 0) {
-						alert("别开玩笑了，你还没开学呢！！！");
+						alert("没开学");
 						return weekInfo;
 					}
 					dateDiff = parseInt(dateDiff / oneDay);
@@ -176,11 +197,34 @@
 <script src="lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
-    layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function () {
+    layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji','form'], function () {
         var $ = layui.jquery,
             layer = layui.layer,
+            form = layui.form,
             miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji;
+
+		form.on('submit(formDemo)',function(data){
+			console.log(data)
+			layer.msg(JSON.stringify(data.field));
+			
+			$.ajax({
+				type:"post",
+				url:localStorage.getItem("url") + "/search/",
+				async:true,
+				headers: {
+					'Authorization': sessionStorage.token
+				},
+				data:JSON.stringify(data.field),
+				success:function(res){
+					console.log(res);
+				}
+			});
+			
+			return false;
+			
+		});
+
 
         var options = {
             iniUrl: "api/init.json",    // 初始化接口

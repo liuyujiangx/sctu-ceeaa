@@ -20,6 +20,12 @@
 					"href": "page/welcome.html",
 					"icon": "fa fa-home",
 					"target": "_self"
+				},
+				{
+					"title": "搜索",
+					"href": "page/search.html",
+					"icon": "fa fa-home",
+					"target": "_self"
 				}
 			]
 		}, {

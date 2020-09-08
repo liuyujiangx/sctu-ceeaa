@@ -1,0 +1,112 @@
+<div class="layuimini-container layuimini-page-anim">
+	<div class="layuimini-main">
+		<table class="layui-hide" id="innovation" lay-filter="currentTableFilter"></table>
+		<table class="layui-hide" id="patent" lay-filter="currentTableFilter"></table>
+		<table class="layui-hide" id="prize" lay-filter="currentTableFilter"></table>
+		<table class="layui-hide" id="research" lay-filter="currentTableFilter"></table>
+		<table class="layui-hide" id="thesis" lay-filter="currentTableFilter"></table>
+	</div>
+</div>
+<script>
+	layui.use(['jquery', 'miniPage', 'upload'], function() {
+		var $ = layui.jquery,
+			miniPage = layui.miniPage,
+			upload = layui.upload;
+		layui.use(['form', 'table', 'miniPage', 'element'], function() {
+			var $ = layui.jquery,
+				form = layui.form,
+				table = layui.table,
+				miniPage = layui.miniPage;
+			table.render({
+				elem: '#currentTableId',
+				url: localStorage.getItem("url") + "/search/",
+				headers: {
+					'Authorization': sessionStorage.token
+				},
+				where:{content:"刘玉江"},
+				toolbar: '#toolbarDemo',
+				defaultToolbar: ['filter', 'exports', 'print', {
+					title: '提示',
+					layEvent: 'LAYTABLE_TIPS',
+					icon: 'layui-icon-tips'
+				}],
+				parseData:function(res){
+					console.log(res.data)
+					return{
+						"code":res.code,
+						"msg":res.msg,
+						"count":1,
+						"data":res.data,
+					}
+				},
+				done: function(res) {
+					if(res.code != 0) {
+						layer.confirm('是否登录？', {
+							btn: ['登录', '算了'] //按钮
+						}, function() {
+							layer.open({
+								type: 2,
+								title: '登录',
+								//shadeClose: true,
+								closeBtn: 1,
+								//shade: false,
+								maxmin: true, //开启最大化最小化按钮
+								area: ['500px', '500px'],
+								content: './page/login-2.html',
+								end: function() {
+									window.parent.location.reload();
+									parent.layer.closeAll(); //关闭当前页
+								}
+							});
+
+						}, function() {
+							layer.msg('取消登录！')
+						});
+					}
+
+				},
+				cols: ,
+				page:false,
+				skin: 'line'
+			});
+
+			// 监听搜索操作
+			form.on('submit(data-search-btn)', function(data) {
+				var result = JSON.stringify(data.field);
+				layer.alert(result, {
+					title: '最终的搜索信息'
+				});
+
+				//执行搜索重载
+				table.reload('currentTableId', {
+					page: {
+						curr: 1
+					},
+					where: {
+						searchParams: result
+					}
+				}, 'data');
+
+				return false;
+			});
+
+			/**
+			 * toolbar事件监听
+			 */
+			table.on('toolbar(currentTableFilter)', function(obj) {
+				
+			});
+
+			//监听表格复选框选择
+			table.on('checkbox(currentTableFilter)', function(obj) {
+				console.log(obj)
+			});
+
+			table.on('tool(currentTableFilter)', function(obj) {
+				
+			});
+
+		});
+
+	});
+</script>

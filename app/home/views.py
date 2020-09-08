@@ -16,7 +16,7 @@ from app.model.models import T_students, T_innovation, T_classes, T_teachers, T_
     T_cmodules, T_competition, T_prize, T_thesis, T_patent, T_research, T_courses, Admin
 from app.utils.code_enum import Code
 from . import home
-from app.utils.common import login_required, SUCCESS
+from app.utils.common import login_required, SUCCESS, NO_PARAMETER
 
 
 # def admin_login_req(f):
@@ -998,110 +998,73 @@ def admin_del():
 @home.route('/search/',methods=['POST'])
 def search():
     data = request.get_data()
-    data = str(data,'utf-8')
+    data = str(data, 'utf-8')
     data = json.loads(data)
-    data1 = {
-        '姓名':'刘玉江',
-        '学号':'14',
-        '性别':'男',
-        '班级':'18信管03',
-        '竞赛获奖':{
-            '竞赛名称':'xxx',
-            '获奖时间':'xxx',
-            '获奖级别':'xxx',
-            '获奖等级':'xxx',
-            '证书':'xxx'
-        },
-        '大学生创新创业':{
-            '项目名称':'xxx',
-            '项目级别':'xxx',
-            '项目类别':'xxx'
-        },
-        '大学生科研项目':{
-            '项目名称':'xxx',
-            '项目级别':'xxx',
-            '项目类别':'xxx'
-        },
-        '学术论文':{
-            '项目名称':'xxx',
-            '项目级别':'xxx',
-            '项目类别':'xxx'
-        },
-        '专利':{
-            '项目名称':'xxx',
-            '项目级别':'xxx',
-            '项目类别':'xxx'
-        },
-        '职业证书':{
-            '项目名称':'xxx',
-            '项目级别':'xxx',
-            '项目类别':'xxx'
-        }
-
-    }
+    if not data:
+        return NO_PARAMETER()
     res=[]
     stus = T_students.query.filter_by(sname=data['content']).all()
     for stu in stus:
         dic={}
-        dic['姓名'] = stu.sname
-        dic['学号'] = stu.sno
-        dic['性别'] = stu.ssex
-        dic['班级'] = stu.sclass
+        dic['sname'] = stu.sname
+        dic['sno'] = stu.sno
+        dic['ssex'] = stu.ssex
+        dic['sclass'] = stu.sclass
 
         prize_dics=[]
         prize_list = T_prize.query.filter_by(sname=stu.sname).all()
         for prize in prize_list:
             prize_dic = {}
-            prize_dic['竞赛名称']=prize.name
-            prize_dic['获奖时间']=prize.p_time
-            prize_dic['获奖级别']=prize.level
-            prize_dic['获奖等级']=prize.award
-            prize_dic['证书']=prize.img
+            prize_dic['name']=prize.name
+            prize_dic['p_time']=prize.p_time
+            prize_dic['level']=prize.level
+            prize_dic['award']=prize.award
+            prize_dic['img']=prize.img
             prize_dics.append(prize_dic)
-        dic['竞赛获奖'] = prize_dics
+        dic['prize'] = prize_dics
 
         innovation_dics=[]
         innovation_list = T_innovation.query.filter_by(sname=stu.sname).all()
-        for nnovation in innovation_list:
-            nnovation_dic = {}
-            nnovation_dic['项目名称']=nnovation.name
-            nnovation_dic['项目级别']=nnovation.level
-            nnovation_dic['项目类别']=nnovation.category
-            innovation_dics.append(nnovation_dic)
-        dic['大学生创新创业'] = innovation_dics
+        for innovation in innovation_list:
+            innovation_dic = {}
+            innovation_dic['name']=innovation.name
+            innovation_dic['level']=innovation.level
+            innovation_dic['category']=innovation.category
+            innovation_dics.append(innovation_dic)
+        dic['innovation'] = innovation_dics
 
         research_dics = []
         research_list = T_research.query.filter_by(sname=stu.sname).all()
         for research in research_list:
             research_dic = {}
-            research_dic['项目名称']=research.name
-            research_dic['负责人']=research.head
-            research_dic['负责人单位']=research.company
+            research_dic['name']=research.name
+            research_dic['head']=research.head
+            research_dic['company']=research.company
             research_dics.append(research_dic)
-        dic['大学生科研项目'] = research_dics
+        dic['research'] = research_dics
 
         thesis_dics = []
         thesis_list = T_thesis.query.filter_by(sname=stu.sname).all()
         for thesis in thesis_list:
             thesis_dic = {}
-            thesis_dic['名称'] = thesis.name
-            thesis_dic['发表期刊'] = thesis.periodical
-            thesis_dic['发表时间'] = thesis.time
-            thesis_dic['收录情况'] = thesis.inclusion
+            thesis_dic['name'] = thesis.name
+            thesis_dic['periodical'] = thesis.periodical
+            thesis_dic['time'] = thesis.time
+            thesis_dic['inclusion'] = thesis.inclusion
             thesis_dics.append(thesis_dic)
-        dic['学术论文'] = thesis_dics
+        dic['thesis'] = thesis_dics
 
         patent_dics = []
         patent_list = T_patent.query.filter_by(sname=stu.sname).all()
         for patent in patent_list:
             patent_dic = {}
-            patent_dic['名称'] = patent.name
-            patent_dic['类别'] = patent.category
-            patent_dic['授权号'] = patent.num
-            patent_dic['发表时间'] = patent.time
-            patent_dic['是否第一发明人'] = patent.f_inventor
+            patent_dic['name'] = patent.name
+            patent_dic['category'] = patent.category
+            patent_dic['num'] = patent.num
+            patent_dic['time'] = patent.time
+            patent_dic['f_inventor'] = patent.f_inventor
             patent_dics.append(patent_dic)
-        dic['专利'] = patent_dics
+        dic['patent'] = patent_dics
 
         res.append(dic)
     return SUCCESS(data=res)
