@@ -20,7 +20,7 @@
 					"href": "page/welcome.html",
 					"icon": "fa fa-home",
 					"target": "_self"
-				},
+				}
 			]
 		}, {
 			"title": "教学管理",
