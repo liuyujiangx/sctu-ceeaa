@@ -215,10 +215,16 @@
 							'Authorization': sessionStorage.token
 						},
 						data: JSON.stringify(data.field),
+						beforeSend: function() {
+							layer.msg('查询中', {
+								time: 2000
+							})
+						},
 						success: function(res) {
 							if(res.data.length == 0) {
 								layer.msg("没有此人")
 							} else {
+								
 								localStorage.setItem('search', JSON.stringify(res.data))
 								var content = miniPage.getHrefContent('page/search.html');
 								var openWH = miniPage.getOpenWidthHeight();
@@ -256,8 +262,8 @@
 					pageAnim: true, // 切换菜单动画
 				};
 				miniAdmin.render(options);
-				localStorage.setItem('url', 'http://127.0.0.1:5000');
-				//localStorage.setItem('url','http://api.yujl.top');
+				//localStorage.setItem('url', 'http://127.0.0.1:5000');
+				localStorage.setItem('url','http://api.yujl.top');
 				// 百度统计代码，只统计指定域名
 				miniTongji.render({
 					specific: true,
